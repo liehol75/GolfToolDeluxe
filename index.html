@@ -1,4 +1,4 @@
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#07100b"><title>Golf Deluxe</title><style>
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#07100b"><title>Golf Deluxe</title><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script><style>
 :root{--bg:#07100b;--panel:#0d1711;--panel2:#111d15;--line:#26382b;--text:#f4f7f4;--muted:#9eaa9f;--green:#68c487;--blue:#4d9cff;--red:#ff5d62;--yellow:#f2c94c;--black:#050505;--gray:#727b74;--white:#fff;--radius:22px;--shadow:0 16px 45px rgba(0,0,0,.28)}*{box-sizing:border-box}html,body{margin:0;background:radial-gradient(circle at top,#12251a 0,#07100b 42%,#050a07 100%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Inter,system-ui,sans-serif;min-height:100%;-webkit-tap-highlight-color:transparent}body{padding-bottom:env(safe-area-inset-bottom)}button,input,select{font:inherit}button{border:0;color:inherit;cursor:pointer}.app{max-width:700px;margin:auto;min-height:100vh;padding:calc(12px + env(safe-area-inset-top)) 14px calc(96px + env(safe-area-inset-bottom))}.top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}.brand{font-weight:900;letter-spacing:-.04em;font-size:28px}.brand small{display:block;font-size:10px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase}.iconBtn,.pillBtn{background:#132219;border:1px solid var(--line);border-radius:14px;min-height:44px;padding:0 14px;font-weight:800}.iconBtn{width:44px;padding:0;font-size:18px}.hero{padding:22px 18px;border:1px solid var(--line);background:linear-gradient(145deg,#122319,#0b1510);border-radius:28px;box-shadow:var(--shadow);margin-bottom:14px}.hero h1{margin:0 0 6px;font-size:34px;letter-spacing:-.055em}.hero p{margin:0;color:var(--muted);line-height:1.45}.section{margin:14px 0}.label{display:flex;justify-content:space-between;align-items:center;margin:0 3px 8px;color:var(--muted);font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.modeGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.mode{position:relative;text-align:left;min-height:72px;padding:14px 42px 13px 15px;border-radius:18px;background:var(--panel);border:1px solid var(--line);font-weight:850;line-height:1.1}.mode span{display:block;color:var(--muted);font-size:11px;margin-top:6px;font-weight:600}.mode .q{position:absolute;right:8px;top:8px;width:30px;height:30px;border-radius:10px;background:#18271d;border:1px solid var(--line);font-weight:900}.mode.active{border-color:var(--green);box-shadow:0 0 0 1px rgba(104,196,135,.22) inset}.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.seg button{min-height:45px;background:var(--panel);border:1px solid var(--line);border-radius:14px;font-weight:850}.seg button:disabled{opacity:.35}.seg button.active{background:#173021;border-color:var(--green)}.seg.two{grid-template-columns:1fr 1fr}.players{display:grid;gap:8px}.playerRow{display:flex;align-items:center;gap:9px}.playerNo{width:30px;color:var(--muted);font-weight:900}.textInput,.numInput,.select{width:100%;min-width:0;height:46px;border-radius:14px;border:1px solid var(--line);background:#0b1510;color:var(--text);padding:0 12px;outline:none}.textInput:focus,.numInput:focus,.select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(104,196,135,.10)}.primary{width:100%;min-height:54px;border-radius:18px;background:linear-gradient(135deg,#5fb97e,#78d395);color:#07100b;font-weight:950;font-size:16px;box-shadow:0 10px 25px rgba(104,196,135,.15)}.secondary{width:100%;min-height:48px;border-radius:16px;background:#142119;border:1px solid var(--line);font-weight:850}.hint{font-size:12px;color:var(--muted);line-height:1.4}.toolbar{display:grid;grid-template-columns:auto 1fr auto auto;gap:7px;align-items:center}.title{font-weight:950;font-size:20px;letter-spacing:-.03em}.scorebar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(8px + env(safe-area-inset-bottom));width:min(670px,calc(100% - 18px));z-index:20;display:flex;gap:6px;padding:7px;border-radius:19px;background:rgba(10,18,13,.92);border:1px solid #314437;backdrop-filter:blur(16px);box-shadow:0 18px 40px rgba(0,0,0,.4)}.scorechip{flex:1;min-width:0;text-align:center;padding:7px 4px;border-radius:13px;background:#142018}.scorechip b{display:block;font-size:15px}.scorechip small{display:block;color:var(--muted);font-size:9px;margin-top:2px}.card{background:rgba(13,23,17,.9);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden}.table{width:100%;border-collapse:separate;border-spacing:0}.table th,.table td{border-bottom:1px solid #1c2a20;border-right:1px solid #1c2a20;padding:6px 4px;text-align:center;font-size:12px}.table th:last-child,.table td:last-child{border-right:0}.table tr:last-child td{border-bottom:0}.table th{background:#132018;color:#dbe6dc;font-size:10px;text-transform:uppercase;letter-spacing:.04em}.hole{width:36px;color:var(--muted);font-weight:900}.compact{width:100%;height:36px;border-radius:10px;background:#09110c;border:1px solid #26372b;color:var(--text);text-align:center;padding:0;font-weight:800}.sum{font-weight:950;font-size:14px}.sub{display:block;color:var(--muted);font-size:9px}.teamHead{background:#1a2b20!important;color:#bfe9ca!important}.badge{display:inline-flex;align-items:center;justify-content:center;padding:3px 7px;border-radius:99px;background:#16261b;border:1px solid #2c4433;font-size:9px;color:#b8c7bb;font-weight:900}.resultBox{display:inline-flex;align-items:center;justify-content:center;min-width:54px;height:34px;border-radius:12px;font-weight:950;font-size:12px;border:1px solid #344238;background:#6f7871;color:#fff}.up{background:#286fb8;border-color:#5ea8ff}.down{background:#b33b43;border-color:#ff7a7e}.tied{background:#68706a;border-color:#919a93}.tiny{font-size:10px!important}.pill{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:99px;background:#132219;border:1px solid var(--line);font-size:10px;font-weight:850}.modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.68);display:flex;align-items:flex-end;justify-content:center;padding:12px}.modalBox{width:min(680px,100%);max-height:88vh;overflow:auto;border:1px solid #33483a;background:#0c1610;border-radius:26px;padding:18px;box-shadow:0 30px 80px rgba(0,0,0,.5);animation:rise .18s ease}.modalBox h2{margin:0 0 8px}.modalBox p{color:#b9c4bb;line-height:1.5;font-size:14px}.modalActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.close{min-height:46px;border-radius:15px;background:#17241b;border:1px solid var(--line);font-weight:900}.danger{background:#4b2024;border-color:#7d343a}.hide{display:none!important}.animate{animation:pop .2s ease}@keyframes rise{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}@keyframes pop{0%{transform:scale(.985);opacity:.6}100%{transform:none;opacity:1}}.circle{display:inline-flex;width:28px;height:28px;border-radius:50%;align-items:center;justify-content:center;color:#000;font-weight:950;border:1px solid rgba(255,255,255,.55)}.par{background:#777}.oneunder{background:#e5bf38}.twounder{background:#4c86db}.sq{display:inline-flex;width:28px;height:28px;align-items:center;justify-content:center;color:#000;font-weight:950;border:1px solid rgba(255,255,255,.65)}.oneover{background:#d84b52}.twoplus{background:#050505;color:#fff}.stablePts{font-size:9px;font-style:italic;vertical-align:super;margin-left:2px}.hcptxt{font-size:9px;font-style:italic;color:#9ba89d;display:block}.bonusBtn{width:28px;height:28px;border-radius:9px;background:#17271d;border:1px solid #2a4132;font-weight:950}.bonusList{display:grid;gap:6px;max-height:52vh;overflow:auto}.bonusItem{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 10px;background:#101b14;border:1px solid #25372a;border-radius:13px}.bonusItem em{color:var(--muted);font-size:11px}.bonusItem button{min-width:44px;height:36px;border-radius:10px;background:#1a2c20;border:1px solid #304737;font-weight:950}.bonusItem.used{opacity:.45}.bonusItem.used .bonusName{text-decoration:line-through}.modeInfo{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}.modeInfo .badge{font-size:11px}.miniGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.settingsGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.settingCard{padding:12px;border-radius:16px;background:#101b14;border:1px solid var(--line)}.settingCard label{font-size:10px;color:var(--muted);font-weight:900;display:block;margin-bottom:6px}.points{font-weight:950}.cross{text-decoration:line-through;opacity:.42}.smallBtn{min-height:38px;border-radius:12px;background:#142119;border:1px solid var(--line);font-size:12px;font-weight:900;padding:0 10px}.scrollX{overflow-x:auto}.wide{min-width:540px}.note{padding:10px 12px;border-radius:14px;background:#101b14;border:1px solid var(--line);color:#aebbb1;font-size:11px;line-height:1.4}.teamLabel{font-size:9px;color:#8fb89b;font-weight:900}.rankPts{font-weight:950}.footerSpace{height:15px}@media(max-width:390px){.modeGrid{grid-template-columns:1fr}.hero h1{font-size:30px}.table th,.table td{padding:5px 2px}.compact{height:34px}.app{padding-left:10px;padding-right:10px}.toolbar{grid-template-columns:auto 1fr auto}.toolbar .backText{display:none}.scorechip b{font-size:13px}}
 .holeDone{display:block;margin:2px auto 0;width:20px;height:18px;border-radius:7px;background:#142119;border:1px solid #2a4031;color:#9fb3a3;font-size:9px;font-weight:950}.holeDone:active{transform:scale(.92)}
 .curHole td{background:#152a1c}
@@ -15,10 +15,19 @@ html[data-theme="contrast"] .primary{background:#00ff6a;color:#000}
 </style></head><body><div id="app"></div><div id="modalRoot"></div><script>
 'use strict';
 const MODES=[
- ['count','Zählspiel','18 Loch · niedrigste Schlagzahl gewinnt'],['match','Matchplay','Loch für Loch · Einzel oder 2 gegen 2'],['short','Kurzspiel-Competition','PAR-basierte Farbwertung'],['fun','Fun','Zufall · Bonus/Malus · Punkte'],['wolf','Wolf','Wolf wechselt · Punkte pro Loch'],['531','5–3–1','3 Spieler · 5/3/1-System'],['stable','Stableford','PAR + Vorgabe · Stableford'],['vegas','Las Vegas','4 Spieler · 2 Teams'],['bbb','Bingo Bango Bongo','3 Punkte pro Loch möglich'],['skins','Skins','Skins wandern bei Gleichstand weiter'],['nassau','Nassau','Front 9 · Back 9 · Gesamt'],
- ['scramble','Scramble','Team · 1 Ball · beste Wahl'],['fourball','Fourball Bestball','Team · bestes Netto je Loch'],['chapman','Chapman-Vierer','Team · Pinehurst-Format']
+ ['count','Zählspiel','18 Loch · niedrigste Schlagzahl gewinnt'],['fun','Fun','Zufall · Bonus/Malus · Punkte'],
+ ['stable','Stableford','PAR + Vorgabe · Stableford'],['bbb','Bingo Bango Bongo','3 Punkte pro Loch möglich'],
+ ['match','Matchplay','Loch für Loch · Einzel oder 2 gegen 2'],['531','5–3–1','3 Spieler · 5/3/1-System'],
+ ['chapman','Chapman-Vierer','Team · Pinehurst-Format'],['wolf','Wolf','Wolf wechselt · Punkte pro Loch'],
+ ['scramble','Scramble','Team · 1 Ball · beste Wahl'],['skins','Skins','Skins wandern bei Gleichstand weiter'],
+ ['fourball','Fourball Bestball','Team · bestes Netto je Loch'],['vegas','Las Vegas','4 Spieler · 2 Teams'],
+ ['foursome','Foursomes','Team · 1 Ball · abwechselnd schlagen'],['greensome','Greensomes','Team · bester Drive, dann abwechselnd'],
+ ['short','Kurzspiel-Competition','PAR-basierte Farbwertung'],['nassau','Nassau','Front 9 · Back 9 · Gesamt'],
+ ['string','String Golf','Einzel · Schläge frei einlösen']
 ];
-const LOWER_BETTER=['count','short','nassau','scramble','chapman','fourball'];
+const LOWER_BETTER=['count','short','nassau','scramble','chapman','fourball','foursome','greensome','string'];
+const SIXES_MODES=['count','stable','chapman','greensome','fourball','foursome'];
+const SIXES_PAIRS=[[[0,1],[2,3]],[[0,2],[1,3]],[[0,3],[1,2]]];
 const FUNMODES=['Zufallsschläger (Luck of the draw)','Zufallsschläger für Alle (ganze Bahn)','Pflichtfairway/-grün','Scramble Worst Ball','Scramble Best Ball','Nimm 2 - Best Ball','Nimm 2 - Worst Ball','Von Rot','Nur Pitching Wedge','Nur Eisen 7','Nur Holz','Nur Driver','Nur Putter','Leder Wedge (Mitspieler, x-Mal, Grün rettet)','Leder Wedge - x-Mal','Leder Wedge - ein Mal','Nur 2 Schläger','Leder Wedge (Mitspieler, 1 Mal, Grün rettet)','No Iron','No Putter','Nur Eisen','Nur Wedges','Caddie-Modus (Mitspieler wählen Schläger)'];
 const CLUBS=['Driver','Hybrid','Holz 3','Holz 5','Eisen 4','Eisen 5','Eisen 6','Eisen 7','Eisen 8','Eisen 9','Pitching Wedge','Gap Wedge','Sand Wedge','Lob Wedge','Putter'];
 const BONUS=[['Hole Out',1],['Chip In',1],['1-Putt',1],['3-Putt',-1],['Bunker',-1],['Holz getroffen',-1],['Penalty Area',-1],['Lady',-1],['Schneckenficker',-1],['Adolf',-1],['Luftschlag',-1],['Fairway verfehlt',-1],['Green in regulation',1],['Gescramblet',1],['Nearest to the pin (PAR 3)',1],['Out of bounds',-1],['Birdie',1],['Eagle',2],['Falsches PAR',1],['Sandy PAR',1],['Socket',-1],["Über‘s Grün getoppt",-1],['Vom Grün geputtet',-1],['2 Chips',-1],['Doppel-PAR und mehr',-1],['Texas Wedge gelocht',1]];
@@ -30,29 +39,51 @@ const MODEINFO={
  fun:'Fun: Pro Loch wird ein Modus manuell ausgelost (Button „auslosen"). Zusätzlich können pro Spieler Bonus-/Maluspunkte vergeben werden. Welche Spielformen und Bonus-Ereignisse überhaupt gezogen werden können, legst du unter „Fun-Modi & Bonus verwalten" fest – dort kannst du auch eigene ergänzen.',
  wolf:'Wolf: Der Wolf wechselt pro Loch. Der Wolf wählt Mitspieler oder Lone Wolf; danach wird die Punktwertung automatisch berechnet. In der Blind-Wolf-Variante wählt der Wolf seinen Partner, bevor die Ergebnisse feststehen – alle Punkte werden dafür verdoppelt.',
  531:'5–3–1: Nur 3 Spieler. Bestes Ergebnis erhält 5, zweitbestes 3, schlechtestes 1. Bei Gleichständen greifen die festgelegten Sonderregeln.',
- stable:'Stableford: PAR/HCP-Index des Platzes sind vorbelegt. Die Spielvorgabe wird lochweise verteilt.',
+ stable:'Stableford: PAR/HCP-Index des Platzes sind vorbelegt. Die Spielvorgabe wird lochweise verteilt. Optional als Sixes mit wechselnden Partnern spielbar (siehe unten).',
  vegas:'Las Vegas: 4 Spieler, Team A = Spieler 1+2, Team B = Spieler 3+4. Die kleinere Zahl steht zuerst; bei Birdie wird die gegnerische Zahl gedreht.',
  bbb:'Bingo Bango Bongo: Drei Auszeichnungen je Loch – erster auf dem Grün, nearest to the pin und erster im Loch. Jede gibt 1 Punkt.',
  skins:'Skins: Jeder Skin geht an den alleinigen Lochgewinner. Bei Gleichstand wird der Skin auf das nächste Loch übertragen. Unten siehst du, an welchen Löchern jeder Spieler seine Skins geholt hat.',
  nassau:'Nassau: Drei Wertungen – Front 9, Back 9 und Gesamt 18. Oben siehst du den laufenden Zwischenstand für alle drei Wertungen.',
- scramble:'Scramble: 2 Teams à 2 Spieler spielen jeweils mit einem Ball – nach jedem Schlag wird der bessere Ball gewählt. Pro Loch wird nur eine gemeinsame Teamschlagzahl eingetragen. Optional wird eine Team-Vorgabe (Standard: 35% des niedrigeren + 15% des höheren Handicaps) vom Gesamtergebnis abgezogen.',
- fourball:'Fourball Bestball: Jeder Spieler spielt seinen eigenen Ball. Pro Loch zählt das bessere Nettoergebnis je Team. Optional erhält jeder Spieler einen Anteil (Standard 90%) seiner Vorgabe, lochweise über den Course-HCP-Index verteilt.',
- chapman:'Chapman-Vierer (Pinehurst): Beide Spieler schlagen ab, spielen dann den Ball des Partners weiter, bevor ab dem dritten Schlag ein Ball gewählt und zu Ende gespielt wird. Eingetragen wird die resultierende Teamschlagzahl. Optional Team-Vorgabe (Standard: 60% niedrigeres + 40% höheres Handicap).'
+ scramble:'Scramble: 2 Teams à 2 Spieler spielen jeweils mit einem Ball – nach jedem Schlag wird der bessere Ball gewählt. Pro Loch wird nur eine gemeinsame Teamschlagzahl eingetragen. Optional wird eine Team-Vorgabe vom Gesamtergebnis abgezogen.',
+ fourball:'Fourball Bestball: Jeder Spieler spielt seinen eigenen Ball. Pro Loch zählt das bessere Nettoergebnis je Team. Optional erhält jeder Spieler einen Anteil seiner Vorgabe, lochweise über den Course-HCP-Index verteilt. Optional als Sixes mit wechselnden Partnern spielbar.',
+ chapman:'Chapman-Vierer (Pinehurst): Beide Spieler schlagen ab, spielen dann den Ball des Partners weiter, bevor ab dem dritten Schlag ein Ball gewählt und zu Ende gespielt wird. Eingetragen wird die resultierende Teamschlagzahl. Optional Team-Vorgabe. Optional als Sixes mit wechselnden Partnern spielbar.',
+ foursome:'Foursomes (echter Vierer): Beide Spieler eines Teams schlagen abwechselnd denselben Ball – Spieler A schlägt ab, Spieler B spielt den nächsten Schlag usw. Eingetragen wird die resultierende Teamschlagzahl. Optional Team-Vorgabe. Optional als Sixes mit wechselnden Partnern spielbar.',
+ greensome:'Greensomes: Beide Spieler eines Teams schlagen ab, der bessere Drive wird gewählt. Danach spielt der Partner, dessen Ball NICHT gewählt wurde, den nächsten Schlag – anschließend wird abwechselnd zu Ende gespielt. Eingetragen wird die resultierende Teamschlagzahl. Optional Team-Vorgabe. Optional als Sixes mit wechselnden Partnern spielbar.',
+ string:'String Golf: Jeder Spieler erhält eine "Schnur" in Höhe seiner Vorgabe (Anzahl Schläge). Auf jeder Bahn kann er wahlweise 1 Schlag von seinem Bruttoergebnis abziehen, indem er einen Teil seiner Schnur einlöst – bis das Budget aufgebraucht ist. Gewertet wird die Summe der Netto-Schläge, niedriger gewinnt.'
 };
 let S=load();
 let undoStack=[];
 let pendingMode=null;
 let THEME=localStorage.getItem('gd_theme')||'auto';
-function defaultCourses(){let legacy=JSON.parse(localStorage.getItem('gd_course')||'null');return [{name:'Varus',holes:(legacy||HOLES).map(x=>[...x])}]}
-function loadCourses(){try{let c=JSON.parse(localStorage.getItem('gd_courses')||'null');if(!Array.isArray(c)||!c.length)return defaultCourses();return c}catch(e){return defaultCourses()}}
+
+/* ---------- Course-Meta (Slope/Rating) ---------- */
+function loadCourseMeta(){
+  try{let m=JSON.parse(localStorage.getItem('gd_course_meta')||'null');if(m&&typeof m.slope==='number'&&typeof m.rating==='number')return m;}catch(e){}
+  let par=((JSON.parse(localStorage.getItem('gd_course')||'null'))||HOLES).reduce((a,r)=>a+r[1],0);
+  return {slope:113,rating:par};
+}
+function saveCourseMeta(m){localStorage.setItem('gd_course_meta',JSON.stringify(m));}
+
+function defaultCourses(){let legacy=JSON.parse(localStorage.getItem('gd_course')||'null');let holes=(legacy||HOLES).map(x=>[...x]);return [{name:'Varus',holes,slope:113,rating:holes.reduce((a,r)=>a+r[1],0)}]}
+function loadCourses(){try{let c=JSON.parse(localStorage.getItem('gd_courses')||'null');if(!Array.isArray(c)||!c.length)return defaultCourses();return c.map(x=>({name:x.name,holes:x.holes,slope:x.slope||113,rating:x.rating!==undefined?x.rating:x.holes.reduce((a,r)=>a+r[1],0)}))}catch(e){return defaultCourses()}}
 function saveCourses(list){localStorage.setItem('gd_courses',JSON.stringify(list))}
-function blankState(){return {screen:'home',mode:null,players:[],count:2,team:false,par:4,stableHcp:[0,0,0,0],matchHcp:false,teamFormatHcp:false,wolfBlind:false,holeDone:Array(18).fill(false),data:{},fun:{holeModes:Array(18).fill(null),unique:false,clubs:Array(18).fill(null),shotClubs:Array.from({length:18},()=>[]),bonus:Array.from({length:18},()=>Array.from({length:4},()=>[]))},courseName:JSON.parse(localStorage.getItem('gd_active_course')||'null')||'Varus',settings:JSON.parse(localStorage.getItem('gd_course')||'null')||HOLES.map(x=>[...x]),timestamp:Date.now()};}
+
+function blankState(){let meta=loadCourseMeta();return {screen:'home',mode:null,players:[],count:2,team:false,par:4,stableHcp:[0,0,0,0],playerHcpIndex:[0,0,0,0],matchHcp:false,teamFormatHcp:false,wolfBlind:false,holeDone:Array(18).fill(false),data:{},
+ sixes:{enabled:false,rotation:'block',blocks:[null,null,null],holePairing:Array(18).fill(null),vorgabe:false},
+ statsEnabled:false,
+ stats:Array.from({length:18},()=>Array.from({length:4},()=>({fairway:null,gir:null,putts:null}))),
+ fun:{holeModes:Array(18).fill(null),unique:false,clubs:Array(18).fill(null),shotClubs:Array.from({length:18},()=>[]),bonus:Array.from({length:18},()=>Array.from({length:4},()=>[]))},
+ courseName:JSON.parse(localStorage.getItem('gd_active_course')||'null')||'Varus',
+ settings:JSON.parse(localStorage.getItem('gd_course')||'null')||HOLES.map(x=>[...x]),
+ courseSlope:meta.slope,courseRating:meta.rating,
+ timestamp:Date.now()};}
 function load(){try{return Object.assign(blankState(),JSON.parse(localStorage.getItem('golfDeluxe')||'{}'))}catch(e){return blankState()}}
 function save(){localStorage.setItem('golfDeluxe',JSON.stringify(S));}
 function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 function playerName(i){return S.players[i]||`Spieler ${i+1}`}
 function names(){return Array.from({length:S.count},(_,i)=>playerName(i))}
-function isTeam(){return S.team&&S.count===4&&['count','match','fun','scramble','chapman','fourball'].includes(S.mode)}
+function sixesActiveForMode(){return !!(S.sixes&&S.sixes.enabled)&&SIXES_MODES.includes(S.mode)&&S.count===4;}
+function isTeam(){if(sixesActiveForMode())return false;return S.team&&S.count===4&&['count','match','fun','scramble','chapman','fourball','foursome','greensome'].includes(S.mode)}
 function modeLabel(){return MODES.find(m=>m[0]===S.mode)?.[1]||''}
 function pushUndo(entry){undoStack.push(entry);if(undoStack.length>25)undoStack.shift();}
 function setData(path,val){let prev=getData(path,undefined);pushUndo({path:[...path],prev});let o=S.data;for(let i=0;i<path.length-1;i++){if(o[path[i]]==null)o[path[i]]={};o=o[path[i]]}o[path[path.length-1]]=val;save()}
@@ -61,6 +92,7 @@ function getData(path,def=''){let o=S.data;for(const k of path){if(o==null)retur
 function currentHoleIndex(){let i=S.holeDone.findIndex(x=>!x);return i===-1?17:i}
 function scrollToCurrentHole(){requestAnimationFrame(()=>{let el=document.querySelector('.curHole');if(el&&el.scrollIntoView)el.scrollIntoView({block:'center'})})}
 function render(){const app=document.getElementById('app'); if(S.screen==='home')app.innerHTML=home();else app.innerHTML=game(); updateScorebar();}
+function holeCell(h){return `${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button>${S.statsEnabled?`<button class="holeDone" onclick="event.stopPropagation();openStatsModal(${h})">📊</button>`:''}`}
 
 /* ---------- Theme ---------- */
 function applyTheme(){
@@ -74,26 +106,112 @@ function cycleTheme(){const order=['auto','dark','light','contrast'];THEME=order
 try{if(window.matchMedia)window.matchMedia('(prefers-color-scheme: light)').addEventListener('change',()=>{if(THEME==='auto')applyTheme()})}catch(e){}
 
 /* ---------- Player-Profile ---------- */
-function loadProfiles(){try{let a=JSON.parse(localStorage.getItem('gd_profiles')||'[]');if(!Array.isArray(a))return [];return a.map(p=>typeof p==='string'?{name:p,hcp:0}:p)}catch(e){return []}}
+function loadProfiles(){try{let a=JSON.parse(localStorage.getItem('gd_profiles')||'[]');if(!Array.isArray(a))return [];return a.map(p=>{
+  if(typeof p==='string')return {name:p,hcpIndex:0,vorgabe:0};
+  if(p.vorgabe===undefined)return {name:p.name,hcpIndex:p.hcpIndex||0,vorgabe:p.hcp||0};
+  return {name:p.name,hcpIndex:p.hcpIndex||0,vorgabe:p.vorgabe||0};
+})}catch(e){return []}}
 function saveProfiles(a){localStorage.setItem('gd_profiles',JSON.stringify(a))}
-function profilePicker(slot){
-  let profiles=loadProfiles();
-  showModal(`<h2>👤 Spieler wählen</h2>${profiles.length?`<div class="bonusList">${profiles.map((p,i)=>`<div class="bonusItem"><div><b>${esc(p.name)}</b><br><em>Letzte Vorgabe: ${p.hcp||0}</em></div><div style="display:flex;gap:6px"><button onclick="pickProfile(${slot},${i})">Wählen</button><button class="danger" style="min-width:36px" onclick="deleteProfile(${i},${slot})">✕</button></div></div>`).join('')}</div>`:'<p>Noch keine gespeicherten Spieler. Trag unten einen Namen ein und speichere ihn.</p>'}
-  <div class="section"><div class="label">Neuen Spieler speichern</div><div class="playerRow"><input class="textInput" id="newProfileName" placeholder="Name"><button class="smallBtn" onclick="addProfile(${slot})">Speichern</button></div></div>
-  <div class="note">Die zuletzt gespeicherte Vorgabe wird beim Auswählen automatisch übernommen, bleibt aber jederzeit im Feld „Spielvorgaben" änderbar.</div>
-  <div class="modalActions"><button class="close" onclick="closeModal()">Schließen</button></div>`);
+function calcVorgabeFromIndex(idx){
+  let par=S.settings.reduce((a,r)=>a+r[1],0);
+  let slope=Number(S.courseSlope)||113;
+  let rating=(S.courseRating===undefined||S.courseRating===null||S.courseRating==='')?par:Number(S.courseRating);
+  return Math.round((Number(idx)||0)*(slope/113)+(rating-par));
 }
-function pickProfile(slot,i){let profiles=loadProfiles();let p=profiles[i];S.players[slot]=p.name;S.stableHcp[slot]=p.hcp||0;save();closeModal();render()}
-function addProfile(slot){let el=document.getElementById('newProfileName');let name=(el&&el.value||'').trim();if(!name)return;let profiles=loadProfiles();let idx=profiles.findIndex(p=>p.name===name);let hcp=Number(S.stableHcp[slot])||0;if(idx>=0)profiles[idx].hcp=hcp;else profiles.push({name,hcp});saveProfiles(profiles);S.players[slot]=name;save();closeModal();render()}
-function deleteProfile(i,slot){let profiles=loadProfiles();profiles.splice(i,1);saveProfiles(profiles);profilePicker(slot)}
-function syncProfileHcp(slot){let name=(S.players[slot]||'').trim();if(!name)return;let profiles=loadProfiles();let idx=profiles.findIndex(p=>p.name===name);if(idx>=0){profiles[idx].hcp=Number(S.stableHcp[slot])||0;saveProfiles(profiles);}}
+function syncProfileFields(i){
+  let name=(S.players[i]||'').trim();if(!name)return;
+  let profiles=loadProfiles();let idx=profiles.findIndex(p=>p.name===name);
+  if(idx>=0){profiles[idx].hcpIndex=Number(S.playerHcpIndex[i])||0;profiles[idx].vorgabe=Number(S.stableHcp[i])||0;saveProfiles(profiles);}
+}
+function updatePlayerHcpIndex(i,val){
+  S.playerHcpIndex[i]=Math.max(0,Math.min(54,Number(val)||0));
+  S.stableHcp[i]=calcVorgabeFromIndex(S.playerHcpIndex[i]);
+  syncProfileFields(i);
+  save();
+}
+function selectPlayerProfile(i,name){
+  S.players[i]=name;
+  if(name){
+    let p=loadProfiles().find(x=>x.name===name);
+    if(p){S.playerHcpIndex[i]=p.hcpIndex||0;S.stableHcp[i]=p.vorgabe||0;}
+  }
+  save();render();
+}
+function newPlayerModal(i){
+  showModal(`<h2>👤 Neuer Spieler</h2>
+  <div class="section"><input class="textInput" id="npName" placeholder="Name"></div>
+  <div class="section"><div class="playerRow"><input class="numInput" id="npHcp" type="number" min="0" max="54" step="0.1" placeholder="Handicap-Index"><input class="numInput" id="npVorgabe" type="number" min="0" max="54" placeholder="Vorgabe"></div><div class="hint">Vorgabe wird aus dem Handicap-Index berechnet, kann aber frei geändert werden.</div></div>
+  <div class="modalActions"><button class="close" onclick="closeModal()">Abbrechen</button><button class="close danger" onclick="saveNewPlayer(${i})">Speichern &amp; zuweisen</button></div>`);
+  const hcpEl=document.getElementById('npHcp'),vEl=document.getElementById('npVorgabe');
+  if(hcpEl)hcpEl.addEventListener('input',()=>{vEl.value=calcVorgabeFromIndex(hcpEl.value);});
+}
+function saveNewPlayer(i){
+  let nameEl=document.getElementById('npName');
+  let name=(nameEl&&nameEl.value||'').trim();if(!name)return;
+  let hcpIndex=Number(document.getElementById('npHcp').value)||0;
+  let vorgabe=Number(document.getElementById('npVorgabe').value)||0;
+  let profiles=loadProfiles();
+  let idx=profiles.findIndex(p=>p.name===name);
+  let entry={name,hcpIndex,vorgabe};
+  if(idx>=0)profiles[idx]=entry;else profiles.push(entry);
+  saveProfiles(profiles);
+  S.players[i]=name;S.playerHcpIndex[i]=hcpIndex;S.stableHcp[i]=vorgabe;
+  save();closeModal();render();
+}
+function profileTiles(){
+  let profiles=loadProfiles();
+  return `<div class="section"><div class="label">Spielerprofile</div><div class="modeGrid">${profiles.map((p,idx)=>`<button class="mode" onclick="editProfileModal(${idx})">${esc(p.name)}<span>Vorgabe ${p.vorgabe||0}${p.hcpIndex?` · HCP ${p.hcpIndex}`:''}</span></button>`).join('')}<button class="mode" onclick="newProfileStandalone()">+ Neuer Spieler<span>Profil anlegen</span></button></div></div>`;
+}
+function editProfileModal(idx){
+  let profiles=loadProfiles();let p=profiles[idx];if(!p)return;
+  showModal(`<h2>👤 Profil bearbeiten</h2>
+  <div class="section"><input class="textInput" id="epName" value="${esc(p.name)}" placeholder="Name"></div>
+  <div class="section"><div class="playerRow"><input class="numInput" id="epHcp" type="number" min="0" max="54" step="0.1" value="${p.hcpIndex||''}" placeholder="Handicap-Index"><input class="numInput" id="epVorgabe" type="number" min="0" max="54" value="${p.vorgabe||''}" placeholder="Vorgabe"></div></div>
+  <div class="modalActions"><button class="close" onclick="closeModal()">Abbrechen</button><button class="close" onclick="saveEditedProfile(${idx})">Speichern</button></div>
+  <button class="close danger" style="width:100%;margin-top:8px" onclick="deleteProfileConfirm(${idx})">Profil löschen</button>`);
+  const hcpEl=document.getElementById('epHcp'),vEl=document.getElementById('epVorgabe');
+  if(hcpEl)hcpEl.addEventListener('input',()=>{vEl.value=calcVorgabeFromIndex(hcpEl.value);});
+}
+function saveEditedProfile(idx){
+  let profiles=loadProfiles();
+  let name=(document.getElementById('epName').value||'').trim();if(!name)return;
+  let hcpIndex=Number(document.getElementById('epHcp').value)||0;
+  let vorgabe=Number(document.getElementById('epVorgabe').value)||0;
+  profiles[idx]={name,hcpIndex,vorgabe};
+  saveProfiles(profiles);closeModal();render();
+}
+function deleteProfileConfirm(idx){
+  let profiles=loadProfiles();let p=profiles[idx];if(!p)return;
+  showModal(`<h2>Profil löschen?</h2><p>„${esc(p.name)}" wird endgültig entfernt.</p><div class="modalActions"><button class="close" onclick="editProfileModal(${idx})">Abbrechen</button><button class="close danger" onclick="deleteProfileNow(${idx})">Löschen</button></div>`);
+}
+function deleteProfileNow(idx){let profiles=loadProfiles();profiles.splice(idx,1);saveProfiles(profiles);closeModal();render();}
+function newProfileStandalone(){
+  showModal(`<h2>👤 Neuer Spieler</h2>
+  <div class="section"><input class="textInput" id="npsName" placeholder="Name"></div>
+  <div class="section"><div class="playerRow"><input class="numInput" id="npsHcp" type="number" min="0" max="54" step="0.1" placeholder="Handicap-Index"><input class="numInput" id="npsVorgabe" type="number" min="0" max="54" placeholder="Vorgabe"></div></div>
+  <div class="modalActions"><button class="close" onclick="closeModal()">Abbrechen</button><button class="close danger" onclick="saveNewProfileStandalone()">Speichern</button></div>`);
+  const hcpEl=document.getElementById('npsHcp'),vEl=document.getElementById('npsVorgabe');
+  if(hcpEl)hcpEl.addEventListener('input',()=>{vEl.value=calcVorgabeFromIndex(hcpEl.value);});
+}
+function saveNewProfileStandalone(){
+  let name=(document.getElementById('npsName').value||'').trim();if(!name)return;
+  let hcpIndex=Number(document.getElementById('npsHcp').value)||0;
+  let vorgabe=Number(document.getElementById('npsVorgabe').value)||0;
+  let profiles=loadProfiles();let idx=profiles.findIndex(x=>x.name===name);
+  let entry={name,hcpIndex,vorgabe};
+  if(idx>=0)profiles[idx]=entry;else profiles.push(entry);
+  saveProfiles(profiles);closeModal();render();
+}
 
 /* ---------- Team-Vorgabe-Faktoren ---------- */
-function loadTeamHcp(){try{return Object.assign({scrLow:.35,scrHigh:.15,fb:.9,chLow:.6,chHigh:.4},JSON.parse(localStorage.getItem('gd_teamhcp')||'{}'))}catch(e){return {scrLow:.35,scrHigh:.15,fb:.9,chLow:.6,chHigh:.4}}}
+function loadTeamHcp(){try{return Object.assign({scrLow:.35,scrHigh:.15,fb:.9,chLow:.6,chHigh:.4,foAvg:.5,grLow:.6,grHigh:.4},JSON.parse(localStorage.getItem('gd_teamhcp')||'{}'))}catch(e){return {scrLow:.35,scrHigh:.15,fb:.9,chLow:.6,chHigh:.4,foAvg:.5,grLow:.6,grHigh:.4}}}
 function saveTeamHcp(o){localStorage.setItem('gd_teamhcp',JSON.stringify(o))}
 function updateTeamHcp(key,val){let th=loadTeamHcp();th[key]=Math.max(0,Math.min(1,Number(val)||0));saveTeamHcp(th);}
 function scrambleTeamHcp(p1,p2){let f=loadTeamHcp();let lo=Math.min(p1,p2),hi=Math.max(p1,p2);return Math.round(f.scrLow*lo+f.scrHigh*hi)}
 function chapmanTeamHcp(p1,p2){let f=loadTeamHcp();let lo=Math.min(p1,p2),hi=Math.max(p1,p2);return Math.round(f.chLow*lo+f.chHigh*hi)}
+function foursomeTeamHcp(p1,p2){let f=loadTeamHcp();return Math.round(f.foAvg*(p1+p2))}
+function greensomeTeamHcp(p1,p2){let f=loadTeamHcp();let lo=Math.min(p1,p2),hi=Math.max(p1,p2);return Math.round(f.grLow*lo+f.grHigh*hi)}
+function playerHoleAlloc(p,h){let strokes=Number(S.stableHcp[p])||0;return Math.floor(strokes/18)+(S.settings[h][2]<=strokes%18?1:0)}
 
 /* ---------- Fun: eigene Modi / Bonus verwalten ---------- */
 function loadCustomFun(){try{let a=JSON.parse(localStorage.getItem('gd_custom_funmodes')||'[]');return Array.isArray(a)?a:[]}catch(e){return []}}
@@ -106,6 +224,24 @@ function loadActiveFun(){try{let a=JSON.parse(localStorage.getItem('gd_active_fu
 function saveActiveFun(a){localStorage.setItem('gd_active_funmodes',JSON.stringify(a))}
 function loadActiveBonus(){try{let a=JSON.parse(localStorage.getItem('gd_active_bonus')||'null');if(!a)return allBonus().map(x=>x[0]);return a}catch(e){return allBonus().map(x=>x[0])}}
 function saveActiveBonus(a){localStorage.setItem('gd_active_bonus',JSON.stringify(a))}
+function bonusLabel(n){return (n==='Adolf'||n==='Schneckenficker')?('„'+n+'"'):n}
+function loadBonusOrder(){try{let a=JSON.parse(localStorage.getItem('gd_bonus_order')||'null');if(Array.isArray(a))return a;}catch(e){}return allBonus().map(x=>x[0]);}
+function saveBonusOrder(a){localStorage.setItem('gd_bonus_order',JSON.stringify(a));}
+function orderedBonusList(){
+  let all=allBonus();let order=loadBonusOrder();let byName={};all.forEach(b=>byName[b[0]]=b);
+  let out=[];order.forEach(n=>{if(byName[n]){out.push(byName[n]);delete byName[n];}});
+  Object.values(byName).forEach(b=>out.push(b));
+  return out;
+}
+function moveBonusOrder(name,delta){
+  let order=loadBonusOrder();let all=allBonus().map(x=>x[0]);
+  all.forEach(n=>{if(!order.includes(n))order.push(n);});
+  order=order.filter(n=>all.includes(n));
+  let i=order.indexOf(name),j=i+delta;
+  if(i<0||j<0||j>=order.length)return;
+  [order[i],order[j]]=[order[j],order[i]];
+  saveBonusOrder(order);
+}
 function funModeManager(){
   let all=allFunModes();let active=loadActiveFun();
   showModal(`<h2>🎲 Fun-Spielformen</h2><p>Aktive Formen werden ausgelost. Eigene Formen bleiben dauerhaft gespeichert.</p>
@@ -116,13 +252,13 @@ function funModeManager(){
 function toggleActiveFun(i){let m=allFunModes()[i];let active=loadActiveFun();if(active.includes(m))active=active.filter(x=>x!==m);else active.push(m);saveActiveFun(active);funModeManager();}
 function addCustomFunMode(){let el=document.getElementById('newFunMode');let name=(el&&el.value||'').trim();if(!name)return;let custom=loadCustomFun();if(!custom.includes(name))custom.push(name);saveCustomFun(custom);let active=loadActiveFun();if(!active.includes(name))active.push(name);saveActiveFun(active);funModeManager();}
 function funBonusManager(){
-  let all=allBonus();let active=loadActiveBonus();
-  showModal(`<h2>⭐ Bonus / Malus</h2><p>Aktive Ereignisse stehen im Bonus-Menü während der Runde zur Auswahl.</p>
-  <div class="bonusList">${all.map(([n,v],i)=>`<div class="bonusItem ${active.includes(n)?'':'used'}"><div><b class="bonusName">${esc(n)}</b><br><em>${v>0?'+':''}${v}</em></div><button onclick="toggleActiveBonus(${i})">${active.includes(n)?'✓':'+'}</button></div>`).join('')}</div>
+  let all=orderedBonusList();let active=loadActiveBonus();
+  showModal(`<h2>⭐ Bonus / Malus</h2><p>Aktive Ereignisse stehen im Bonus-Menü während der Runde zur Auswahl. Mit ↑/↓ änderst du die Reihenfolge.</p>
+  <div class="bonusList">${all.map(([n,v],i)=>`<div class="bonusItem ${active.includes(n)?'':'used'}"><div><b class="bonusName">${esc(bonusLabel(n))}</b><br><em>${v>0?'+':''}${v}</em></div><div style="display:flex;gap:4px"><button class="smallBtn" ${i===0?'disabled':''} onclick="moveBonusOrder('${esc(n).replace(/'/g,"\\'")}',-1);funBonusManager()">↑</button><button class="smallBtn" ${i===all.length-1?'disabled':''} onclick="moveBonusOrder('${esc(n).replace(/'/g,"\\'")}',1);funBonusManager()">↓</button><button onclick="toggleActiveBonus2('${esc(n).replace(/'/g,"\\'")}')">${active.includes(n)?'✓':'+'}</button></div></div>`).join('')}</div>
   <div class="section"><div class="label">Neues Ereignis hinzufügen</div><div class="playerRow"><input class="textInput" id="newBonusName" placeholder="Name" style="flex:2"><input class="numInput" id="newBonusVal" type="number" placeholder="±Pkt" style="flex:1"><button class="smallBtn" onclick="addCustomBonus()">+</button></div></div>
   <div class="modalActions"><button class="close" onclick="funModeManager()">Zu Spielformen</button><button class="close" onclick="closeModal()">Fertig</button></div>`);
 }
-function toggleActiveBonus(i){let n=allBonus()[i][0];let active=loadActiveBonus();if(active.includes(n))active=active.filter(x=>x!==n);else active.push(n);saveActiveBonus(active);funBonusManager();}
+function toggleActiveBonus2(n){let active=loadActiveBonus();if(active.includes(n))active=active.filter(x=>x!==n);else active.push(n);saveActiveBonus(active);funBonusManager();}
 function addCustomBonus(){let elN=document.getElementById('newBonusName'),elV=document.getElementById('newBonusVal');let name=(elN&&elN.value||'').trim();let val=Number(elV&&elV.value)||0;if(!name||!val)return;let custom=loadCustomBonus();if(!custom.some(x=>x[0]===name))custom.push([name,val]);saveCustomBonus(custom);let active=loadActiveBonus();if(!active.includes(name))active.push(name);saveActiveBonus(active);funBonusManager();}
 function funGeneratorInfo(){showInfo('fun')}
 
@@ -130,8 +266,8 @@ function funGeneratorInfo(){showInfo('fun')}
 function hcpCalculator(){
   showModal(`<h2>🧮 Course-Handicap-Rechner</h2><p>Berechnet dein Course Handicap aus Handicap-Index, Slope und Course Rating (offizielle Formel: Index × Slope/113 + (Rating − PAR)).</p>
   <div class="section"><div class="playerRow"><input class="numInput" id="hcIndex" type="number" step="0.1" placeholder="Handicap-Index"></div></div>
-  <div class="section"><div class="playerRow"><input class="numInput" id="hcSlope" type="number" placeholder="Slope (z. B. 125)"></div></div>
-  <div class="section"><div class="playerRow"><input class="numInput" id="hcRating" type="number" step="0.1" placeholder="Course Rating"></div></div>
+  <div class="section"><div class="playerRow"><input class="numInput" id="hcSlope" type="number" placeholder="Slope (z. B. 125)" value="${S.courseSlope||113}"></div></div>
+  <div class="section"><div class="playerRow"><input class="numInput" id="hcRating" type="number" step="0.1" placeholder="Course Rating" value="${S.courseRating||S.settings.reduce((a,r)=>a+r[1],0)}"></div></div>
   <div class="section"><div class="playerRow"><input class="numInput" id="hcPar" type="number" placeholder="Platz-PAR" value="${S.settings.reduce((a,r)=>a+r[1],0)}"></div></div>
   <div class="section"><button class="secondary" onclick="calcCourseHcp()">Berechnen</button></div>
   <div id="hcResult" class="note" style="display:none"></div>
@@ -151,10 +287,10 @@ function calcCourseHcp(){
 /* ---------- Schnelleingabe (Stepper) ---------- */
 function currentHoleFields(h){
   const m=S.mode;
-  if(['count','short','stable','nassau','skins'].includes(m))return Array.from({length:S.count},(_,p)=>({label:playerName(p),path:[m,h,p]}));
+  if(['count','short','stable','nassau','skins','string'].includes(m))return Array.from({length:S.count},(_,p)=>({label:playerName(p),path:[m,h,p]}));
   if(m==='531')return Array.from({length:3},(_,p)=>({label:playerName(p),path:['531',h,p]}));
   if(m==='vegas'||m==='fourball')return Array.from({length:4},(_,p)=>({label:playerName(p),path:[m,h,p]}));
-  if(m==='scramble'||m==='chapman')return [{label:'Team A',path:[m,h,0]},{label:'Team B',path:[m,h,1]}];
+  if(m==='scramble'||m==='chapman'||m==='foursome'||m==='greensome')return [{label:'Paar 1',path:[m,h,0]},{label:'Paar 2',path:[m,h,1]}];
   if(m==='match'&&S.matchHcp&&S.count===2)return [{label:playerName(0),path:['matchhcp',h,0]},{label:playerName(1),path:['matchhcp',h,1]}];
   if(m==='fun')return Array.from({length:S.count},(_,p)=>({label:playerName(p),path:['fun','results',h,p]}));
   return null;
@@ -185,17 +321,214 @@ function stepperAdjust(h,i,delta){
 }
 function stepperNextHole(h){S.holeDone[h]=true;save();closeModal();render();scrollToCurrentHole();}
 
+/* ---------- Sync (QR / Link) ---------- */
+function openSyncModal(){
+  let payload={S,ts:Date.now()};
+  let json=JSON.stringify(payload);
+  let b64=btoa(unescape(encodeURIComponent(json)));
+  let url=location.origin+location.pathname+'#sync='+b64;
+  showModal(`<h2>🔗 Sync-Code</h2><p>Teile diesen Code oder QR-Code, um den aktuellen Spielstand direkt auf ein anderes Gerät zu übertragen. Es handelt sich um einen reinen Übertragungs-Code (kein Server) – die Daten stecken vollständig im Code selbst.</p>
+  <div id="qrHolder" style="display:flex;justify-content:center;margin:10px 0"></div>
+  <div class="section"><textarea class="textInput" readonly style="height:80px;padding:10px" onclick="this.select()">${esc(url)}</textarea></div>
+  <div class="section"><button class="secondary" onclick="copySyncLink()">📋 Link kopieren</button></div>
+  <div class="section"><div class="label">Code von einem anderen Gerät einfügen</div><div class="playerRow"><input class="textInput" id="importCodeInput" placeholder="Code oder Link einfügen"><button class="smallBtn" onclick="importFromInput()">Laden</button></div></div>
+  <div class="modalActions"><button class="close" onclick="closeModal()">Schließen</button></div>`);
+  try{if(window.QRCode){document.getElementById('qrHolder').innerHTML='';new QRCode(document.getElementById('qrHolder'),{text:url,width:200,height:200,colorDark:'#07100b',colorLight:'#ffffff'});}}catch(e){}
+  window._syncUrl=url;
+}
+function copySyncLink(){let url=window._syncUrl;if(!url)return;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).catch(()=>{});}}
+function importFromInput(){
+  let el=document.getElementById('importCodeInput');
+  let val=(el&&el.value||'').trim();
+  if(!val)return;
+  let b64=val;let hashIdx=val.indexOf('#sync=');
+  if(hashIdx>=0)b64=val.slice(hashIdx+6);
+  importSyncCode(b64);
+}
+function importSyncCode(b64){
+  try{
+    let json=decodeURIComponent(escape(atob(b64)));
+    let payload=JSON.parse(json);
+    if(!payload||!payload.S)throw new Error('invalid');
+    window._pendingSyncPayload=payload;
+    showModal(`<h2>Spielstand importieren?</h2><p>Der aktuelle Spielstand auf diesem Gerät wird überschrieben.</p><div class="modalActions"><button class="close" onclick="closeModal()">Abbrechen</button><button class="close danger" onclick="applyImportedSync()">Übernehmen</button></div>`);
+  }catch(e){
+    showModal(`<h2>Ungültiger Code</h2><p>Der Sync-Code konnte nicht gelesen werden.</p><div class="modalActions"><button class="close" onclick="closeModal()">Schließen</button></div>`);
+  }
+}
+function applyImportedSync(){
+  let payload=window._pendingSyncPayload;
+  if(!payload){closeModal();return;}
+  S=Object.assign(blankState(),payload.S);
+  save();closeModal();render();
+  window._pendingSyncPayload=null;
+  history.replaceState(null,'',location.pathname);
+}
+
+/* ---------- Erweiterte Statistik ---------- */
+function statsToggleBlock(){return `<div class="section"><div class="label">Erweiterte Statistik</div><div class="seg two"><button class="${!S.statsEnabled?'active':''}" onclick="S.statsEnabled=false;save();render()">Aus</button><button class="${S.statsEnabled?'active':''}" onclick="S.statsEnabled=true;save();render()">Fairway/GIR/Putts</button></div><div class="hint" style="margin-top:6px">Wenn aktiv, erscheint neben jedem Loch ein 📊-Button, um Fairway getroffen, Green in Regulation und Putts zu erfassen.</div></div>`}
+function openStatsModal(h){
+  showModal(`<h2>📊 Statistik · Loch ${h+1}</h2><div class="bonusList">${Array.from({length:S.count},(_,p)=>{
+    let st=(S.stats[h]&&S.stats[h][p])||{fairway:null,gir:null,putts:null};
+    return `<div class="bonusItem" style="display:block"><b>${esc(playerName(p))}</b>
+    <div class="miniGrid" style="margin-top:6px">
+    <div><div class="hcptxt">Fairway getroffen</div><div class="seg" style="grid-template-columns:repeat(3,1fr)">
+      <button class="${st.fairway===true?'active':''}" onclick="setStatField(${h},${p},'fairway',true)">✓</button>
+      <button class="${st.fairway===false?'active':''}" onclick="setStatField(${h},${p},'fairway',false)">✕</button>
+      <button class="${st.fairway===null?'active':''}" onclick="setStatField(${h},${p},'fairway',null)">–</button>
+    </div></div>
+    <div><div class="hcptxt">Green in Regulation</div><div class="seg two">
+      <button class="${st.gir===true?'active':''}" onclick="setStatField(${h},${p},'gir',true)">✓</button>
+      <button class="${st.gir===false?'active':''}" onclick="setStatField(${h},${p},'gir',false)">✕</button>
+    </div></div>
+    </div>
+    <div style="margin-top:6px"><div class="hcptxt">Putts</div><input class="numInput" type="number" min="0" max="10" value="${st.putts??''}" onchange="setStatField(${h},${p},'putts',Number(this.value)||0)"></div>
+    </div>`;
+  }).join('')}</div><div class="modalActions"><button class="close" onclick="closeModal();render()">Fertig</button></div>`);
+}
+function setStatField(h,p,field,val){
+  S.stats[h]=S.stats[h]||Array.from({length:4},()=>({fairway:null,gir:null,putts:null}));
+  S.stats[h][p]=S.stats[h][p]||{fairway:null,gir:null,putts:null};
+  S.stats[h][p][field]=val;save();
+}
+function statsOverview(){
+  if(!S.statsEnabled){showModal(`<h2>📊 Statistik</h2><p>Erweiterte Statistik ist für diese Runde nicht aktiviert.</p><div class="modalActions"><button class="close" onclick="closeModal()">Schließen</button></div>`);return;}
+  let rows=names().map((n,p)=>{
+    let fw=0,fwTot=0,gir=0,girTot=0,putts=0,puttsTot=0;
+    for(let h=0;h<18;h++){
+      let st=S.stats[h]&&S.stats[h][p];
+      if(!st)continue;
+      if(st.fairway!==null){fwTot++;if(st.fairway)fw++;}
+      if(st.gir!==null){girTot++;if(st.gir)gir++;}
+      if(st.putts!=null&&st.putts>0){puttsTot++;putts+=st.putts;}
+    }
+    return `<div class="settingCard"><b>${esc(n)}</b>
+    <div class="sub">Fairways: ${fwTot?Math.round(fw/fwTot*100)+'%':'–'} (${fw}/${fwTot})</div>
+    <div class="sub">GIR: ${girTot?Math.round(gir/girTot*100)+'%':'–'} (${gir}/${girTot})</div>
+    <div class="sub">Putts ⌀: ${puttsTot?(putts/puttsTot).toFixed(1):'–'} · Gesamt ${putts||0}</div>
+    </div>`;
+  }).join('');
+  showModal(`<h2>📊 Statistik</h2><div class="miniGrid">${rows}</div><div class="modalActions"><button class="close" onclick="closeModal()">Schließen</button></div>`);
+}
+
+/* ---------- Sixes-Engine ---------- */
+function sixesResetDraws(){S.sixes.blocks=[null,null,null];S.sixes.holePairing=Array(18).fill(null);save();}
+function sixesPairIndexForHole(h){
+  if(!S.sixes.enabled)return null;
+  if(S.sixes.rotation==='block'){let b=h<6?0:h<12?1:2;let v=S.sixes.blocks[b];return (v===null||v===undefined)?null:v;}
+  let v=S.sixes.holePairing[h];return (v===null||v===undefined)?null:v;
+}
+function sixesTeamsForHole(h){let k=sixesPairIndexForHole(h);if(k===null||k===undefined)return null;return SIXES_PAIRS[k];}
+function sixesDrawBlock(b){
+  let used=S.sixes.blocks.filter(x=>x!==null&&x!==undefined);
+  let avail=[0,1,2].filter(k=>!used.includes(k));
+  if(!avail.length)return;
+  let pick=avail.length===1?avail[0]:avail[Math.floor(Math.random()*avail.length)];
+  S.sixes.blocks[b]=pick;save();
+}
+function sixesDrawHole(h){
+  let counts=[0,0,0];
+  S.sixes.holePairing.forEach(v=>{if(v!==null&&v!==undefined)counts[v]++;});
+  let avail=[0,1,2].filter(k=>counts[k]<6);
+  if(!avail.length)return;
+  let pick=avail[Math.floor(Math.random()*avail.length)];
+  S.sixes.holePairing[h]=pick;save();
+}
+function sixesTeamValue(mode,h,pair){
+  let p1=pair[0],p2=pair[1];
+  if(mode==='count'){
+    let g1=Number(getData(['count',h,p1],'')),g2=Number(getData(['count',h,p2],''));
+    if(!g1||!g2)return null;
+    let n1=S.sixes.vorgabe?g1-playerHoleAlloc(p1,h):g1;
+    let n2=S.sixes.vorgabe?g2-playerHoleAlloc(p2,h):g2;
+    return n1+n2;
+  }
+  if(mode==='stable'){
+    let g1=Number(getData(['stable',h,p1],'')),g2=Number(getData(['stable',h,p2],''));
+    if(!g1||!g2)return null;
+    let par=S.settings[h][1];
+    let a1=S.sixes.vorgabe?playerHoleAlloc(p1,h):0,a2=S.sixes.vorgabe?playerHoleAlloc(p2,h):0;
+    let pt1=Math.max(0,2+(par+a1-g1)),pt2=Math.max(0,2+(par+a2-g2));
+    return pt1+pt2;
+  }
+  if(mode==='fourball'){
+    let g1=Number(getData(['fourball',h,p1],'')),g2=Number(getData(['fourball',h,p2],''));
+    let a1=S.sixes.vorgabe?playerHoleAlloc(p1,h):0,a2=S.sixes.vorgabe?playerHoleAlloc(p2,h):0;
+    let nets=[];if(g1)nets.push(g1-a1);if(g2)nets.push(g2-a2);
+    if(!nets.length)return null;
+    return Math.min(...nets);
+  }
+  if(mode==='chapman'||mode==='foursome'||mode==='greensome'){
+    let teams=sixesTeamsForHole(h);if(!teams)return null;
+    let slot=(teams[0][0]===p1&&teams[0][1]===p2)?0:1;
+    let sc=Number(getData([mode,h,slot],''));
+    if(!sc)return null;
+    if(!S.sixes.vorgabe)return sc;
+    let hcpFn=mode==='chapman'?chapmanTeamHcp:mode==='foursome'?foursomeTeamHcp:greensomeTeamHcp;
+    let teamHcp=hcpFn(Number(S.stableHcp[p1])||0,Number(S.stableHcp[p2])||0);
+    let alloc=Math.floor(teamHcp/18)+(S.settings[h][2]<=teamHcp%18?1:0);
+    return sc-alloc;
+  }
+  return null;
+}
+function sixesHoleResult(mode,h){
+  let teams=sixesTeamsForHole(h);if(!teams)return null;
+  let v0=sixesTeamValue(mode,h,teams[0]),v1=sixesTeamValue(mode,h,teams[1]);
+  if(v0===null||v1===null)return null;
+  let higherBetter=mode==='stable';
+  let cmp;
+  if(v0===v1)cmp=-1;else if(higherBetter)cmp=(v0>v1?0:1);else cmp=(v0<v1?0:1);
+  return {teams,cmp};
+}
+function sixesPlayerPoints(p){
+  let mode=S.mode,total=0;
+  for(let h=0;h<18;h++){
+    let res=sixesHoleResult(mode,h);if(!res)continue;
+    let side=res.teams[0].includes(p)?0:res.teams[1].includes(p)?1:-1;
+    if(side===-1)continue;
+    if(res.cmp===-1)continue;else if(res.cmp===side)total+=1;else total-=1;
+  }
+  return total;
+}
+function sixesBlock(){
+  if(!SIXES_MODES.includes(S.mode)||S.count!==4)return '';
+  let showVorgabeInputs=S.sixes.enabled&&S.sixes.vorgabe&&S.mode!=='stable';
+  return `<div class="section"><div class="label">Sixes (wechselnde Partner)</div><div class="seg two"><button class="${!S.sixes.enabled?'active':''}" onclick="S.sixes.enabled=false;save();render()">Feste Teams</button><button class="${S.sixes.enabled?'active':''}" onclick="S.sixes.enabled=true;save();render()">Sixes aktiv</button></div>
+  ${S.sixes.enabled?`<div class="seg two" style="margin-top:7px"><button class="${S.sixes.rotation==='block'?'active':''}" onclick="S.sixes.rotation='block';sixesResetDraws();render()">Alle 6 Löcher</button><button class="${S.sixes.rotation==='hole'?'active':''}" onclick="S.sixes.rotation='hole';sixesResetDraws();render()">Jede Bahn neu</button></div><div class="seg two" style="margin-top:7px"><button class="${!S.sixes.vorgabe?'active':''}" onclick="S.sixes.vorgabe=false;save();render()">Ohne Vorgabe</button><button class="${S.sixes.vorgabe?'active':''}" onclick="S.sixes.vorgabe=true;save();render()">Mit Vorgabe</button></div><div class="hint" style="margin-top:7px">Partner werden zufällig ausgelost, alle drei möglichen Paarungen kommen über die Runde ausgeglichen (je 6 Löcher) vor. Wertung je Loch pro Spieler: gewonnen +1 · geteilt 0 · verloren −1.</div>${showVorgabeInputs?hcpInputsBlock():''}`:''}
+  </div>`;
+}
+function sixesOverlayBlock(){
+  if(!sixesActiveForMode())return '';
+  let rows='';
+  if(S.sixes.rotation==='block'){
+    let labels=['Löcher 1–6','Löcher 7–12','Löcher 13–18'];
+    rows=`<div class="miniGrid">${labels.map((lb,b)=>{
+      let k=S.sixes.blocks[b];let teams=(k===null||k===undefined)?null:SIXES_PAIRS[k];
+      let canDraw=b===0||S.sixes.blocks[b-1]!==null&&S.sixes.blocks[b-1]!==undefined;
+      return `<div class="settingCard"><label>${lb}</label>${teams?`<div class="sub">${esc(playerName(teams[0][0]))} &amp; ${esc(playerName(teams[0][1]))}<br><b>vs</b><br>${esc(playerName(teams[1][0]))} &amp; ${esc(playerName(teams[1][1]))}</div>`:`<button class="smallBtn" ${canDraw?'':'disabled'} onclick="sixesDrawBlock(${b});render()">🎲 auslosen</button>`}</div>`;
+    }).join('')}</div>`;
+  } else {
+    rows=`<div class="miniGrid">${Array.from({length:18},(_,h)=>{
+      let k=S.sixes.holePairing[h];let teams=(k===null||k===undefined)?null:SIXES_PAIRS[k];
+      return `<div class="settingCard"><label>Loch ${h+1}</label>${teams?`<div class="sub">${esc(playerName(teams[0][0]))}+${esc(playerName(teams[0][1]))}<br>vs ${esc(playerName(teams[1][0]))}+${esc(playerName(teams[1][1]))}</div>`:`<button class="smallBtn" onclick="sixesDrawHole(${h});render()">🎲</button>`}</div>`;
+    }).join('')}</div>`;
+  }
+  let pts=names().map((n,p)=>[n,sixesPlayerPoints(p)]);
+  return `<div class="section"><div class="label">Sixes · Partner-Rotation</div>${rows}</div><div class="section"><div class="label">Sixes-Punkte</div><div class="miniGrid">${pts.map(x=>`<div class="settingCard"><b>${esc(x[0])}</b><div class="points">${x[1]}</div></div>`).join('')}</div></div>`;
+}
+
 /* ---------- Home / Konfiguration ---------- */
-function home(){let allowed=S.mode;return `<div class="app"><div class="top"><div class="brand">Golf Deluxe<small>Dark Golf · 18 holes</small></div><button class="iconBtn" onclick="cycleTheme()" title="Anzeige">${themeIcon()}</button><button class="iconBtn" onclick="hcpCalculator()" title="Course-Handicap-Rechner">🧮</button><button class="iconBtn" onclick="historyView()">📜</button><button class="iconBtn" onclick="courseSettings()">⚙</button></div><div class="hero"><h1>Dein Golfspiel.</h1><p>18 Löcher. Klare Regeln. Ein bisschen Chaos. Alles auf deinem iPhone.</p></div><div class="section"><div class="label">Spielmodus</div><div class="modeGrid">${MODES.map(m=>`<button class="mode ${allowed===m[0]?'active':''}" onclick="selectMode('${m[0]}')">${m[1]}<span>${m[2]}</span><b class="q" onclick="event.stopPropagation();showInfo('${m[0]}')">?</b></button>`).join('')}</div></div>${configArea()}<div class="section"><button class="primary" onclick="startGame()">Spiel starten</button></div><div class="note">Der Spielstand wird automatisch auf diesem Gerät gespeichert. Reset und Rückkehr zur Startseite fragen vorher nach.</div>${hasResetBackup()?`<div class="section"><button class="secondary" onclick="restoreBackupConfirm()">↺ Letzten Reset wiederherstellen</button></div>`:''}<div class="footerSpace"></div></div>`}
+function home(){let allowed=S.mode;return `<div class="app"><div class="top"><div class="brand">Golf Deluxe<small>Dark Golf · 18 holes</small></div><button class="iconBtn" onclick="cycleTheme()" title="Anzeige">${themeIcon()}</button><button class="iconBtn" onclick="hcpCalculator()" title="Course-Handicap-Rechner">🧮</button><button class="iconBtn" onclick="openSyncModal()" title="Sync">🔗</button><button class="iconBtn" onclick="historyView()">📜</button><button class="iconBtn" onclick="courseSettings()">⚙</button></div><div class="hero"><h1>Dein Golfspiel.</h1><p>18 Löcher. Klare Regeln. Ein bisschen Chaos. Alles auf deinem iPhone.</p></div>${profileTiles()}<div class="section"><div class="label">Spielmodus</div><div class="modeGrid">${MODES.map(m=>`<button class="mode ${allowed===m[0]?'active':''}" onclick="selectMode('${m[0]}')">${m[1]}<span>${m[2]}</span><b class="q" onclick="event.stopPropagation();showInfo('${m[0]}')">?</b></button>`).join('')}</div></div>${configArea()}<div class="section"><button class="primary" onclick="startGame()">Spiel starten</button></div><div class="note">Der Spielstand wird automatisch auf diesem Gerät gespeichert. Reset und Rückkehr zur Startseite fragen vorher nach.</div>${hasResetBackup()?`<div class="section"><button class="secondary" onclick="restoreBackupConfirm()">↺ Letzten Reset wiederherstellen</button></div>`:''}<div class="footerSpace"></div></div>`}
 function hasData(mode){let d=S.data[mode];let has=d?Object.keys(d).length>0:false;if(mode==='match'){let d2=S.data['matchhcp'];has=has||(d2?Object.keys(d2).length>0:false)}return has}
 function setCount(n){
   S.count=n;
   if(S.mode==='match'){S.team=(n===4);if(n!==2)S.matchHcp=false;}
-  else if(['scramble','chapman','fourball'].includes(S.mode)){S.team=true;}
+  else if(['scramble','chapman','fourball','foursome','greensome'].includes(S.mode)){S.team=true;}
   else if(n!==4){S.team=false;}
   save();render();
 }
 function applyModeSwitch(m){
+  if(S.mode!==m){S.players=[];S.sixes.blocks=[null,null,null];S.sixes.holePairing=Array(18).fill(null);}
   S.mode=m;S.screen='home';
   if(m==='531')S.count=3;
   if(m==='vegas')S.count=4;
@@ -206,42 +539,57 @@ function applyModeSwitch(m){
   if(m==='match'&&S.count===2)S.team=false;
   if(m!=='match')S.matchHcp=false;
   if(m==='fun'&&S.count<2)S.count=2;
-  if(['scramble','chapman','fourball'].includes(m)){S.count=4;S.team=true;}
-  if(!['scramble','chapman','fourball'].includes(m))S.teamFormatHcp=false;
+  if(['scramble','chapman','fourball','foursome','greensome'].includes(m)){S.count=4;S.team=true;}
+  if(!['scramble','chapman','fourball','foursome','greensome'].includes(m))S.teamFormatHcp=false;
+  if(!SIXES_MODES.includes(m))S.sixes.enabled=false;
   if(m!=='wolf')S.wolfBlind=false;
   save();render();
 }
 function selectMode(m){if(S.mode&&S.mode!==m&&hasData(S.mode)){pendingMode=m;showModal(`<h2>Modus wechseln?</h2><p>Für „${esc(modeLabel())}" sind bereits Einträge vorhanden. Sie bleiben gespeichert und stehen wieder zur Verfügung, wenn du zu diesem Modus zurückwechselst.</p><div class="modalActions"><button class="close" onclick="closeModal()">Abbrechen</button><button class="close danger" onclick="confirmModeSwitch()">Wechseln</button></div>`);return}applyModeSwitch(m)}
 function confirmModeSwitch(){let m=pendingMode;pendingMode=null;closeModal();applyModeSwitch(m)}
-function hcpInputsBlock(){return `<div class="section"><div class="label">Spielvorgaben</div><div class="players">${Array.from({length:S.count},(_,i)=>`<div class="playerRow"><div class="playerNo">${i+1}</div><input class="numInput" type="number" min="0" max="54" placeholder="Vorgabe ${i+1}" value="${S.stableHcp[i]||''}" oninput="S.stableHcp[${i}]=Math.max(0,Math.min(54,Number(this.value)||0));syncProfileHcp(${i});save();liveRefresh(this)"></div>`).join('')}</div></div>`}
+function hcpInputsBlock(){return `<div class="section"><div class="label">Spielvorgaben</div><div class="players">${Array.from({length:S.count},(_,i)=>`
+  <div class="playerRow" style="align-items:flex-start">
+    <div class="playerNo">${i+1}</div>
+    <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:6px">
+      <div><input class="numInput" type="number" min="0" max="54" step="0.1" placeholder="HCP-Index" value="${S.playerHcpIndex[i]||''}" oninput="updatePlayerHcpIndex(${i},this.value);liveRefresh(this)"><span class="hcptxt">Handicap-Index</span></div>
+      <div><input class="numInput" type="number" min="0" max="54" placeholder="Vorgabe" value="${S.stableHcp[i]||''}" oninput="S.stableHcp[${i}]=Math.max(0,Math.min(54,Number(this.value)||0));syncProfileFields(${i});save();liveRefresh(this)"><span class="hcptxt">Vorgabe (Schläge)</span></div>
+    </div>
+  </div>`).join('')}</div><div class="note">Handicap-Index → Vorgabe wird automatisch berechnet (Slope/Rating des aktuellen Platzes). Die Vorgabe kannst du danach frei anpassen.</div></div>`}
 function configArea(){
   if(!S.mode)return `<div class="section"><div class="note">Wähle zuerst einen Modus. Über „?" siehst du eine kurze Regelerklärung.</div></div>`;
   let teamAllowed=['count','fun'].includes(S.mode)&&S.count===4;
-  let fixedTo = S.mode==='531'?3 : ['vegas','scramble','chapman','fourball'].includes(S.mode)?4 : null;
+  let fixedTo = S.mode==='531'?3 : ['vegas','scramble','chapman','fourball','foursome','greensome'].includes(S.mode)?4 : null;
   let matchAllowed = S.mode==='match' ? [2,4] : null;
   function dis(n){ if(fixedTo) return fixedTo!==n; if(matchAllowed) return !matchAllowed.includes(n); return false; }
   let extra='';
   if(S.mode==='short')extra=`<div class="section"><div class="label">PAR für alle 18 Löcher</div><select class="select" onchange="S.par=Number(this.value);save();render()">${[2,3,4,5].map(v=>`<option value="${v}" ${S.par===v?'selected':''}>${v}</option>`).join('')}</select></div>`;
   if(S.mode==='fun')extra=`<div class="section"><div class="label">Fun-Generator</div><div class="seg two"><button class="${S.fun.unique?'active':''}" onclick="S.fun.unique=true;save();render()">Alle nur 1x</button><button class="${!S.fun.unique?'active':''}" onclick="S.fun.unique=false;save();render()">Wiederholungen erlaubt</button></div><div class="hint" style="margin-top:7px">Modus und Zufallsschläger werden pro Bahn per Button ausgelost, nicht automatisch.</div></div><div class="section"><button class="secondary" onclick="funModeManager()">⚙ Fun-Modi &amp; Bonus verwalten</button></div>`;
-  if(S.mode==='stable')extra=hcpInputsBlock();
+  if(S.mode==='stable')extra=hcpInputsBlock()+sixesBlock();
+  if(S.mode==='count')extra=sixesBlock();
+  if(S.mode==='string')extra=hcpInputsBlock()+`<div class="note">Deine Vorgabe entspricht deinem „String"-Budget in Schlägen, das du dir während der Runde frei einteilen kannst.</div>`;
   if(S.mode==='match'){
     if(S.count===2){
       extra=`<div class="section"><div class="label">Vorgabe</div><div class="seg two"><button class="${!S.matchHcp?'active':''}" onclick="S.matchHcp=false;save();render()">Ohne Vorgabe</button><button class="${S.matchHcp?'active':''}" onclick="S.matchHcp=true;save();render()">Mit Vorgabe</button></div></div>${S.matchHcp?hcpInputsBlock():''}`;
     } else if(S.count===4){
-      extra=`<div class="note">Matchplay mit Vorgabe ist aktuell nur im Einzel (2 Spieler) verfügbar. Für Team-Handicapformate eignen sich Scramble, Fourball Bestball oder Chapman-Vierer.</div>`;
+      extra=`<div class="note">Matchplay mit Vorgabe ist aktuell nur im Einzel (2 Spieler) verfügbar. Für Team-Handicapformate eignen sich Scramble, Fourball Bestball, Chapman-Vierer, Foursomes oder Greensomes.</div>`;
     }
   }
   if(S.mode==='wolf')extra=`<div class="section"><div class="label">Variante</div><div class="seg two"><button class="${!S.wolfBlind?'active':''}" onclick="S.wolfBlind=false;save();render()">Normal</button><button class="${S.wolfBlind?'active':''}" onclick="S.wolfBlind=true;save();render()">Blind Wolf (Punkte x2)</button></div></div>`;
-  if(['scramble','chapman','fourball'].includes(S.mode))extra=`<div class="note">Team A = Spieler 1 + 2 · Team B = Spieler 3 + 4</div><div class="section"><div class="label">Vorgabe</div><div class="seg two"><button class="${!S.teamFormatHcp?'active':''}" onclick="S.teamFormatHcp=false;save();render()">Ohne Vorgabe</button><button class="${S.teamFormatHcp?'active':''}" onclick="S.teamFormatHcp=true;save();render()">Mit Vorgabe</button></div></div>${S.teamFormatHcp?hcpInputsBlock():''}`;
-  return `<div class="section"><div class="label">Spieler</div><div class="seg"><button class="${S.count===1?'active':''}" ${dis(1)?'disabled':''} onclick="setCount(1)">1</button><button class="${S.count===2?'active':''}" ${dis(2)?'disabled':''} onclick="setCount(2)">2</button><button class="${S.count===3?'active':''}" ${dis(3)?'disabled':''} onclick="setCount(3)">3</button><button class="${S.count===4?'active':''}" ${dis(4)?'disabled':''} onclick="setCount(4)">4</button></div></div><div class="section"><div class="label">Namen</div><div class="players">${Array.from({length:S.count},(_,i)=>`<div class="playerRow"><div class="playerNo">${i+1}</div><input class="textInput" placeholder="Spieler ${i+1}" value="${esc(S.players[i]||'')}" oninput="S.players[${i}]=this.value;save();liveRefresh(this)"><button class="iconBtn" style="width:40px" onclick="profilePicker(${i})">👤</button></div>`).join('')}</div></div>${S.count===4&&teamAllowed?`<div class="section"><div class="label">Spielart</div><div class="seg two"><button class="${!S.team?'active':''}" onclick="S.team=false;save();render()">Einzel</button><button class="${S.team?'active':''}" onclick="S.team=true;save();render()">Team A / B</button></div></div>`:''}${S.mode==='match'&&S.count===4?`<div class="note">Bei 4 Spielern ist Matchplay ausschließlich Team A (1+2) gegen Team B (3+4).</div>`:''}${S.mode==='vegas'?`<div class="note">Team A = Spieler 1 + 2 · Team B = Spieler 3 + 4</div>`:''}${extra}`;
+  if(S.mode==='scramble')extra=`<div class="note">Team A = Spieler 1 + 2 · Team B = Spieler 3 + 4</div><div class="section"><div class="label">Vorgabe</div><div class="seg two"><button class="${!S.teamFormatHcp?'active':''}" onclick="S.teamFormatHcp=false;save();render()">Ohne Vorgabe</button><button class="${S.teamFormatHcp?'active':''}" onclick="S.teamFormatHcp=true;save();render()">Mit Vorgabe</button></div></div>${S.teamFormatHcp?hcpInputsBlock():''}`;
+  if(['chapman','foursome','greensome','fourball'].includes(S.mode)){
+    let base=`<div class="note">Team A = Spieler 1 + 2 · Team B = Spieler 3 + 4 (bei aktivem Sixes wechseln die Paare automatisch)</div>`;
+    let vorgabeBlock=S.sixes.enabled?'':`<div class="section"><div class="label">Vorgabe</div><div class="seg two"><button class="${!S.teamFormatHcp?'active':''}" onclick="S.teamFormatHcp=false;save();render()">Ohne Vorgabe</button><button class="${S.teamFormatHcp?'active':''}" onclick="S.teamFormatHcp=true;save();render()">Mit Vorgabe</button></div></div>${S.teamFormatHcp?hcpInputsBlock():''}`;
+    extra=base+sixesBlock()+vorgabeBlock;
+  }
+  return `<div class="section"><div class="label">Spieler</div><div class="seg"><button class="${S.count===1?'active':''}" ${dis(1)?'disabled':''} onclick="setCount(1)">1</button><button class="${S.count===2?'active':''}" ${dis(2)?'disabled':''} onclick="setCount(2)">2</button><button class="${S.count===3?'active':''}" ${dis(3)?'disabled':''} onclick="setCount(3)">3</button><button class="${S.count===4?'active':''}" ${dis(4)?'disabled':''} onclick="setCount(4)">4</button></div></div><div class="section"><div class="label">Spieler auswählen</div><div class="players">${Array.from({length:S.count},(_,i)=>{let profiles=loadProfiles();return `<div class="playerRow"><div class="playerNo">${i+1}</div><select class="select" onchange="selectPlayerProfile(${i},this.value)"><option value="">– Spieler wählen –</option>${profiles.map(p=>`<option value="${esc(p.name)}" ${S.players[i]===p.name?'selected':''}>${esc(p.name)}</option>`).join('')}</select><button class="iconBtn" style="width:44px" onclick="newPlayerModal(${i})">+</button></div>`}).join('')}</div></div>${S.count===4&&teamAllowed?`<div class="section"><div class="label">Spielart</div><div class="seg two"><button class="${!S.team?'active':''}" onclick="S.team=false;save();render()">Einzel</button><button class="${S.team?'active':''}" onclick="S.team=true;save();render()">Team A / B</button></div></div>`:''}${S.mode==='match'&&S.count===4?`<div class="note">Bei 4 Spielern ist Matchplay ausschließlich Team A (1+2) gegen Team B (3+4).</div>`:''}${S.mode==='vegas'?`<div class="note">Team A = Spieler 1 + 2 · Team B = Spieler 3 + 4</div>`:''}${extra}${statsToggleBlock()}`;
 }
-function header(){return `<div class="top"><button class="iconBtn" onclick="homeConfirm()">‹</button><div style="flex:1;min-width:0"><div class="title">${modeLabel()}</div><div class="hint">${S.count} Spieler${isTeam()?' · Team A vs Team B':''} · ${esc(S.courseName||'Varus')}</div></div><button class="iconBtn" onclick="cycleTheme()" title="Anzeige">${themeIcon()}</button><button class="iconBtn" onclick="openStepper()" title="Schnelleingabe">⚡</button><button class="iconBtn" onclick="undoLast()" title="Rückgängig">↺</button><button class="iconBtn" onclick="scoreboard()">🏆</button><button class="iconBtn" onclick="resetConfirm()">↻</button></div>`}
-function game(){let body=({count:countGame,match:matchGame,short:shortGame,fun:funGame,wolf:wolfGame,'531':game531,stable:stableGame,vegas:vegasGame,bbb:bbbGame,skins:skinsGame,nassau:nassauGame,scramble:scrambleGame,fourball:fourballGame,chapman:chapmanGame})[S.mode]();return `<div class="app">${header()}<div class="modeInfo"><span class="badge">${modeLabel()}</span>${isTeam()?'<span class="teamLabel">TEAM A · 1+2</span><span class="teamLabel">TEAM B · 3+4</span>':''}</div>${body}<div class="footerSpace"></div></div>`}
+function header(){return `<div class="top"><button class="iconBtn" onclick="homeConfirm()">‹</button><div style="flex:1;min-width:0"><div class="title">${modeLabel()}</div><div class="hint">${S.count} Spieler${isTeam()?' · Team A vs Team B':''}${sixesActiveForMode()?' · Sixes':''} · ${esc(S.courseName||'Varus')}</div></div><button class="iconBtn" onclick="cycleTheme()" title="Anzeige">${themeIcon()}</button>${S.statsEnabled?`<button class="iconBtn" onclick="statsOverview()" title="Statistik">📊</button>`:''}<button class="iconBtn" onclick="openStepper()" title="Schnelleingabe">⚡</button><button class="iconBtn" onclick="undoLast()" title="Rückgängig">↺</button><button class="iconBtn" onclick="scoreboard()">🏆</button><button class="iconBtn" onclick="resetConfirm()">↻</button></div>`}
+function game(){let fns={count:countGame,match:matchGame,short:shortGame,fun:funGame,wolf:wolfGame,'531':game531,stable:stableGame,vegas:vegasGame,bbb:bbbGame,skins:skinsGame,nassau:nassauGame,scramble:scrambleGame,fourball:fourballGame,chapman:()=>teamSingleGame('chapman'),foursome:()=>teamSingleGame('foursome'),greensome:()=>teamSingleGame('greensome'),string:stringGame};let body=fns[S.mode]();return `<div class="app">${header()}<div class="modeInfo"><span class="badge">${modeLabel()}</span>${isTeam()?'<span class="teamLabel">TEAM A · 1+2</span><span class="teamLabel">TEAM B · 3+4</span>':''}${sixesActiveForMode()?'<span class="teamLabel">SIXES</span>':''}</div>${body}<div class="footerSpace"></div></div>`}
 function toggleHole(h){S.holeDone[h]=!S.holeDone[h];save();render();scrollToCurrentHole()}
 function doneButtons(){return `<div class="section"><div class="label">Löcher</div><div class="miniGrid">${Array.from({length:18},(_,h)=>`<button class="smallBtn ${S.holeDone[h]?'active':''}" onclick="S.holeDone[${h}]=!S.holeDone[${h}];save();render()">${S.holeDone[h]?'✓ ':''}Loch ${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button></button>`).join('')}</div></div>`}
 
 /* ---------- Zählspiel ---------- */
-function countGame(){let totals=Array(S.count).fill(0);for(let h=0;h<18;h++)for(let p=0;p<S.count;p++)totals[p]+=Number(getData(['count',h,p],0))||0;return `<div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map((n,i)=>`<th>${esc(n)}${isTeam()?`<span class="sub">${i<2?'A':'B'}</span>`:''}</th>`).join('')}</tr></thead><tbody>${Array.from({length:18},(_,h)=>`<tr class="${S.holeDone[h]?'animate':''} ${h===currentHoleIndex()?'curHole':''}"><td class="hole">${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button></td>${Array.from({length:S.count},(_,p)=>`<td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData(['count',h,p],'')}" oninput="setData(['count',${h},${p}],this.value);liveRefresh(this)" /></td>`).join('')}</tr>`).join('')}<tr><td class="sum">Σ</td>${totals.map((t,p)=>`<td class="sum">${t||0}</td>`).join('')}</tr></tbody></table></div>${doneButtons()}`}
+function countGame(){let totals=Array(S.count).fill(0);for(let h=0;h<18;h++)for(let p=0;p<S.count;p++)totals[p]+=Number(getData(['count',h,p],0))||0;return `<div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map((n,i)=>`<th>${esc(n)}${isTeam()?`<span class="sub">${i<2?'A':'B'}</span>`:''}</th>`).join('')}</tr></thead><tbody>${Array.from({length:18},(_,h)=>`<tr class="${S.holeDone[h]?'animate':''} ${h===currentHoleIndex()?'curHole':''}"><td class="hole">${holeCell(h)}</td>${Array.from({length:S.count},(_,p)=>`<td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData(['count',h,p],'')}" oninput="setData(['count',${h},${p}],this.value);liveRefresh(this)" /></td>`).join('')}</tr>`).join('')}<tr><td class="sum">Σ</td>${totals.map((t,p)=>`<td class="sum">${t||0}</td>`).join('')}</tr></tbody></table></div>${doneButtons()}${sixesOverlayBlock()}`}
 
 /* ---------- Matchplay ---------- */
 function matchStatus(d,r){
@@ -260,8 +608,8 @@ function matchHcpAlloc(){
   let weaker = hA>hB?'A':'B';
   let allocA=Array(18).fill(0), allocB=Array(18).fill(0);
   for(let i=0;i<18;i++){
-    let extra=Math.floor(diff/18)+(S.settings[i][2]<=diff%18?1:0);
-    if(weaker==='A')allocA[i]=extra; else allocB[i]=extra;
+    let extraSt=Math.floor(diff/18)+(S.settings[i][2]<=diff%18?1:0);
+    if(weaker==='A')allocA[i]=extraSt; else allocB[i]=extraSt;
   }
   return {allocA,allocB,weaker};
 }
@@ -286,7 +634,7 @@ function matchGameHcp(){
     let gA=getData(['matchhcp',h,0],''), gB=getData(['matchhcp',h,1],'');
     let nA=gA?Number(gA)-allocA[h]:null, nB=gB?Number(gB)-allocB[h]:null;
     let res=(nA!=null&&nB!=null)?(nA<nB?esc(aName):nB<nA?esc(bName):'Geteilt'):'';
-    return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button></td>
+    return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${holeCell(h)}</td>
     <td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${gA}" oninput="setData(['matchhcp',${h},0],this.value);liveRefresh(this)">${allocA[h]?`<span class="hcptxt">+${allocA[h]}</span>`:''}</td>
     <td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${gB}" oninput="setData(['matchhcp',${h},1],this.value);liveRefresh(this)">${allocB[h]?`<span class="hcptxt">+${allocB[h]}</span>`:''}</td>
     <td class="tiny">${res}</td></tr>`;
@@ -294,13 +642,13 @@ function matchGameHcp(){
 }
 function matchGame(){
   if(S.matchHcp&&S.count===2)return matchGameHcp();
-  let aName=isTeam()?'Team A':playerName(0),bName=isTeam()?'Team B':playerName(1);let states=[0,0];for(let h=0;h<18;h++){let v=getData(['match',h],null);if(v===1)states[0]++;if(v===-1)states[1]++;}let diff=states[0]-states[1],remaining=18-Array.from({length:18},(_,h)=>getData(['match',h],0)).filter(Boolean).length;let status=matchStatus(diff,remaining);return `<div class="card"><div style="padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px"><div class="resultBox ${diff>0?'up':diff<0?'down':'tied'}">${esc(aName)} · ${status.a}</div><div class="resultBox ${diff<0?'up':diff>0?'down':'tied'}">${esc(bName)} · ${status.b}</div></div><table class="table"><thead><tr><th class="hole">Loch</th><th>${esc(aName)}</th><th>${esc(bName)}</th></tr></thead><tbody>${Array.from({length:18},(_,h)=>{let v=getData(['match',h],0);return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button></td><td><select class="compact" onchange="matchSet(${h},Number(this.value))"><option value="0" ${v===0?'selected':''}>Geteilt</option><option value="1" ${v===1?'selected':''}>Gewonnen</option><option value="-1" ${v===-1?'selected':''}>Verloren</option></select></td><td><select class="compact" disabled><option>${v===1?'Verloren':v===-1?'Gewonnen':'Geteilt'}</option></select></td></tr>`}).join('')}</tbody></table></div>`
+  let aName=isTeam()?'Team A':playerName(0),bName=isTeam()?'Team B':playerName(1);let states=[0,0];for(let h=0;h<18;h++){let v=getData(['match',h],null);if(v===1)states[0]++;if(v===-1)states[1]++;}let diff=states[0]-states[1],remaining=18-Array.from({length:18},(_,h)=>getData(['match',h],0)).filter(Boolean).length;let status=matchStatus(diff,remaining);return `<div class="card"><div style="padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px"><div class="resultBox ${diff>0?'up':diff<0?'down':'tied'}">${esc(aName)} · ${status.a}</div><div class="resultBox ${diff<0?'up':diff>0?'down':'tied'}">${esc(bName)} · ${status.b}</div></div><table class="table"><thead><tr><th class="hole">Loch</th><th>${esc(aName)}</th><th>${esc(bName)}</th></tr></thead><tbody>${Array.from({length:18},(_,h)=>{let v=getData(['match',h],0);return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${holeCell(h)}</td><td><select class="compact" onchange="matchSet(${h},Number(this.value))"><option value="0" ${v===0?'selected':''}>Geteilt</option><option value="1" ${v===1?'selected':''}>Gewonnen</option><option value="-1" ${v===-1?'selected':''}>Verloren</option></select></td><td><select class="compact" disabled><option>${v===1?'Verloren':v===-1?'Gewonnen':'Geteilt'}</option></select></td></tr>`}).join('')}</tbody></table></div>`
 }
-function matchSet(h,v){let prev=S.data.match?S.data.match[h]:undefined;pushUndo({path:['match',h],prev});S.data.match??={};S.data.match[h]=v;save();render()}
+function matchSet(h,v){let prev=S.data.match?S.data.match[h]:undefined;pushUndo({path:['match',h],prev});S.data.match=S.data.match||{};S.data.match[h]=v;save();render()}
 
 /* ---------- Kurzspiel ---------- */
 function shortClass(diff){if(diff===0)return 'circle par';if(diff===-1)return 'circle oneunder';if(diff<=-2)return 'circle twounder';if(diff===1)return 'sq oneover';return 'sq twoplus'}
-function shortGame(){let totals=Array(S.count).fill(0);return `<div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${Array.from({length:18},(_,h)=>`<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button><span class="sub">P${S.par}</span></td>${Array.from({length:S.count},(_,p)=>{let v=Number(getData(['short',h,p],''));if(v)totals[p]+=v;return `<td>${v?`<span class="${shortClass(v-S.par)}">${v}</span>`:''}<input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData(['short',h,p],'')}" oninput="setData(['short',${h},${p}],this.value);liveRefresh(this)"></td>`}).join('')}</tr>`).join('')}<tr><td class="sum">Σ</td>${totals.map(t=>`<td class="sum">${t||0}</td>`).join('')}</tr></tbody></table></div>`}
+function shortGame(){let totals=Array(S.count).fill(0);return `<div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${Array.from({length:18},(_,h)=>`<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${holeCell(h)}<span class="sub">P${S.par}</span></td>${Array.from({length:S.count},(_,p)=>{let v=Number(getData(['short',h,p],''));if(v)totals[p]+=v;return `<td>${v?`<span class="${shortClass(v-S.par)}">${v}</span>`:''}<input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData(['short',h,p],'')}" oninput="setData(['short',${h},${p}],this.value);liveRefresh(this)"></td>`}).join('')}</tr>`).join('')}<tr><td class="sum">Σ</td>${totals.map(t=>`<td class="sum">${t||0}</td>`).join('')}</tr></tbody></table></div>`}
 
 /* ---------- Fun ---------- */
 function funGame(){
@@ -309,7 +657,7 @@ function funGame(){
   return `<div class="note" style="margin-bottom:9px">${isTeam()?'Teamwertung: Die Summe der Schläge von Team A wird gegen Team B gewertet; weniger Schläge gewinnt das Loch. Bonus/Malus bleiben individuell.':'Pro Bahn: erst Modus auslosen, dann Ergebnis eintragen. Mit <b>+</b> vergibst du einen Bonus/Malus.'}</div>
   <div class="card"><table class="table"><thead><tr><th class="hole">Loch</th><th>Modus</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${Array.from({length:18},(_,h)=>{
     let mode=S.fun.holeModes[h];
-    return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button></td>
+    return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${holeCell(h)}</td>
     <td class="tiny">${mode?`${esc(mode)}${S.fun.clubs[h]?`<br><span class="badge">${esc(S.fun.clubs[h])}</span>`:''}<button class="smallBtn" style="margin-top:4px" onclick="rerollFun(${h})">↻ neu</button>`:`<button class="smallBtn" onclick="rerollFun(${h})">🎲 auslosen</button>`}</td>
     ${Array.from({length:S.count},(_,p)=>{
       let v=getData(['fun','results',h,p],'');let bp=bonusFor(h,p);
@@ -339,14 +687,16 @@ function bonusFor(h,p){return (S.fun.bonus[h]?.[p]||[]).reduce((a,b)=>a+b.v,0)}
 function bonusMenu(h,p){
   let current=S.fun.bonus[h]?.[p]||[];
   let usedElsewhere=Array.from({length:18},(_,hh)=>S.fun.bonus[hh]||[]).flat().flat();
-  let all=allBonus();let active=loadActiveBonus();
-  let list=all.map((b,i)=>({b,i})).filter(x=>active.includes(x.b[0]));
-  showModal(`<h2>Bonus / Malus · Loch ${h+1}</h2><p>${esc(playerName(p))} · Aktive Ereignisse zählen nur beim aktuellen Besitzer. Wird ein Ereignis später einem anderen Spieler gegeben, wird der alte Eintrag durchgestrichen.</p><div class="bonusList">${list.map(({b:[n,v],i})=>{let mine=current.find(x=>x.i===i);let other=usedElsewhere.find(x=>x.i===i&&!(h===x.h&&p===x.p));return `<div class="bonusItem ${other&&!mine?'used':''}"><div><b class="bonusName">${esc(n)}</b><br><em>${v>0?'+':''}${v}</em></div><button onclick="assignBonus(${h},${p},${i})">${mine?'✓':'+'}</button></div>`}).join('')}</div><div class="modalActions"><button class="close" onclick="closeModal()">Schließen</button></div>`);
+  let allRaw=allBonus();
+  let ordered=orderedBonusList();
+  let active=loadActiveBonus();
+  let list=ordered.filter(b=>active.includes(b[0])).map(b=>({b,i:allRaw.findIndex(x=>x[0]===b[0])}));
+  showModal(`<h2>Bonus / Malus · Loch ${h+1}</h2><p>${esc(playerName(p))} · Aktive Ereignisse zählen nur beim aktuellen Besitzer. Wird ein Ereignis später einem anderen Spieler gegeben, wird der alte Eintrag durchgestrichen.</p><div class="bonusList">${list.map(({b:[n,v],i})=>{let mine=current.find(x=>x.i===i);let other=usedElsewhere.find(x=>x.i===i&&!(h===x.h&&p===x.p));return `<div class="bonusItem ${other&&!mine?'used':''}"><div><b class="bonusName">${esc(bonusLabel(n))}</b><br><em>${v>0?'+':''}${v}</em></div><button onclick="assignBonus(${h},${p},${i})">${mine?'✓':'+'}</button></div>`}).join('')}</div><div class="modalActions"><button class="close" onclick="closeModal()">Schließen</button></div>`);
 }
 function assignBonus(h,p,i){S.fun.bonus=S.fun.bonus||Array.from({length:18},()=>Array.from({length:4},()=>[]));for(let hh=0;hh<18;hh++)for(let pp=0;pp<4;pp++)S.fun.bonus[hh][pp]=(S.fun.bonus[hh][pp]||[]).filter(x=>x.i!==i);let v=allBonus()[i][1];S.fun.bonus[h][p].push({i,h,p,v});save();closeModal();render()}
 
 /* ---------- Wolf ---------- */
-function wolfGame(){let totals=Array(S.count).fill(0);let rows='';for(let h=0;h<18;h++){let wolf=h%S.count;let pick=getData(['wolf',h,'pick'],String((wolf+1)%S.count));let res=getData(['wolf',h,'result'],'geteilt');let pts=wolfPoints(S.count,wolf,pick,res);pts.forEach((x,p)=>totals[p]+=x);let cur=h===currentHoleIndex()?'curHole':'';rows+=`<tr class="${cur}"><td class="hole">${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button></td>${Array.from({length:S.count},(_,p)=>`<td class="${p===wolf?'teamHead':''}">${p===wolf?'<span class="badge">WOLF</span>':''}</td>`).join('')}</tr><tr class="${cur}"><td class="hole">↳</td><td colspan="${S.count}"><div class="miniGrid"><select class="select" onchange="setData(['wolf',${h},'pick'],this.value);save();updateScorebar()">${Array.from({length:S.count},(_,p)=>p===wolf?'':`<option value="${p}" ${String(pick)===String(p)?'selected':''}>${esc(playerName(p))}</option>`).join('')}<option value="lone" ${pick==='lone'?'selected':''}>Lone Wolf</option></select><select class="select" onchange="setData(['wolf',${h},'result'],this.value);save();updateScorebar()">${pick==='lone'?'<option>lone gewonnen</option><option>lone verloren</option><option>geteilt</option>':'<option>Wolf gewonnen</option><option>Wolf verloren</option><option>geteilt</option>'}</select></div><div class="sub" style="margin-top:4px">Punkte: ${pts.map((x,p)=>`${esc(playerName(p))} ${x}`).join(' · ')}</div></td></tr>`}return `<div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${rows}<tr><td class="sum">Σ</td>${totals.map(t=>`<td class="sum">${t}</td>`).join('')}</tr></tbody></table></div>`}
+function wolfGame(){let totals=Array(S.count).fill(0);let rows='';for(let h=0;h<18;h++){let wolf=h%S.count;let pick=getData(['wolf',h,'pick'],String((wolf+1)%S.count));let res=getData(['wolf',h,'result'],'geteilt');let pts=wolfPoints(S.count,wolf,pick,res);pts.forEach((x,p)=>totals[p]+=x);let cur=h===currentHoleIndex()?'curHole':'';rows+=`<tr class="${cur}"><td class="hole">${holeCell(h)}</td>${Array.from({length:S.count},(_,p)=>`<td class="${p===wolf?'teamHead':''}">${p===wolf?'<span class="badge">WOLF</span>':''}</td>`).join('')}</tr><tr class="${cur}"><td class="hole">↳</td><td colspan="${S.count}"><div class="miniGrid"><select class="select" onchange="setData(['wolf',${h},'pick'],this.value);save();updateScorebar()">${Array.from({length:S.count},(_,p)=>p===wolf?'':`<option value="${p}" ${String(pick)===String(p)?'selected':''}>${esc(playerName(p))}</option>`).join('')}<option value="lone" ${pick==='lone'?'selected':''}>Lone Wolf</option></select><select class="select" onchange="setData(['wolf',${h},'result'],this.value);save();updateScorebar()">${pick==='lone'?'<option>lone gewonnen</option><option>lone verloren</option><option>geteilt</option>':'<option>Wolf gewonnen</option><option>Wolf verloren</option><option>geteilt</option>'}</select></div><div class="sub" style="margin-top:4px">Punkte: ${pts.map((x,p)=>`${esc(playerName(p))} ${x}`).join(' · ')}</div></td></tr>`}return `<div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${rows}<tr><td class="sum">Σ</td>${totals.map(t=>`<td class="sum">${t}</td>`).join('')}</tr></tbody></table></div>`}
 function wolfPoints(n,w,pick,res){let mult=S.wolfBlind?2:1;let a=Array(n).fill(0);if(res==='geteilt')return a;if(pick==='lone'){if(res==='lone gewonnen'){a[w]=3*mult}else if(res==='lone verloren')for(let p=0;p<n;p++)if(p!==w)a[p]=1*mult;return a}let q=Number(pick);if(res==='Wolf gewonnen'){a[w]=1*mult;a[q]=1*mult}else if(res==='Wolf verloren')for(let p=0;p<n;p++)if(p!==w&&p!==q)a[p]=1*mult;return a}
 
 /* ---------- 5-3-1 ---------- */
@@ -360,30 +710,30 @@ function pts531(vals){
   out[s[0].i]=5;out[s[1].i]=3;out[s[2].i]=1;
   return out;
 }
-function game531(){let totals=[0,0,0];return `<div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${Array.from({length:18},(_,h)=>{let vals=Array.from({length:3},(_,p)=>Number(getData(['531',h,p],'')));let pts=pts531(vals);pts.forEach((x,p)=>totals[p]+=x);return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button></td>${Array.from({length:3},(_,p)=>`<td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData(['531',h,p],'')}" oninput="setData(['531',${h},${p}],this.value);liveRefresh(this)"><div class="sub rankPts">${pts[p]}</div></td>`).join('')}</tr>`}).join('')}<tr><td class="sum">Σ</td>${totals.map(t=>`<td class="sum">${t}</td>`).join('')}</tr></tbody></table></div>`}
+function game531(){let totals=[0,0,0];return `<div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${Array.from({length:18},(_,h)=>{let vals=Array.from({length:3},(_,p)=>Number(getData(['531',h,p],'')));let pts=pts531(vals);pts.forEach((x,p)=>totals[p]+=x);return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${holeCell(h)}</td>${Array.from({length:3},(_,p)=>`<td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData(['531',h,p],'')}" oninput="setData(['531',${h},${p}],this.value);liveRefresh(this)"><div class="sub rankPts">${pts[p]}</div></td>`).join('')}</tr>`}).join('')}<tr><td class="sum">Σ</td>${totals.map(t=>`<td class="sum">${t}</td>`).join('')}</tr></tbody></table></div>`}
 
 /* ---------- Stableford ---------- */
-function stableGame(){let totals=Array(S.count).fill(0);let hcp=holeHandicap();return `<div class="card"><table class="table"><thead><tr><th class="hole">Loch</th><th>PAR</th><th>HCP</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${Array.from({length:18},(_,h)=>{let par=S.settings[h][1],hcpv=S.settings[h][2];return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button></td><td>${par}</td><td>${hcpv}</td>${Array.from({length:S.count},(_,p)=>{let gross=Number(getData(['stable',h,p],''));let alloc=hcp[p][h];let pts=gross?Math.max(0,2+(par+alloc-gross)):0;if(gross)totals[p]+=pts;return `<td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData(['stable',h,p],'')}" oninput="setData(['stable',${h},${p}],this.value);liveRefresh(this)"><span class="hcptxt">${alloc>=0?alloc:0}</span>${gross?`<span class="stablePts">${pts}</span>`:''}</td>`}).join('')}</tr>`}).join('')}<tr><td class="sum">Σ</td><td></td><td></td>${totals.map(t=>`<td class="sum">${t}</td>`).join('')}</tr></tbody></table></div><div class="note" style="margin-top:9px">Vorgaben werden ab HCP 1 lochweise verteilt. Bei mehr als 18 beginnt die Verteilung erneut bei HCP 1.</div>`}
+function stableGame(){let totals=Array(S.count).fill(0);let hcp=holeHandicap();return `<div class="card"><table class="table"><thead><tr><th class="hole">Loch</th><th>PAR</th><th>HCP</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${Array.from({length:18},(_,h)=>{let par=S.settings[h][1],hcpv=S.settings[h][2];return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${holeCell(h)}</td><td>${par}</td><td>${hcpv}</td>${Array.from({length:S.count},(_,p)=>{let gross=Number(getData(['stable',h,p],''));let alloc=hcp[p][h];let pts=gross?Math.max(0,2+(par+alloc-gross)):0;if(gross)totals[p]+=pts;return `<td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData(['stable',h,p],'')}" oninput="setData(['stable',${h},${p}],this.value);liveRefresh(this)"><span class="hcptxt">${alloc>=0?alloc:0}</span>${gross?`<span class="stablePts">${pts}</span>`:''}</td>`}).join('')}</tr>`}).join('')}<tr><td class="sum">Σ</td><td></td><td></td>${totals.map(t=>`<td class="sum">${t}</td>`).join('')}</tr></tbody></table></div><div class="note" style="margin-top:9px">Vorgaben werden ab HCP 1 lochweise verteilt. Bei mehr als 18 beginnt die Verteilung erneut bei HCP 1.</div>${sixesOverlayBlock()}`}
 function holeHandicap(){let out=Array.from({length:S.count},()=>Array(18).fill(0));for(let p=0;p<S.count;p++){let strokes=Number(S.stableHcp[p])||0;for(let i=0;i<18;i++)out[p][i]=Math.floor(strokes/18)+(S.settings[i][2]<=strokes%18?1:0)}return out.map(a=>a)}
 function stableTotal(p){let h=holeHandicap()[p],t=0;for(let i=0;i<18;i++){let g=Number(getData(['stable',i,p],''));if(g)t+=Math.max(0,2+(S.settings[i][1]+h[i]-g))}return t}
 
 /* ---------- Las Vegas ---------- */
 function vegasCompute(){let totals=[0,0];let holeData=[];for(let h=0;h<18;h++){let vals=Array.from({length:4},(_,p)=>Number(getData(['vegas',h,p],'')));let a=vals.slice(0,2).every(Boolean)?`${Math.min(vals[0],vals[1])}${Math.max(vals[0],vals[1])}`:'';let b=vals.slice(2,4).every(Boolean)?`${Math.min(vals[2],vals[3])}${Math.max(vals[2],vals[3])}`:'';let birdA=getData(['vegas',h,'birdA'],false),birdB=getData(['vegas',h,'birdB'],false);let shownA=a,shownB=b;if(birdB&&a)shownA=`${a[1]}${a[0]}`;if(birdA&&b)shownB=`${b[1]}${b[0]}`;if(a)totals[0]+=Number(shownA);if(b)totals[1]+=Number(shownB);holeData.push({vals,shownA,shownB,birdA,birdB});}return {totals,holeData}}
-function vegasGame(){let {totals,holeData}=vegasCompute();return `<div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map((n,i)=>`<th class="teamHead">${esc(n)}<span class="sub">Team ${i<2?'A':'B'}</span></th>`).join('')}<th>Teams</th></tr></thead><tbody>${holeData.map((info,h)=>{let {vals,shownA,shownB,birdA,birdB}=info;return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button></td>${vals.map((v,p)=>`<td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData(['vegas',h,p],'')}" oninput="setData(['vegas',${h},${p}],this.value);liveRefresh(this)"></td>`).join('')}<td><div class="pill">A ${shownA||'—'}</div><div class="pill">B ${shownB||'—'}</div><label class="sub" style="display:block;margin-top:5px;text-align:left"><input type="checkbox" ${birdA?'checked':''} onchange="setData(['vegas',${h},'birdA'],this.checked);render()"> Birdie Team A</label><label class="sub" style="display:block;margin-top:3px;text-align:left"><input type="checkbox" ${birdB?'checked':''} onchange="setData(['vegas',${h},'birdB'],this.checked);render()"> Birdie Team B</label></td></tr>`}).join('')}<tr><td class="sum">Σ</td><td colspan="2" class="sum">Team A ${totals[0]}</td><td colspan="2" class="sum">Team B ${totals[1]}</td><td></td></tr></tbody></table></div>`}
+function vegasGame(){let {totals,holeData}=vegasCompute();return `<div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map((n,i)=>`<th class="teamHead">${esc(n)}<span class="sub">Team ${i<2?'A':'B'}</span></th>`).join('')}<th>Teams</th></tr></thead><tbody>${holeData.map((info,h)=>{let {vals,shownA,shownB,birdA,birdB}=info;return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${holeCell(h)}</td>${vals.map((v,p)=>`<td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData(['vegas',h,p],'')}" oninput="setData(['vegas',${h},${p}],this.value);liveRefresh(this)"></td>`).join('')}<td><div class="pill">A ${shownA||'—'}</div><div class="pill">B ${shownB||'—'}</div><label class="sub" style="display:block;margin-top:5px;text-align:left"><input type="checkbox" ${birdA?'checked':''} onchange="setData(['vegas',${h},'birdA'],this.checked);render()"> Birdie Team A</label><label class="sub" style="display:block;margin-top:3px;text-align:left"><input type="checkbox" ${birdB?'checked':''} onchange="setData(['vegas',${h},'birdB'],this.checked);render()"> Birdie Team B</label></td></tr>`}).join('')}<tr><td class="sum">Σ</td><td colspan="2" class="sum">Team A ${totals[0]}</td><td colspan="2" class="sum">Team B ${totals[1]}</td><td></td></tr></tbody></table></div>`}
 
 /* ---------- Bingo Bango Bongo ---------- */
-function bbbGame(){let totals=Array(S.count).fill(0);return `<div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${Array.from({length:18},(_,h)=>{let awards=['bingo','bango','bongo'];let cur=h===currentHoleIndex()?'curHole':'';return `<tr class="${cur}"><td class="hole">${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button></td>${Array.from({length:S.count},(_,p)=>{let pts=awards.reduce((a,k)=>a+(getData(['bbb',h,k],-1)==p?1:0),0);totals[p]+=pts;return `<td class="points">${pts}</td>`}).join('')}</tr><tr class="${cur}"><td class="hole">↳</td><td colspan="${S.count}">${awards.map((k,i)=>`<label class="sub" style="display:block;text-align:left;margin:4px 0">${['Bingo – erster auf dem Grün','Bango – nearest to the pin (alle auf Grün)','Bongo – erster im Loch'][i]} <select class="select" onchange="setData(['bbb',${h},'${k}'],Number(this.value));save();updateScorebar()"><option value="-1">—</option>${names().map((n,p)=>`<option value="${p}" ${getData(['bbb',h,k],-1)==p?'selected':''}>${esc(n)}</option>`).join('')}</select></label>`).join('')}</td></tr>`}).join('')}<tr><td class="sum">Σ</td>${totals.map(t=>`<td class="sum">${t}</td>`).join('')}</tr></tbody></table></div>`}
+function bbbGame(){let totals=Array(S.count).fill(0);return `<div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${Array.from({length:18},(_,h)=>{let awards=['bingo','bango','bongo'];let cur=h===currentHoleIndex()?'curHole':'';return `<tr class="${cur}"><td class="hole">${holeCell(h)}</td>${Array.from({length:S.count},(_,p)=>{let pts=awards.reduce((a,k)=>a+(getData(['bbb',h,k],-1)==p?1:0),0);totals[p]+=pts;return `<td class="points">${pts}</td>`}).join('')}</tr><tr class="${cur}"><td class="hole">↳</td><td colspan="${S.count}">${awards.map((k,i)=>`<label class="sub" style="display:block;text-align:left;margin:4px 0">${['Bingo – erster auf dem Grün','Bango – nearest to the pin (alle auf Grün)','Bongo – erster im Loch'][i]} <select class="select" onchange="setData(['bbb',${h},'${k}'],Number(this.value));save();updateScorebar()"><option value="-1">—</option>${names().map((n,p)=>`<option value="${p}" ${getData(['bbb',h,k],-1)==p?'selected':''}>${esc(n)}</option>`).join('')}</select></label>`).join('')}</td></tr>`}).join('')}<tr><td class="sum">Σ</td>${totals.map(t=>`<td class="sum">${t}</td>`).join('')}</tr></tbody></table></div>`}
 
 /* ---------- Skins ---------- */
 function skinsCompute(){let totals=Array(S.count).fill(0);let carry=1;let holeInfo=[];let wins=Array.from({length:S.count},()=>[]);for(let h=0;h<18;h++){let vals=Array.from({length:S.count},(_,p)=>Number(getData(['skins',h,p],'')));let complete=vals.every(v=>v>0);if(complete){let best=Math.min(...vals);let winners=vals.map((v,p)=>v===best?p:null).filter(p=>p!==null);if(winners.length===1){totals[winners[0]]+=carry;wins[winners[0]].push({hole:h+1,skins:carry});carry=1}else carry++;}holeInfo.push(vals);}return {totals,carry,holeInfo,wins}}
-function skinsGame(){let {totals,carry,holeInfo,wins}=skinsCompute();let rows=holeInfo.map((vals,h)=>`<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button></td>${vals.map((v,p)=>`<td><input class="compact" type="number" inputmode="numeric" min="0" max="99" value="${getData(['skins',h,p],'')}" oninput="setData(['skins',${h},${p}],this.value);liveRefresh(this)"></td>`).join('')}</tr>`).join('');return `<div class="note">Ein Skin geht an den alleinigen Lochgewinner. Bei Gleichstand wandert er weiter; der nächste alleinige Gewinner erhält die aufgelaufenen Skins. Aktueller Carry: <b>${carry}</b>.</div><div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${rows}<tr><td class="sum">Σ</td>${totals.map(t=>`<td class="sum">${t}</td>`).join('')}</tr></tbody></table></div><div class="miniGrid" style="margin-top:9px">${names().map((n,p)=>`<div class="settingCard"><b>${esc(n)}</b><div class="sub">${wins[p].length?wins[p].map(w=>`Loch ${w.hole}${w.skins>1?` (+${w.skins})`:''}`).join(', '):'noch keine Skins'}</div></div>`).join('')}</div>`}
+function skinsGame(){let {totals,carry,holeInfo,wins}=skinsCompute();let rows=holeInfo.map((vals,h)=>`<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${holeCell(h)}</td>${vals.map((v,p)=>`<td><input class="compact" type="number" inputmode="numeric" min="0" max="99" value="${getData(['skins',h,p],'')}" oninput="setData(['skins',${h},${p}],this.value);liveRefresh(this)"></td>`).join('')}</tr>`).join('');return `<div class="note">Ein Skin geht an den alleinigen Lochgewinner. Bei Gleichstand wandert er weiter; der nächste alleinige Gewinner erhält die aufgelaufenen Skins. Aktueller Carry: <b>${carry}</b>.</div><div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${rows}<tr><td class="sum">Σ</td>${totals.map(t=>`<td class="sum">${t}</td>`).join('')}</tr></tbody></table></div><div class="miniGrid" style="margin-top:9px">${names().map((n,p)=>`<div class="settingCard"><b>${esc(n)}</b><div class="sub">${wins[p].length?wins[p].map(w=>`Loch ${w.hole}${w.skins>1?` (+${w.skins})`:''}`).join(', '):'noch keine Skins'}</div></div>`).join('')}</div>`}
 
 /* ---------- Nassau ---------- */
 function nassauCompute(){let front=Array(S.count).fill(0),back=Array(S.count).fill(0),all=Array(S.count).fill(0);for(let h=0;h<18;h++){let vals=Array.from({length:S.count},(_,p)=>Number(getData(['nassau',h,p],'')));for(let p=0;p<S.count;p++){if(vals[p]>0){all[p]+=vals[p];if(h<9)front[p]+=vals[p];else back[p]+=vals[p]}}}return {front,back,all}}
 function nassauLeaderLabel(arr){let entries=names().map((n,p)=>[n,arr[p]]).filter(x=>x[1]>0);if(!entries.length)return '—';let min=Math.min(...entries.map(x=>x[1]));let leaders=entries.filter(x=>x[1]===min);if(leaders.length>1)return 'Gleichstand';return `${leaders[0][0]} (${leaders[0][1]})`}
-function nassauGame(){let {front,back,all}=nassauCompute();return `<div class="note">Nassau wird als drei Schlagzahl-Wertungen geführt: Front 9, Back 9 und Gesamt 18. Bei Gleichstand gibt es keinen alleinigen Sieger.</div><div class="miniGrid" style="margin-bottom:9px"><div class="settingCard"><label>Front 9 Zwischenstand</label><b>${esc(nassauLeaderLabel(front))}</b></div><div class="settingCard"><label>Back 9 Zwischenstand</label><b>${esc(nassauLeaderLabel(back))}</b></div><div class="settingCard"><label>Gesamt Zwischenstand</label><b>${esc(nassauLeaderLabel(all))}</b></div></div><div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${Array.from({length:18},(_,h)=>`<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button></td>${Array.from({length:S.count},(_,p)=>`<td><input class="compact" type="number" inputmode="numeric" min="0" max="99" value="${getData(['nassau',h,p],'')}" oninput="setData(['nassau',${h},${p}],this.value);liveRefresh(this)"></td>`).join('')}</tr>`).join('')}<tr><td class="sum">Σ</td>${all.map(t=>`<td class="sum">${t}</td>`).join('')}</tr></tbody></table></div><div class="miniGrid" style="margin-top:9px">${names().map((n,p)=>`<div class="settingCard"><b>${esc(n)}</b><div class="sub">Front 9 · ${front[p]}</div><div class="sub">Back 9 · ${back[p]}</div><div class="points">Gesamt · ${all[p]}</div></div>`).join('')}</div>`}
+function nassauGame(){let {front,back,all}=nassauCompute();return `<div class="note">Nassau wird als drei Schlagzahl-Wertungen geführt: Front 9, Back 9 und Gesamt 18. Bei Gleichstand gibt es keinen alleinigen Sieger.</div><div class="miniGrid" style="margin-bottom:9px"><div class="settingCard"><label>Front 9 Zwischenstand</label><b>${esc(nassauLeaderLabel(front))}</b></div><div class="settingCard"><label>Back 9 Zwischenstand</label><b>${esc(nassauLeaderLabel(back))}</b></div><div class="settingCard"><label>Gesamt Zwischenstand</label><b>${esc(nassauLeaderLabel(all))}</b></div></div><div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${Array.from({length:18},(_,h)=>`<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${holeCell(h)}</td>${Array.from({length:S.count},(_,p)=>`<td><input class="compact" type="number" inputmode="numeric" min="0" max="99" value="${getData(['nassau',h,p],'')}" oninput="setData(['nassau',${h},${p}],this.value);liveRefresh(this)"></td>`).join('')}</tr>`).join('')}<tr><td class="sum">Σ</td>${all.map(t=>`<td class="sum">${t}</td>`).join('')}</tr></tbody></table></div><div class="miniGrid" style="margin-top:9px">${names().map((n,p)=>`<div class="settingCard"><b>${esc(n)}</b><div class="sub">Front 9 · ${front[p]}</div><div class="sub">Back 9 · ${back[p]}</div><div class="points">Gesamt · ${all[p]}</div></div>`).join('')}</div>`}
 
-/* ---------- Scramble / Fourball / Chapman ---------- */
+/* ---------- Scramble (kein Sixes) ---------- */
 function scrambleGame(){
   let f=loadTeamHcp();
   let hcpA=S.teamFormatHcp?scrambleTeamHcp(Number(S.stableHcp[0])||0,Number(S.stableHcp[1])||0):0;
@@ -392,7 +742,7 @@ function scrambleGame(){
   let rows=Array.from({length:18},(_,h)=>{
     let a=Number(getData(['scramble',h,0],'')),b=Number(getData(['scramble',h,1],''));
     if(a)totA+=a; if(b)totB+=b;
-    return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button></td>
+    return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${holeCell(h)}</td>
     <td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData(['scramble',h,0],'')}" oninput="setData(['scramble',${h},0],this.value);liveRefresh(this)"></td>
     <td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData(['scramble',h,1],'')}" oninput="setData(['scramble',${h},1],this.value);liveRefresh(this)"></td></tr>`;
   }).join('');
@@ -403,6 +753,8 @@ function scrambleGame(){
   ${S.teamFormatHcp?`<tr><td class="sum">Σ Netto</td><td class="sum">${netA}</td><td class="sum">${netB}</td></tr>`:''}
   </tbody></table></div>`;
 }
+
+/* ---------- Fourball Bestball (mit Sixes-Overlay) ---------- */
 function fourballGame(){
   let f=loadTeamHcp();
   let hcp=Array.from({length:4},(_,p)=>S.teamFormatHcp?Math.round((Number(S.stableHcp[p])||0)*f.fb):0);
@@ -414,37 +766,93 @@ function fourballGame(){
     let bestA=nets[0]!=null&&nets[1]!=null?Math.min(nets[0],nets[1]):(nets[0]??nets[1]);
     let bestB=nets[2]!=null&&nets[3]!=null?Math.min(nets[2],nets[3]):(nets[2]??nets[3]);
     if(bestA!=null)totA+=bestA; if(bestB!=null)totB+=bestB;
-    return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button></td>
+    return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${holeCell(h)}</td>
     ${Array.from({length:4},(_,p)=>`<td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData(['fourball',h,p],'')}" oninput="setData(['fourball',${h},${p}],this.value);liveRefresh(this)"><span class="hcptxt">${alloc[p][h]?('+'+alloc[p][h]):''}</span></td>`).join('')}
     <td class="tiny">${bestA!=null?bestA:'—'} / ${bestB!=null?bestB:'—'}</td></tr>`;
   }).join('');
   return `<div class="note">Team A best Netto vs Team B best Netto je Loch. ${S.teamFormatHcp?`Jeder Spieler erhält ${Math.round(f.fb*100)}% seiner Vorgabe, lochweise verteilt.`:'Ohne Vorgabe – Bruttowertung.'}</div>
   <div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map((n,i)=>`<th>${esc(n)}<span class="sub">${i<2?'A':'B'}</span></th>`).join('')}<th>Beste</th></tr></thead><tbody>${rows}
   <tr><td class="sum">Σ</td><td colspan="2" class="sum">A ${totA}</td><td colspan="2" class="sum">B ${totB}</td></tr>
-  </tbody></table></div>`;
+  </tbody></table></div>${sixesOverlayBlock()}`;
 }
-function chapmanGame(){
-  let f=loadTeamHcp();
-  let hcpA=S.teamFormatHcp?chapmanTeamHcp(Number(S.stableHcp[0])||0,Number(S.stableHcp[1])||0):0;
-  let hcpB=S.teamFormatHcp?chapmanTeamHcp(Number(S.stableHcp[2])||0,Number(S.stableHcp[3])||0):0;
+
+/* ---------- Chapman / Foursome / Greensome (gemeinsame Funktion, mit Sixes) ---------- */
+function teamHcpFn(mode){return mode==='chapman'?chapmanTeamHcp:mode==='foursome'?foursomeTeamHcp:greensomeTeamHcp;}
+function teamModeNote(mode){
+  if(mode==='chapman')return 'Chapman/Pinehurst: 1 Teamschlagzahl je Loch.';
+  if(mode==='foursome')return 'Foursomes (echter Vierer): Beide Spieler eines Teams schlagen abwechselnd denselben Ball.';
+  return 'Greensomes: Beide schlagen ab, der bessere Drive wird gewählt, danach abwechselnd.';
+}
+function teamSingleGame(mode){
+  if(sixesActiveForMode())return sixesTeamSingleGame(mode);
+  let hcpFn=teamHcpFn(mode);
+  let hcpA=S.teamFormatHcp?hcpFn(Number(S.stableHcp[0])||0,Number(S.stableHcp[1])||0):0;
+  let hcpB=S.teamFormatHcp?hcpFn(Number(S.stableHcp[2])||0,Number(S.stableHcp[3])||0):0;
   let totA=0,totB=0;
   let rows=Array.from({length:18},(_,h)=>{
-    let a=Number(getData(['chapman',h,0],'')),b=Number(getData(['chapman',h,1],''));
+    let a=Number(getData([mode,h,0],'')),b=Number(getData([mode,h,1],''));
     if(a)totA+=a; if(b)totB+=b;
-    return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button></td>
-    <td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData(['chapman',h,0],'')}" oninput="setData(['chapman',${h},0],this.value);liveRefresh(this)"></td>
-    <td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData(['chapman',h,1],'')}" oninput="setData(['chapman',${h},1],this.value);liveRefresh(this)"></td></tr>`;
+    return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${holeCell(h)}</td>
+    <td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData([mode,h,0],'')}" oninput="setData(['${mode}',${h},0],this.value);liveRefresh(this)"></td>
+    <td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData([mode,h,1],'')}" oninput="setData(['${mode}',${h},1],this.value);liveRefresh(this)"></td></tr>`;
   }).join('');
   let netA=totA-hcpA,netB=totB-hcpB;
-  return `<div class="note">Chapman/Pinehurst: 1 Teamschlagzahl je Loch. ${S.teamFormatHcp?`Team-Vorgabe: A ${hcpA}, B ${hcpB} (${Math.round(f.chLow*100)}%/${Math.round(f.chHigh*100)}%, vom Gesamt abgezogen).`:'Ohne Vorgabe.'}</div>
+  return `<div class="note">${teamModeNote(mode)} ${S.teamFormatHcp?`Team-Vorgabe: A ${hcpA}, B ${hcpB} (vom Gesamt abgezogen).`:'Ohne Vorgabe.'}</div>
   <div class="card"><table class="table"><thead><tr><th class="hole">Loch</th><th class="teamHead">Team A</th><th class="teamHead">Team B</th></tr></thead><tbody>${rows}
   <tr><td class="sum">Σ Brutto</td><td class="sum">${totA}</td><td class="sum">${totB}</td></tr>
   ${S.teamFormatHcp?`<tr><td class="sum">Σ Netto</td><td class="sum">${netA}</td><td class="sum">${netB}</td></tr>`:''}
   </tbody></table></div>`;
 }
+function sixesTeamSingleGame(mode){
+  let rows=Array.from({length:18},(_,h)=>{
+    let teams=sixesTeamsForHole(h);
+    let lbl0=teams?`${esc(playerName(teams[0][0]))}/${esc(playerName(teams[0][1]))}`:'Paar 1';
+    let lbl1=teams?`${esc(playerName(teams[1][0]))}/${esc(playerName(teams[1][1]))}`:'Paar 2';
+    let drawHint=teams?'':(S.sixes.rotation==='hole'?`<button class="smallBtn" onclick="sixesDrawHole(${h});render()">🎲 Partner</button>`:`<span class="sub">Block oben auslosen</span>`);
+    return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${holeCell(h)}</td>
+    <td><div class="sub">${lbl0}</div>${teams?`<input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData([mode,h,0],'')}" oninput="setData(['${mode}',${h},0],this.value);liveRefresh(this)">`:drawHint}</td>
+    <td><div class="sub">${lbl1}</div>${teams?`<input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData([mode,h,1],'')}" oninput="setData(['${mode}',${h},1],this.value);liveRefresh(this)">`:''}</td></tr>`;
+  }).join('');
+  return `<div class="note">${teamModeNote(mode)} Sixes aktiv: Die Paare wechseln, gewertet wird je Loch +1/0/−1 pro Spieler.</div>
+  <div class="card"><table class="table"><thead><tr><th class="hole">Loch</th><th class="teamHead">Paar 1</th><th class="teamHead">Paar 2</th></tr></thead><tbody>${rows}</tbody></table></div>
+  ${sixesOverlayBlock()}`;
+}
+
+/* ---------- String Golf ---------- */
+function stringGame(){
+  let totals=Array(S.count).fill(0);
+  let budget=Array.from({length:S.count},(_,p)=>{
+    let usedCount=Array.from({length:18},(_,h)=>!!getData(['stringUsed',h,p],false)).filter(Boolean).length;
+    return Math.max(0,(Number(S.stableHcp[p])||0)-usedCount);
+  });
+  let rows=Array.from({length:18},(_,h)=>{
+    return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${holeCell(h)}</td>${Array.from({length:S.count},(_,p)=>{
+      let g=Number(getData(['string',h,p],''));
+      let isUsed=!!getData(['stringUsed',h,p],false);
+      let net=g?(g-(isUsed?1:0)):0;
+      if(g)totals[p]+=net;
+      let canUse=g>0&&(isUsed||budget[p]>0);
+      return `<td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData(['string',h,p],'')}" oninput="setData(['string',${h},${p}],this.value);liveRefresh(this)">
+      <button class="smallBtn" style="margin-top:4px" ${canUse?'':'disabled'} onclick="toggleStringUse(${h},${p})">${isUsed?'✓ Schnur':'Schnur'}</button>
+      <span class="sub">${g?net:''}</span></td>`;
+    }).join('')}</tr>`;
+  }).join('');
+  return `<div class="note">String-Budget (Rest): ${names().map((n,p)=>`${esc(n)} ${budget[p]}`).join(' · ')}. Mit „Schnur" sparst du 1 Schlag auf dieser Bahn, solange Budget übrig ist.</div>
+  <div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${rows}<tr><td class="sum">Σ</td>${totals.map(t=>`<td class="sum">${t||0}</td>`).join('')}</tr></tbody></table></div>`;
+}
+function toggleStringUse(h,p){
+  let cur=!!getData(['stringUsed',h,p],false);
+  if(!cur){
+    let usedCount=Array.from({length:18},(_,hh)=>!!getData(['stringUsed',hh,p],false)).filter(Boolean).length;
+    let budget=Number(S.stableHcp[p])||0;
+    if(usedCount>=budget)return;
+  }
+  setData(['stringUsed',h,p],!cur);render();
+}
 
 /* ---------- Scoreboard / Verlauf ---------- */
 function scoreFor(p){
+  if(sixesActiveForMode())return sixesPlayerPoints(p);
   if(S.mode==='count')return Array.from({length:18},(_,h)=>Number(getData(['count',h,p],0))||0).reduce((a,b)=>a+b,0);
   if(S.mode==='match'){
     if(S.matchHcp&&S.count===2){let diff=matchDiffHcp();return p===0?diff:-diff;}
@@ -461,8 +869,9 @@ function scoreFor(p){
   if(S.mode==='vegas'){let {totals}=vegasCompute();return p<2?totals[0]:totals[1];}
   if(S.mode==='skins')return skinsCompute().totals[p];
   if(S.mode==='nassau')return nassauCompute().all[p];
+  if(S.mode==='string')return Array.from({length:18},(_,h)=>{let g=Number(getData(['string',h,p],''));if(!g)return 0;let used=!!getData(['stringUsed',h,p],false);return g-(used?1:0);}).reduce((a,b)=>a+b,0);
   if(S.mode==='scramble'){let totA=0,totB=0;for(let h=0;h<18;h++){totA+=Number(getData(['scramble',h,0],0))||0;totB+=Number(getData(['scramble',h,1],0))||0}let hcpA=S.teamFormatHcp?scrambleTeamHcp(Number(S.stableHcp[0])||0,Number(S.stableHcp[1])||0):0;let hcpB=S.teamFormatHcp?scrambleTeamHcp(Number(S.stableHcp[2])||0,Number(S.stableHcp[3])||0):0;return p<2?totA-hcpA:totB-hcpB;}
-  if(S.mode==='chapman'){let totA=0,totB=0;for(let h=0;h<18;h++){totA+=Number(getData(['chapman',h,0],0))||0;totB+=Number(getData(['chapman',h,1],0))||0}let hcpA=S.teamFormatHcp?chapmanTeamHcp(Number(S.stableHcp[0])||0,Number(S.stableHcp[1])||0):0;let hcpB=S.teamFormatHcp?chapmanTeamHcp(Number(S.stableHcp[2])||0,Number(S.stableHcp[3])||0):0;return p<2?totA-hcpA:totB-hcpB;}
+  if(S.mode==='chapman'||S.mode==='foursome'||S.mode==='greensome'){let hcpFn=teamHcpFn(S.mode);let totA=0,totB=0;for(let h=0;h<18;h++){totA+=Number(getData([S.mode,h,0],0))||0;totB+=Number(getData([S.mode,h,1],0))||0}let hcpA=S.teamFormatHcp?hcpFn(Number(S.stableHcp[0])||0,Number(S.stableHcp[1])||0):0;let hcpB=S.teamFormatHcp?hcpFn(Number(S.stableHcp[2])||0,Number(S.stableHcp[3])||0):0;return p<2?totA-hcpA:totB-hcpB;}
   if(S.mode==='fourball'){
     let f=loadTeamHcp();
     let hcp=Array.from({length:4},(_,pp)=>S.teamFormatHcp?Math.round((Number(S.stableHcp[pp])||0)*f.fb):0);
@@ -480,7 +889,7 @@ function scoreFor(p){
   return 0;
 }
 function computeStandings(){
-  let asc=LOWER_BETTER.includes(S.mode);
+  let asc=LOWER_BETTER.includes(S.mode)&&!sixesActiveForMode();
   if(isTeam()){
     let sums=[0,0];
     if(S.mode==='count'||S.mode==='fun'){for(let p=0;p<2;p++)sums[0]+=scoreFor(p);for(let p=2;p<4;p++)sums[1]+=scoreFor(p);}
@@ -579,10 +988,11 @@ function closeModal(){document.getElementById('modalRoot').innerHTML=''}
 function resetConfirm(){showModal(`<h2>Spiel zurücksetzen?</h2><p>Alle Eintragungen dieses Spiels werden gelöscht. Die Platzdaten und Einstellungen bleiben erhalten. Vor dem Löschen wird automatisch eine Sicherung angelegt, die du bei Bedarf wiederherstellen kannst.</p><div class="modalActions"><button class="close" onclick="closeModal()">Abbrechen</button><button class="close danger" onclick="resetGame()">Alles löschen</button></div>`)}
 function resetGame(){
   try{localStorage.setItem('gd_last_backup',JSON.stringify({state:S,ts:Date.now()}))}catch(e){}
-  let keep={settings:S.settings,players:S.players,count:S.count,team:S.team,mode:S.mode,par:S.par,stableHcp:S.stableHcp,courseName:S.courseName,matchHcp:S.matchHcp,teamFormatHcp:S.teamFormatHcp,wolfBlind:S.wolfBlind,funUnique:S.fun?S.fun.unique:false};
+  let keep={settings:S.settings,players:S.players,count:S.count,team:S.team,mode:S.mode,par:S.par,stableHcp:S.stableHcp,playerHcpIndex:S.playerHcpIndex,courseName:S.courseName,courseSlope:S.courseSlope,courseRating:S.courseRating,matchHcp:S.matchHcp,teamFormatHcp:S.teamFormatHcp,wolfBlind:S.wolfBlind,funUnique:S.fun?S.fun.unique:false,statsEnabled:S.statsEnabled,sixesEnabled:S.sixes?S.sixes.enabled:false,sixesRotation:S.sixes?S.sixes.rotation:'block',sixesVorgabe:S.sixes?S.sixes.vorgabe:false};
   S=blankState();
-  S.settings=keep.settings;S.players=keep.players;S.count=keep.count;S.team=keep.team;S.mode=keep.mode;S.par=keep.par;S.stableHcp=keep.stableHcp;S.courseName=keep.courseName;
-  S.matchHcp=keep.matchHcp;S.teamFormatHcp=keep.teamFormatHcp;S.wolfBlind=keep.wolfBlind;S.fun.unique=keep.funUnique;
+  S.settings=keep.settings;S.players=keep.players;S.count=keep.count;S.team=keep.team;S.mode=keep.mode;S.par=keep.par;S.stableHcp=keep.stableHcp;S.playerHcpIndex=keep.playerHcpIndex;S.courseName=keep.courseName;S.courseSlope=keep.courseSlope;S.courseRating=keep.courseRating;
+  S.matchHcp=keep.matchHcp;S.teamFormatHcp=keep.teamFormatHcp;S.wolfBlind=keep.wolfBlind;S.fun.unique=keep.funUnique;S.statsEnabled=keep.statsEnabled;
+  S.sixes.enabled=keep.sixesEnabled;S.sixes.rotation=keep.sixesRotation;S.sixes.vorgabe=keep.sixesVorgabe;
   save();closeModal();render();
 }
 function hasResetBackup(){try{return !!localStorage.getItem('gd_last_backup')}catch(e){return false}}
@@ -594,29 +1004,38 @@ function restoreBackupConfirm(){
   showModal(`<h2>Letzten Reset wiederherstellen?</h2><p>Sicherung vom ${esc(new Date(b.ts).toLocaleString('de-DE'))} (${esc(MODES.find(m=>m[0]===b.state.mode)?.[1]||'unbekannter Modus')}). Der aktuelle Spielstand wird dabei überschrieben.</p><div class="modalActions"><button class="close" onclick="closeModal()">Abbrechen</button><button class="close danger" onclick="restoreBackup()">Wiederherstellen</button></div>`);
 }
 function restoreBackup(){let raw=localStorage.getItem('gd_last_backup');if(!raw)return;try{let b=JSON.parse(raw);S=Object.assign(blankState(),b.state);save();closeModal();render();}catch(e){closeModal();}}
-function homeConfirm(){showModal(`<h2>Zur Startseite?</h2><p>Der aktuelle Spielstand bleibt gespeichert. Du kannst später weiterspielen.</p><div class="modalActions"><button class="close" onclick="closeModal()">Bleiben</button><button class="close danger" onclick="S.screen='home';save();closeModal();render()">Zur Startseite</button></div>`)}
+function goHomeFresh(){S.screen='home';S.players=[];save();closeModal();render();}
+function homeConfirm(){showModal(`<h2>Zur Startseite?</h2><p>Der aktuelle Spielstand bleibt gespeichert. Die Namensfelder werden für die nächste Runde geleert. Du kannst später weiterspielen.</p><div class="modalActions"><button class="close" onclick="closeModal()">Bleiben</button><button class="close danger" onclick="goHomeFresh()">Zur Startseite</button></div>`)}
 function courseSettings(){
   let courses=loadCourses();let th=loadTeamHcp();
-  showModal(`<h2>⚙ Platzdaten &amp; Einstellungen</h2><p>Aktueller Platz: <b>${esc(S.courseName||'Varus')}</b>. Wähle einen gespeicherten Platz oder passe PAR/HCP unten an.</p><div class="section"><div class="label">Gespeicherter Platz</div><select class="select" onchange="switchCourse(this.value)">${courses.map(c=>`<option value="${esc(c.name)}" ${c.name===S.courseName?'selected':''}>${esc(c.name)}</option>`).join('')}</select></div><div class="settingsGrid">${S.settings.map((r,i)=>`<div class="settingCard"><label>Loch ${i+1}</label><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px"><input class="numInput" type="number" min="1" max="9" value="${r[1]}" onchange="S.settings[${i}][1]=Math.max(1,Math.min(9,Number(this.value)||4));localStorage.setItem('gd_course',JSON.stringify(S.settings));save()"><input class="numInput" type="number" min="1" max="18" value="${r[2]}" onchange="S.settings[${i}][2]=Math.max(1,Math.min(18,Number(this.value)||1));localStorage.setItem('gd_course',JSON.stringify(S.settings));save()"></div></div>`).join('')}</div><div class="section"><div class="label">Aktuelle Werte als neuer Platz speichern</div><div class="playerRow"><input class="textInput" id="newCourseName" placeholder="Name, z. B. Golfclub Nord"><button class="smallBtn" onclick="saveAsNewCourse()">Speichern</button></div></div>
+  showModal(`<h2>⚙ Platzdaten &amp; Einstellungen</h2><p>Aktueller Platz: <b>${esc(S.courseName||'Varus')}</b>. Wähle einen gespeicherten Platz oder passe PAR/HCP unten an.</p><div class="section"><div class="label">Gespeicherter Platz</div><select class="select" onchange="switchCourse(this.value)">${courses.map(c=>`<option value="${esc(c.name)}" ${c.name===S.courseName?'selected':''}>${esc(c.name)}</option>`).join('')}</select></div>
+  <div class="section"><div class="label">Slope &amp; Rating (für Course-Handicap)</div><div class="settingsGrid">
+  <div class="settingCard"><label>Slope</label><input class="numInput" type="number" min="55" max="155" value="${S.courseSlope||113}" onchange="S.courseSlope=Number(this.value)||113;saveCourseMeta({slope:S.courseSlope,rating:S.courseRating});save()"></div>
+  <div class="settingCard"><label>Course Rating</label><input class="numInput" type="number" step="0.1" value="${S.courseRating!==undefined?S.courseRating:S.settings.reduce((a,r)=>a+r[1],0)}" onchange="S.courseRating=Number(this.value)||0;saveCourseMeta({slope:S.courseSlope,rating:S.courseRating});save()"></div>
+  </div></div>
+  <div class="settingsGrid">${S.settings.map((r,i)=>`<div class="settingCard"><label>Loch ${i+1}</label><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px"><input class="numInput" type="number" min="1" max="9" value="${r[1]}" onchange="S.settings[${i}][1]=Math.max(1,Math.min(9,Number(this.value)||4));localStorage.setItem('gd_course',JSON.stringify(S.settings));save()"><input class="numInput" type="number" min="1" max="18" value="${r[2]}" onchange="S.settings[${i}][2]=Math.max(1,Math.min(18,Number(this.value)||1));localStorage.setItem('gd_course',JSON.stringify(S.settings));save()"></div></div>`).join('')}</div><div class="section"><div class="label">Aktuelle Werte als neuer Platz speichern</div><div class="playerRow"><input class="textInput" id="newCourseName" placeholder="Name, z. B. Golfclub Nord"><button class="smallBtn" onclick="saveAsNewCourse()">Speichern</button></div></div>
   <div class="section"><div class="label">Team-Vorgabe-Faktoren</div><div class="settingsGrid">
   <div class="settingCard"><label>Scramble niedrig (0–1)</label><input class="numInput" type="number" step="0.05" min="0" max="1" value="${th.scrLow}" onchange="updateTeamHcp('scrLow',this.value)"></div>
   <div class="settingCard"><label>Scramble hoch (0–1)</label><input class="numInput" type="number" step="0.05" min="0" max="1" value="${th.scrHigh}" onchange="updateTeamHcp('scrHigh',this.value)"></div>
   <div class="settingCard"><label>Fourball Faktor (0–1)</label><input class="numInput" type="number" step="0.05" min="0" max="1" value="${th.fb}" onchange="updateTeamHcp('fb',this.value)"></div>
   <div class="settingCard"><label>Chapman niedrig (0–1)</label><input class="numInput" type="number" step="0.05" min="0" max="1" value="${th.chLow}" onchange="updateTeamHcp('chLow',this.value)"></div>
   <div class="settingCard"><label>Chapman hoch (0–1)</label><input class="numInput" type="number" step="0.05" min="0" max="1" value="${th.chHigh}" onchange="updateTeamHcp('chHigh',this.value)"></div>
+  <div class="settingCard"><label>Foursomes Faktor (0–1)</label><input class="numInput" type="number" step="0.05" min="0" max="1" value="${th.foAvg}" onchange="updateTeamHcp('foAvg',this.value)"></div>
+  <div class="settingCard"><label>Greensomes niedrig (0–1)</label><input class="numInput" type="number" step="0.05" min="0" max="1" value="${th.grLow}" onchange="updateTeamHcp('grLow',this.value)"></div>
+  <div class="settingCard"><label>Greensomes hoch (0–1)</label><input class="numInput" type="number" step="0.05" min="0" max="1" value="${th.grHigh}" onchange="updateTeamHcp('grHigh',this.value)"></div>
   </div></div>
   <div class="modalActions"><button class="close" onclick="closeModal();save();render()">Fertig</button><button class="close danger" onclick="restoreCourse()">Varus zurücksetzen</button></div>${S.courseName&&S.courseName!=='Varus'?`<button class="close danger" style="width:100%;margin-top:8px" onclick="deleteCourse()">„${esc(S.courseName)}" löschen</button>`:''}`);
 }
-function switchCourse(name){let courses=loadCourses();let c=courses.find(x=>x.name===name);if(!c)return;S.courseName=name;S.settings=c.holes.map(x=>[...x]);localStorage.setItem('gd_course',JSON.stringify(S.settings));localStorage.setItem('gd_active_course',JSON.stringify(name));save();courseSettings()}
-function saveAsNewCourse(){let input=document.getElementById('newCourseName');let name=(input&&input.value||'').trim();if(!name)return;let courses=loadCourses();let idx=courses.findIndex(c=>c.name===name);let entry={name,holes:S.settings.map(x=>[...x])};if(idx>=0)courses[idx]=entry;else courses.push(entry);saveCourses(courses);S.courseName=name;localStorage.setItem('gd_active_course',JSON.stringify(name));save();courseSettings()}
-function deleteCourse(){let courses=loadCourses().filter(c=>c.name!==S.courseName);saveCourses(courses);let varus=courses.find(c=>c.name==='Varus')||defaultCourses()[0];S.courseName='Varus';S.settings=varus.holes.map(x=>[...x]);localStorage.setItem('gd_course',JSON.stringify(S.settings));localStorage.setItem('gd_active_course',JSON.stringify('Varus'));save();courseSettings()}
-function restoreCourse(){S.settings=HOLES.map(x=>[...x]);S.courseName='Varus';localStorage.setItem('gd_course',JSON.stringify(S.settings));localStorage.setItem('gd_active_course',JSON.stringify('Varus'));save();courseSettings()}
+function switchCourse(name){let courses=loadCourses();let c=courses.find(x=>x.name===name);if(!c)return;S.courseName=name;S.settings=c.holes.map(x=>[...x]);S.courseSlope=c.slope||113;S.courseRating=c.rating!==undefined?c.rating:S.settings.reduce((a,r)=>a+r[1],0);localStorage.setItem('gd_course',JSON.stringify(S.settings));localStorage.setItem('gd_active_course',JSON.stringify(name));saveCourseMeta({slope:S.courseSlope,rating:S.courseRating});save();courseSettings()}
+function saveAsNewCourse(){let input=document.getElementById('newCourseName');let name=(input&&input.value||'').trim();if(!name)return;let courses=loadCourses();let idx=courses.findIndex(c=>c.name===name);let entry={name,holes:S.settings.map(x=>[...x]),slope:S.courseSlope,rating:S.courseRating};if(idx>=0)courses[idx]=entry;else courses.push(entry);saveCourses(courses);S.courseName=name;localStorage.setItem('gd_active_course',JSON.stringify(name));save();courseSettings()}
+function deleteCourse(){let courses=loadCourses().filter(c=>c.name!==S.courseName);saveCourses(courses);let varus=courses.find(c=>c.name==='Varus')||defaultCourses()[0];S.courseName='Varus';S.settings=varus.holes.map(x=>[...x]);S.courseSlope=varus.slope||113;S.courseRating=varus.rating!==undefined?varus.rating:S.settings.reduce((a,r)=>a+r[1],0);localStorage.setItem('gd_course',JSON.stringify(S.settings));localStorage.setItem('gd_active_course',JSON.stringify('Varus'));saveCourseMeta({slope:S.courseSlope,rating:S.courseRating});save();courseSettings()}
+function restoreCourse(){S.settings=HOLES.map(x=>[...x]);S.courseName='Varus';S.courseSlope=113;S.courseRating=S.settings.reduce((a,r)=>a+r[1],0);localStorage.setItem('gd_course',JSON.stringify(S.settings));localStorage.setItem('gd_active_course',JSON.stringify('Varus'));saveCourseMeta({slope:113,rating:S.courseRating});save();courseSettings()}
 function startGame(){
   if(!S.mode){showModal('<h2>Modus auswählen</h2><p>Bitte wähle zuerst einen Spielmodus.</p><div class="modalActions"><button class="close" onclick="closeModal()">Schließen</button></div>');return}
   let n=S.count;let err='';
   if(S.mode==='531'&&n!==3)err='5–3–1 benötigt genau 3 Spieler.';
   if(S.mode==='vegas'&&n!==4)err='Las Vegas benötigt genau 4 Spieler.';
-  if(['scramble','chapman','fourball'].includes(S.mode)&&n!==4)err='Dieser Modus benötigt genau 4 Spieler (2 Teams à 2).';
+  if(['scramble','chapman','fourball','foursome','greensome'].includes(S.mode)&&n!==4)err='Dieser Modus benötigt genau 4 Spieler (2 Teams à 2).';
   if(S.mode==='wolf'&&n<3)err='Wolf benötigt 3 oder 4 Spieler.';
   if(S.mode==='bbb'&&n<2)err='Bingo Bango Bongo benötigt mindestens 2 Spieler.';
   if(S.mode==='skins'&&n<2)err='Skins benötigt mindestens 2 Spieler.';
@@ -624,7 +1043,8 @@ function startGame(){
   if(S.mode==='fun'&&n<2)err='Fun benötigt mindestens 2 Spieler.';
   if(S.mode==='match'&&![2,4].includes(n))err='Matchplay benötigt 2 oder 4 Spieler.';
   if(S.mode==='match'&&n===4)S.team=true;
-  if(err){showModal(`<h2>Spieleranzahl</h2><p>${esc(err)}</p><div class="modalActions"><button class="close" onclick="closeModal()">Schließen</button></div>`);return}
+  if(sixesActiveForMode()&&S.sixes.rotation==='block'&&S.sixes.blocks.some(b=>b===null||b===undefined))err='Bitte lose vor dem Start alle drei Sixes-Blöcke aus (oder wechsle zu „Jede Bahn neu").';
+  if(err){showModal(`<h2>Hinweis</h2><p>${esc(err)}</p><div class="modalActions"><button class="close" onclick="closeModal()">Schließen</button></div>`);return}
   S.players=Array.from({length:n},(_,i)=>S.players[i]?.trim()||`Spieler ${i+1}`);
   S.screen='game';save();render();scrollToCurrentHole();
 }
@@ -632,4 +1052,12 @@ function liveRefresh(el){const inputs=[...document.querySelectorAll('input')];co
 function updateScorebar(){let el=document.getElementById('scorebar');if(el)el.remove();if(S.screen!=='game')return;let vals=isTeam()?[['Team A',scoreFor(0)+ (S.mode==='count'||S.mode==='fun'?scoreFor(1):0)],['Team B',scoreFor(2)+ (S.mode==='count'||S.mode==='fun'?scoreFor(3):0)]]:names().map((n,p)=>[n,scoreFor(p)]);let bar=document.createElement('div');bar.id='scorebar';bar.className='scorebar';bar.innerHTML=vals.map(x=>`<div class="scorechip"><b>${esc(x[1])}</b><small>${esc(x[0])}</small></div>`).join('');document.body.appendChild(bar)}
 applyTheme();
 render();
+(function checkIncomingSync(){
+  try{
+    if(location.hash&&location.hash.indexOf('#sync=')===0){
+      let b64=location.hash.slice(6);
+      setTimeout(()=>importSyncCode(b64),300);
+    }
+  }catch(e){}
+})();
 </script></body></html>
