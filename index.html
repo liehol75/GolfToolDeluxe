@@ -12,6 +12,20 @@ html[data-theme="contrast"]{--bg:#000;--panel:#000;--panel2:#000;--line:#fff;--t
 html[data-theme="contrast"] body{background:#000}
 html[data-theme="contrast"] .card,html[data-theme="contrast"] .mode,html[data-theme="contrast"] .hero,html[data-theme="contrast"] .settingCard,html[data-theme="contrast"] .bonusItem,html[data-theme="contrast"] .note,html[data-theme="contrast"] .modalBox,html[data-theme="contrast"] .compact,html[data-theme="contrast"] .textInput,html[data-theme="contrast"] .numInput,html[data-theme="contrast"] .select,html[data-theme="contrast"] .iconBtn,html[data-theme="contrast"] .table th,html[data-theme="contrast"] .table td,html[data-theme="contrast"] .scorebar,html[data-theme="contrast"] .scorechip{border-color:#fff!important;background:#000}
 html[data-theme="contrast"] .primary{background:#00ff6a;color:#000}
+.mode.catTeam{border-left:4px solid #68c487}
+.mode.catIndividual{border-left:4px solid #4d9cff}
+.mode.catSpecial{border-left:4px solid #f2c94c}
+.mode.catFun{border-left:4px solid #b46dff}
+.catLegend{display:flex;flex-wrap:wrap;gap:10px;margin:0 3px 8px;font-size:10px;color:var(--muted)}
+.catLegend span{display:inline-flex;align-items:center;gap:4px}
+.catDot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.avatarCircle{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;color:#0a1510;font-weight:950;font-size:11px;border:1px solid rgba(255,255,255,.4);margin:0 1px;vertical-align:middle}
+.avatarPair{display:inline-flex;align-items:center;flex-wrap:wrap;gap:2px;margin-top:4px}
+.profileNavWrap{display:flex;justify-content:center;margin:26px 0}
+.profileNavBtn{display:inline-flex;align-items:center;gap:9px;padding:14px 28px;border-radius:20px;background:linear-gradient(135deg,#1a2b20,#132219);border:1px solid #33483a;font-weight:900;font-size:15px;box-shadow:0 10px 25px rgba(0,0,0,.25)}
+.progressWrap{margin:2px 3px 14px}
+.progressTrack{height:8px;border-radius:99px;background:#132219;overflow:hidden;margin-top:6px}
+.progressFill{height:100%;border-radius:99px;background:linear-gradient(90deg,#5fb97e,#78d395)}
 </style></head><body><div id="app"></div><div id="modalRoot"></div><script>
 'use strict';
 const MODES=[
@@ -25,6 +39,15 @@ const MODES=[
  ['greensome','Greensomes','Team · bester Drive, dann abwechselnd'],['nassau','Nassau','Front 9 · Back 9 · Gesamt'],
  ['bridesmaid','Bridesmaid','Team · schlechteres Netto zählt'],['string','String Golf','Einzel/Team · Schnur zentimetergenau einlösen']
 ];
+const MODE_CATEGORY={
+ count:'individual',stable:'individual',short:'individual',string:'individual','531':'individual',
+ match:'special',wolf:'special',vegas:'special',bbb:'special',skins:'special',nassau:'special',
+ chapman:'team',foursome:'team',greensome:'team',scramble:'team',fourball:'team',bridesmaid:'team',
+ fun:'fun'
+};
+const CAT_CLASS={individual:'catIndividual',team:'catTeam',special:'catSpecial',fun:'catFun'};
+const CAT_LABEL={team:'Team',individual:'Einzel',special:'Kopf-an-Kopf',fun:'Fun'};
+const CAT_COLOR={team:'#68c487',individual:'#4d9cff',special:'#f2c94c',fun:'#b46dff'};
 const LOWER_BETTER=['count','short','nassau','scramble','chapman','fourball','foursome','greensome','string','bridesmaid'];
 const SIXES_MODES=['count','stable','chapman','greensome','fourball','foursome'];
 const SIXES_PAIRS=[[[0,1],[2,3]],[[0,2],[1,3]],[[0,3],[1,2]]];
@@ -91,7 +114,7 @@ function undoLast(){if(!undoStack.length)return;let last=undoStack.pop();let o=S
 function getData(path,def=''){let o=S.data;for(const k of path){if(o==null)return def;o=o[k]}return o==null?def:o}
 function currentHoleIndex(){let i=S.holeDone.findIndex(x=>!x);return i===-1?17:i}
 function scrollToCurrentHole(){requestAnimationFrame(()=>{let el=document.querySelector('.curHole');if(el&&el.scrollIntoView)el.scrollIntoView({block:'center'})})}
-function render(){const app=document.getElementById('app'); if(S.screen==='home')app.innerHTML=home();else app.innerHTML=game(); updateScorebar();}
+function render(){const app=document.getElementById('app'); if(S.screen==='home')app.innerHTML=home();else if(S.screen==='profiles')app.innerHTML=profilesScreen();else app.innerHTML=game(); updateScorebar();}
 function holeCell(h){return `${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button>${S.statsEnabled?`<button class="holeDone" onclick="event.stopPropagation();openStatsModal(${h})">📊</button>`:''}`}
 
 /* ---------- Theme ---------- */
@@ -120,9 +143,23 @@ function calcVorgabeFromIndex(idx,gender){
   let rating=(ratingRaw===undefined||ratingRaw===null||ratingRaw==='')?par:Number(ratingRaw);
   return Math.round((Number(idx)||0)*(slope/113)+(rating-par));
 }
-function genderToggle(idPrefix,i,current){
-  return `<div class="seg two" style="margin-top:6px"><button class="${current!=='w'?'active':''}" onclick="setPlayerGender(${i},'m')">Mann (gelb)</button><button class="${current==='w'?'active':''}" onclick="setPlayerGender(${i},'w')">Frau (rot)</button></div>`;
+function genderColors(isW){return isW?{bg:'#ff5d62',fg:'#fff',border:'#ff5d62',dimBg:'#2a1416',dimFg:'#c98f92',dimBorder:'#3a2226'}:{bg:'#f2c94c',fg:'#1a1500',border:'#f2c94c',dimBg:'#2a2510',dimFg:'#c9c2a0',dimBorder:'#3a3420'}}
+function applyGenderButtonStyle(mBtn,wBtn,g){
+  if(!mBtn||!wBtn)return;
+  let m=genderColors(false),w=genderColors(true);
+  let mActive=g!=='w',wActive=g==='w';
+  mBtn.style.background=mActive?m.bg:m.dimBg;mBtn.style.color=mActive?m.fg:m.dimFg;mBtn.style.borderColor=mActive?m.border:m.dimBorder;
+  wBtn.style.background=wActive?w.bg:w.dimBg;wBtn.style.color=wActive?w.fg:w.dimFg;wBtn.style.borderColor=wActive?w.border:w.dimBorder;
 }
+function genderToggle(i,current){
+  let m=genderColors(false),w=genderColors(true);
+  let mActive=current!=='w',wActive=current==='w';
+  return `<div class="seg two" style="margin-top:6px">
+  <button style="background:${mActive?m.bg:m.dimBg};color:${mActive?m.fg:m.dimFg};border-color:${mActive?m.border:m.dimBorder}" onclick="setPlayerGender(${i},'m')">♂</button>
+  <button style="background:${wActive?w.bg:w.dimBg};color:${wActive?w.fg:w.dimFg};border-color:${wActive?w.border:w.dimBorder}" onclick="setPlayerGender(${i},'w')">♀</button>
+  </div>`;
+}
+function genderBadge(g){let isW=g==='w';let c=genderColors(isW);return `<b class="q" style="background:${c.bg};color:${c.fg};border-color:${c.bg}">${isW?'♀':'♂'}</b>`}
 function setPlayerGender(i,g){
   S.playerGender[i]=g;
   S.stableHcp[i]=calcVorgabeFromIndex(S.playerHcpIndex[i],g);
@@ -151,17 +188,17 @@ function selectPlayerProfile(i,name){
 function newPlayerModal(i){
   showModal(`<h2>👤 Neuer Spieler</h2>
   <div class="section"><input class="textInput" id="npName" placeholder="Name"></div>
-  <div class="section"><div class="label">Geschlecht (Abschlag)</div><div class="seg two"><button class="active" id="npGenderM" onclick="npSetGender('m')">Mann (gelb)</button><button id="npGenderW" onclick="npSetGender('w')">Frau (rot)</button></div></div>
-  <div class="section"><div class="playerRow"><input class="numInput" id="npHcp" type="number" min="0" max="54" step="0.1" placeholder="Handicap-Index"><input class="numInput" id="npVorgabe" type="number" min="0" max="54" placeholder="Vorgabe"></div><div class="hint">Vorgabe wird aus dem Handicap-Index berechnet (Slope/CR des gewählten Abschlags), kann aber frei geändert werden.</div></div>
+  <div class="section"><div class="label">Geschlecht</div><div class="seg two"><button id="npGenderM" onclick="npSetGender('m')">♂</button><button id="npGenderW" onclick="npSetGender('w')">♀</button></div></div>
+  <div class="section"><div class="playerRow"><input class="numInput" id="npHcp" type="number" min="0" max="54" step="0.1" placeholder="Handicap-Index"><input class="numInput" id="npVorgabe" type="number" min="0" max="54" placeholder="Vorgabe"></div><div class="hint">Vorgabe wird aus dem Handicap-Index berechnet, kann aber frei geändert werden.</div></div>
   <div class="modalActions"><button class="close" onclick="closeModal()">Abbrechen</button><button class="close danger" onclick="saveNewPlayer(${i})">Speichern &amp; zuweisen</button></div>`);
   window._npGender='m';
+  applyGenderButtonStyle(document.getElementById('npGenderM'),document.getElementById('npGenderW'),'m');
   const hcpEl=document.getElementById('npHcp'),vEl=document.getElementById('npVorgabe');
   if(hcpEl)hcpEl.addEventListener('input',()=>{vEl.value=calcVorgabeFromIndex(hcpEl.value,window._npGender);});
 }
 function npSetGender(g){
   window._npGender=g;
-  let mBtn=document.getElementById('npGenderM'),wBtn=document.getElementById('npGenderW');
-  if(mBtn&&wBtn){mBtn.className=g==='m'?'active':'';wBtn.className=g==='w'?'active':'';}
+  applyGenderButtonStyle(document.getElementById('npGenderM'),document.getElementById('npGenderW'),g);
   let hcpEl=document.getElementById('npHcp'),vEl=document.getElementById('npVorgabe');
   if(hcpEl&&hcpEl.value)vEl.value=calcVorgabeFromIndex(hcpEl.value,g);
 }
@@ -179,26 +216,32 @@ function saveNewPlayer(i){
   S.players[i]=name;S.playerHcpIndex[i]=hcpIndex;S.stableHcp[i]=vorgabe;S.playerGender[i]=gender;
   save();closeModal();render();
 }
-function profileTiles(){
+function profileTileHtml(p,idx){
+  return `<button class="mode" onclick="editProfileModal(${idx})">${esc(p.name)}${genderBadge(p.gender)}<span>Vorgabe ${p.vorgabe||0}${p.hcpIndex?` · HCP ${p.hcpIndex}`:''}</span></button>`;
+}
+function profilesScreen(){
   let profiles=loadProfiles();
-  return `<div class="section"><div class="label">Spielerprofile</div><div class="modeGrid">${profiles.map((p,idx)=>`<button class="mode" onclick="editProfileModal(${idx})">${esc(p.name)}<span>${p.gender==='w'?'Frau · rot':'Mann · gelb'} · Vorgabe ${p.vorgabe||0}${p.hcpIndex?` · HCP ${p.hcpIndex}`:''}</span></button>`).join('')}<button class="mode" onclick="newProfileStandalone()">+ Neuer Spieler<span>Profil anlegen</span></button></div></div>`;
+  return `<div class="app"><div class="top"><button class="iconBtn" onclick="S.screen='home';save();render()">‹</button><div style="flex:1;min-width:0"><div class="title">Spielerprofile</div><div class="hint">${profiles.length} gespeichert${profiles.length===1?'':'e'}</div></div></div>
+  <div class="section"><div class="modeGrid">${profiles.map((p,idx)=>profileTileHtml(p,idx)).join('')}<button class="mode" onclick="newProfileStandalone()">+ Neuer Spieler<span>Profil anlegen</span></button></div></div>
+  ${!profiles.length?'<div class="note">Noch keine Spieler gespeichert. Über „+ Neuer Spieler" legst du das erste Profil an.</div>':''}
+  <div class="footerSpace"></div></div>`;
 }
 function editProfileModal(idx){
   let profiles=loadProfiles();let p=profiles[idx];if(!p)return;
   showModal(`<h2>👤 Profil bearbeiten</h2>
   <div class="section"><input class="textInput" id="epName" value="${esc(p.name)}" placeholder="Name"></div>
-  <div class="section"><div class="label">Geschlecht (Abschlag)</div><div class="seg two"><button class="${p.gender!=='w'?'active':''}" id="epGenderM" onclick="epSetGender('m')">Mann (gelb)</button><button class="${p.gender==='w'?'active':''}" id="epGenderW" onclick="epSetGender('w')">Frau (rot)</button></div></div>
+  <div class="section"><div class="label">Geschlecht</div><div class="seg two"><button id="epGenderM" onclick="epSetGender('m')">♂</button><button id="epGenderW" onclick="epSetGender('w')">♀</button></div></div>
   <div class="section"><div class="playerRow"><input class="numInput" id="epHcp" type="number" min="0" max="54" step="0.1" value="${p.hcpIndex||''}" placeholder="Handicap-Index"><input class="numInput" id="epVorgabe" type="number" min="0" max="54" value="${p.vorgabe||''}" placeholder="Vorgabe"></div></div>
   <div class="modalActions"><button class="close" onclick="closeModal()">Abbrechen</button><button class="close" onclick="saveEditedProfile(${idx})">Speichern</button></div>
   <button class="close danger" style="width:100%;margin-top:8px" onclick="deleteProfileConfirm(${idx})">Profil löschen</button>`);
   window._epGender=p.gender||'m';
+  applyGenderButtonStyle(document.getElementById('epGenderM'),document.getElementById('epGenderW'),window._epGender);
   const hcpEl=document.getElementById('epHcp'),vEl=document.getElementById('epVorgabe');
   if(hcpEl)hcpEl.addEventListener('input',()=>{vEl.value=calcVorgabeFromIndex(hcpEl.value,window._epGender);});
 }
 function epSetGender(g){
   window._epGender=g;
-  let mBtn=document.getElementById('epGenderM'),wBtn=document.getElementById('epGenderW');
-  if(mBtn&&wBtn){mBtn.className=g==='m'?'active':'';wBtn.className=g==='w'?'active':'';}
+  applyGenderButtonStyle(document.getElementById('epGenderM'),document.getElementById('epGenderW'),g);
   let hcpEl=document.getElementById('epHcp'),vEl=document.getElementById('epVorgabe');
   if(hcpEl&&hcpEl.value)vEl.value=calcVorgabeFromIndex(hcpEl.value,g);
 }
@@ -219,17 +262,17 @@ function deleteProfileNow(idx){let profiles=loadProfiles();profiles.splice(idx,1
 function newProfileStandalone(){
   showModal(`<h2>👤 Neuer Spieler</h2>
   <div class="section"><input class="textInput" id="npsName" placeholder="Name"></div>
-  <div class="section"><div class="label">Geschlecht (Abschlag)</div><div class="seg two"><button class="active" id="npsGenderM" onclick="npsSetGender('m')">Mann (gelb)</button><button id="npsGenderW" onclick="npsSetGender('w')">Frau (rot)</button></div></div>
+  <div class="section"><div class="label">Geschlecht</div><div class="seg two"><button id="npsGenderM" onclick="npsSetGender('m')">♂</button><button id="npsGenderW" onclick="npsSetGender('w')">♀</button></div></div>
   <div class="section"><div class="playerRow"><input class="numInput" id="npsHcp" type="number" min="0" max="54" step="0.1" placeholder="Handicap-Index"><input class="numInput" id="npsVorgabe" type="number" min="0" max="54" placeholder="Vorgabe"></div></div>
   <div class="modalActions"><button class="close" onclick="closeModal()">Abbrechen</button><button class="close danger" onclick="saveNewProfileStandalone()">Speichern</button></div>`);
   window._npsGender='m';
+  applyGenderButtonStyle(document.getElementById('npsGenderM'),document.getElementById('npsGenderW'),'m');
   const hcpEl=document.getElementById('npsHcp'),vEl=document.getElementById('npsVorgabe');
   if(hcpEl)hcpEl.addEventListener('input',()=>{vEl.value=calcVorgabeFromIndex(hcpEl.value,window._npsGender);});
 }
 function npsSetGender(g){
   window._npsGender=g;
-  let mBtn=document.getElementById('npsGenderM'),wBtn=document.getElementById('npsGenderW');
-  if(mBtn&&wBtn){mBtn.className=g==='m'?'active':'';wBtn.className=g==='w'?'active':'';}
+  applyGenderButtonStyle(document.getElementById('npsGenderM'),document.getElementById('npsGenderW'),g);
   let hcpEl=document.getElementById('npsHcp'),vEl=document.getElementById('npsVorgabe');
   if(hcpEl&&hcpEl.value)vEl.value=calcVorgabeFromIndex(hcpEl.value,g);
 }
@@ -340,7 +383,7 @@ function funGeneratorInfo(){showInfo('fun')}
 /* ---------- Course-Handicap-Rechner ---------- */
 function hcpCalculator(){
   showModal(`<h2>🧮 Course-Handicap-Rechner</h2><p>Berechnet dein Course Handicap aus Handicap-Index, Slope und Course Rating (offizielle Formel: Index × Slope/113 + (Rating − PAR)).</p>
-  <div class="section"><div class="label">Abschlag</div><div class="seg two"><button class="active" id="hcGenderM" onclick="hcSetGender('m')">Mann (gelb)</button><button id="hcGenderW" onclick="hcSetGender('w')">Frau (rot)</button></div></div>
+  <div class="section"><div class="label">Abschlag</div><div class="seg two"><button id="hcGenderM" onclick="hcSetGender('m')">♂</button><button id="hcGenderW" onclick="hcSetGender('w')">♀</button></div></div>
   <div class="section"><div class="playerRow"><input class="numInput" id="hcIndex" type="number" step="0.1" placeholder="Handicap-Index"></div></div>
   <div class="section"><div class="playerRow"><input class="numInput" id="hcSlope" type="number" placeholder="Slope (z. B. 125)" value="${S.courseSlopeM||132}"></div></div>
   <div class="section"><div class="playerRow"><input class="numInput" id="hcRating" type="number" step="0.1" placeholder="Course Rating" value="${S.courseRatingM||71.7}"></div></div>
@@ -348,10 +391,10 @@ function hcpCalculator(){
   <div class="section"><button class="secondary" onclick="calcCourseHcp()">Berechnen</button></div>
   <div id="hcResult" class="note" style="display:none"></div>
   <div class="modalActions"><button class="close" onclick="closeModal()">Schließen</button></div>`);
+  applyGenderButtonStyle(document.getElementById('hcGenderM'),document.getElementById('hcGenderW'),'m');
 }
 function hcSetGender(g){
-  let mBtn=document.getElementById('hcGenderM'),wBtn=document.getElementById('hcGenderW');
-  if(mBtn&&wBtn){mBtn.className=g==='m'?'active':'';wBtn.className=g==='w'?'active':'';}
+  applyGenderButtonStyle(document.getElementById('hcGenderM'),document.getElementById('hcGenderW'),g);
   let slopeEl=document.getElementById('hcSlope'),ratingEl=document.getElementById('hcRating');
   if(slopeEl)slopeEl.value=g==='w'?(S.courseSlopeW||132):(S.courseSlopeM||132);
   if(ratingEl)ratingEl.value=g==='w'?(S.courseRatingW||73.5):(S.courseRatingM||71.7);
@@ -580,6 +623,13 @@ function sixesBlock(){
   ${S.sixes.enabled?`<div class="seg two" style="margin-top:7px"><button class="${S.sixes.rotation==='block'?'active':''}" onclick="S.sixes.rotation='block';sixesResetDraws();render()">Alle 6 Löcher</button><button class="${S.sixes.rotation==='hole'?'active':''}" onclick="S.sixes.rotation='hole';sixesResetDraws();render()">Jede Bahn neu</button></div><div class="seg two" style="margin-top:7px"><button class="${!S.sixes.vorgabe?'active':''}" onclick="S.sixes.vorgabe=false;save();render()">Ohne Vorgabe</button><button class="${S.sixes.vorgabe?'active':''}" onclick="S.sixes.vorgabe=true;save();render()">Mit Vorgabe</button></div><div class="hint" style="margin-top:7px">Partner werden zufällig ausgelost, alle drei möglichen Paarungen kommen über die Runde ausgeglichen (je 6 Löcher) vor. Wertung je Loch pro Spieler: gewonnen +1 · geteilt 0 · verloren −1.</div>${showVorgabeInputs?hcpInputsBlock():''}`:''}
   </div>`;
 }
+function playerAvatar(p){
+  let name=playerName(p);
+  let initial=(name.trim()[0]||'?').toUpperCase();
+  let colors=['#68c487','#4d9cff','#f2c94c','#ff7a7e'];
+  let bg=colors[p%colors.length];
+  return `<span class="avatarCircle" style="background:${bg}" title="${esc(name)}">${esc(initial)}</span>`;
+}
 function sixesOverlayBlock(){
   if(!sixesActiveForMode())return '';
   let rows='';
@@ -588,20 +638,21 @@ function sixesOverlayBlock(){
     rows=`<div class="miniGrid">${labels.map((lb,b)=>{
       let k=S.sixes.blocks[b];let teams=(k===null||k===undefined)?null:SIXES_PAIRS[k];
       let canDraw=b===0||S.sixes.blocks[b-1]!==null&&S.sixes.blocks[b-1]!==undefined;
-      return `<div class="settingCard"><label>${lb}</label>${teams?`<div class="sub">${esc(playerName(teams[0][0]))} &amp; ${esc(playerName(teams[0][1]))}<br><b>vs</b><br>${esc(playerName(teams[1][0]))} &amp; ${esc(playerName(teams[1][1]))}</div>`:`<button class="smallBtn" ${canDraw?'':'disabled'} onclick="sixesDrawBlock(${b});render()">🎲 auslosen</button>`}</div>`;
+      return `<div class="settingCard"><label>${lb}</label>${teams?`<div class="avatarPair">${playerAvatar(teams[0][0])}${playerAvatar(teams[0][1])}<span class="sub" style="margin:0 4px">vs</span>${playerAvatar(teams[1][0])}${playerAvatar(teams[1][1])}</div>`:`<button class="smallBtn" ${canDraw?'':'disabled'} onclick="sixesDrawBlock(${b});render()">🎲 auslosen</button>`}</div>`;
     }).join('')}</div>`;
   } else {
     rows=`<div class="miniGrid">${Array.from({length:18},(_,h)=>{
       let k=S.sixes.holePairing[h];let teams=(k===null||k===undefined)?null:SIXES_PAIRS[k];
-      return `<div class="settingCard"><label>Loch ${h+1}</label>${teams?`<div class="sub">${esc(playerName(teams[0][0]))}+${esc(playerName(teams[0][1]))}<br>vs ${esc(playerName(teams[1][0]))}+${esc(playerName(teams[1][1]))}</div>`:`<button class="smallBtn" onclick="sixesDrawHole(${h});render()">🎲</button>`}</div>`;
+      return `<div class="settingCard" style="padding:9px"><label style="margin-bottom:4px">Loch ${h+1}</label>${teams?`<div class="avatarPair">${playerAvatar(teams[0][0])}${playerAvatar(teams[0][1])}<span class="sub" style="margin:0 3px">vs</span>${playerAvatar(teams[1][0])}${playerAvatar(teams[1][1])}</div>`:`<button class="smallBtn" onclick="sixesDrawHole(${h});render()">🎲</button>`}</div>`;
     }).join('')}</div>`;
   }
   let pts=names().map((n,p)=>[n,sixesPlayerPoints(p)]);
-  return `<div class="section"><div class="label">Sixes · Partner-Rotation</div>${rows}</div><div class="section"><div class="label">Sixes-Punkte</div><div class="miniGrid">${pts.map(x=>`<div class="settingCard"><b>${esc(x[0])}</b><div class="points">${x[1]}</div></div>`).join('')}</div></div>`;
+  return `<div class="section"><div class="label">Sixes · Partner-Rotation</div>${rows}</div><div class="section"><div class="label">Sixes-Punkte</div><div class="miniGrid">${pts.map((x,p)=>`<div class="settingCard">${playerAvatar(p)} <b>${esc(x[0])}</b><div class="points">${x[1]}</div></div>`).join('')}</div></div>`;
 }
 
 /* ---------- Home / Konfiguration ---------- */
-function home(){let allowed=S.mode;return `<div class="app"><div class="top"><div class="brand">Golf Deluxe<small>Dark Golf · 18 holes</small></div><button class="iconBtn" onclick="cycleTheme()" title="Anzeige">${themeIcon()}</button><button class="iconBtn" onclick="hcpCalculator()" title="Course-Handicap-Rechner">🧮</button><button class="iconBtn" onclick="openSyncModal()" title="Sync">🔗</button><button class="iconBtn" onclick="historyView()">📜</button><button class="iconBtn" onclick="courseSettings()">⚙</button></div><div class="hero"><h1>Dein Golfspiel.</h1><p>18 Löcher. Klare Regeln. Ein bisschen Chaos. Alles auf deinem iPhone.</p></div>${profileTiles()}<div class="section"><div class="label">Spielmodus</div><div class="modeGrid">${MODES.map(m=>`<button class="mode ${allowed===m[0]?'active':''}" onclick="selectMode('${m[0]}')">${m[1]}<span>${m[2]}</span><b class="q" onclick="event.stopPropagation();showInfo('${m[0]}')">?</b></button>`).join('')}</div></div>${configArea()}<div class="section"><button class="primary" onclick="startGame()">Spiel starten</button></div><div class="note">Der Spielstand wird automatisch auf diesem Gerät gespeichert. Reset und Rückkehr zur Startseite fragen vorher nach.</div>${hasResetBackup()?`<div class="section"><button class="secondary" onclick="restoreBackupConfirm()">↺ Letzten Reset wiederherstellen</button></div>`:''}<div class="footerSpace"></div></div>`}
+function catLegend(){return `<div class="catLegend">${Object.keys(CAT_LABEL).map(k=>`<span><span class="catDot" style="background:${CAT_COLOR[k]}"></span>${CAT_LABEL[k]}</span>`).join('')}</div>`}
+function home(){let allowed=S.mode;return `<div class="app"><div class="top"><div class="brand">Golf Deluxe<small>Dark Golf · 18 holes</small></div><button class="iconBtn" onclick="cycleTheme()" title="Anzeige">${themeIcon()}</button><button class="iconBtn" onclick="hcpCalculator()" title="Course-Handicap-Rechner">🧮</button><button class="iconBtn" onclick="openSyncModal()" title="Sync">🔗</button><button class="iconBtn" onclick="historyView()">📜</button><button class="iconBtn" onclick="courseSettings()">⚙</button></div><div class="hero"><h1>Dein Golfspiel.</h1><p>18 Löcher. Klare Regeln. Ein bisschen Chaos. Alles auf deinem iPhone.</p></div><div class="profileNavWrap"><button class="profileNavBtn" onclick="S.screen='profiles';save();render()">👤 Spielerprofile verwalten</button></div><div class="section"><div class="label">Spielmodus</div>${catLegend()}<div class="modeGrid">${MODES.map(m=>`<button class="mode ${CAT_CLASS[MODE_CATEGORY[m[0]]]||''} ${allowed===m[0]?'active':''}" onclick="selectMode('${m[0]}')">${m[1]}<span>${m[2]}</span><b class="q" onclick="event.stopPropagation();showInfo('${m[0]}')">?</b></button>`).join('')}</div></div>${configArea()}<div class="section"><button class="primary" onclick="startGame()">Spiel starten</button></div><div class="note">Der Spielstand wird automatisch auf diesem Gerät gespeichert. Reset und Rückkehr zur Startseite fragen vorher nach.</div>${hasResetBackup()?`<div class="section"><button class="secondary" onclick="restoreBackupConfirm()">↺ Letzten Reset wiederherstellen</button></div>`:''}<div class="footerSpace"></div></div>`}
 function hasData(mode){let d=S.data[mode];let has=d?Object.keys(d).length>0:false;if(mode==='match'){let d2=S.data['matchhcp'];has=has||(d2?Object.keys(d2).length>0:false)}return has}
 function setCount(n){
   S.count=n;
@@ -634,13 +685,13 @@ function hcpInputsBlock(){return `<div class="section"><div class="label">Spielv
   <div class="playerRow" style="align-items:flex-start">
     <div class="playerNo">${i+1}</div>
     <div style="flex:1">
-      ${genderToggle('hcp',i,S.playerGender[i])}
+      ${genderToggle(i,S.playerGender[i])}
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px">
         <div><input class="numInput" type="number" min="0" max="54" step="0.1" placeholder="HCP-Index" value="${S.playerHcpIndex[i]||''}" oninput="updatePlayerHcpIndex(${i},this.value);liveRefresh(this)"><span class="hcptxt">Handicap-Index</span></div>
         <div><input class="numInput" type="number" min="0" max="54" placeholder="Vorgabe" value="${S.stableHcp[i]||''}" oninput="S.stableHcp[${i}]=Math.max(0,Math.min(54,Number(this.value)||0));syncProfileFields(${i});save();liveRefresh(this)"><span class="hcptxt">Vorgabe (Schläge)</span></div>
       </div>
     </div>
-  </div>`).join('')}</div><div class="note">Handicap-Index → Vorgabe wird automatisch berechnet (Männer gelb: Slope ${S.courseSlopeM}, CR ${S.courseRatingM} · Frauen rot: Slope ${S.courseSlopeW}, CR ${S.courseRatingW}). Die Vorgabe kannst du danach frei anpassen.</div></div>`}
+  </div>`).join('')}</div><div class="note">Handicap-Index → Vorgabe wird automatisch berechnet (♂ Slope ${S.courseSlopeM}/CR ${S.courseRatingM} · ♀ Slope ${S.courseSlopeW}/CR ${S.courseRatingW}). Die Vorgabe kannst du danach frei anpassen.</div></div>`}
 function configArea(){
   if(!S.mode)return `<div class="section"><div class="note">Wähle zuerst einen Modus. Über „?" siehst du eine kurze Regelerklärung.</div></div>`;
   let teamAllowed=['count','fun','string'].includes(S.mode)&&S.count===4;
@@ -670,7 +721,8 @@ function configArea(){
   return `<div class="section"><div class="label">Spieler</div><div class="seg"><button class="${S.count===1?'active':''}" ${dis(1)?'disabled':''} onclick="setCount(1)">1</button><button class="${S.count===2?'active':''}" ${dis(2)?'disabled':''} onclick="setCount(2)">2</button><button class="${S.count===3?'active':''}" ${dis(3)?'disabled':''} onclick="setCount(3)">3</button><button class="${S.count===4?'active':''}" ${dis(4)?'disabled':''} onclick="setCount(4)">4</button></div></div><div class="section"><div class="label">Spieler auswählen</div><div class="players">${Array.from({length:S.count},(_,i)=>{let profiles=loadProfiles();return `<div class="playerRow"><div class="playerNo">${i+1}</div><select class="select" onchange="selectPlayerProfile(${i},this.value)"><option value="">– Spieler wählen –</option>${profiles.map(p=>`<option value="${esc(p.name)}" ${S.players[i]===p.name?'selected':''}>${esc(p.name)}</option>`).join('')}</select><button class="iconBtn" style="width:44px" onclick="newPlayerModal(${i})">+</button></div>`}).join('')}</div></div>${S.count===4&&teamAllowed?`<div class="section"><div class="label">Spielart</div><div class="seg two"><button class="${!S.team?'active':''}" onclick="S.team=false;save();render()">Einzel</button><button class="${S.team?'active':''}" onclick="S.team=true;save();render()">Team A / B</button></div></div>`:''}${S.mode==='match'&&S.count===4?`<div class="note">Bei 4 Spielern ist Matchplay ausschließlich Team A (1+2) gegen Team B (3+4).</div>`:''}${S.mode==='vegas'?`<div class="note">Team A = Spieler 1 + 2 · Team B = Spieler 3 + 4</div>`:''}${extra}${statsToggleBlock()}`;
 }
 function header(){return `<div class="top"><button class="iconBtn" onclick="homeConfirm()">‹</button><div style="flex:1;min-width:0"><div class="title">${modeLabel()}</div><div class="hint">${S.count} Spieler${isTeam()?' · Team A vs Team B':''}${sixesActiveForMode()?' · Sixes':''} · ${esc(S.courseName||'Varus')}</div></div><button class="iconBtn" onclick="cycleTheme()" title="Anzeige">${themeIcon()}</button>${S.statsEnabled?`<button class="iconBtn" onclick="statsOverview()" title="Statistik">📊</button>`:''}<button class="iconBtn" onclick="openStepper()" title="Schnelleingabe">⚡</button><button class="iconBtn" onclick="undoLast()" title="Rückgängig">↺</button><button class="iconBtn" onclick="scoreboard()">🏆</button><button class="iconBtn" onclick="resetConfirm()">↻</button></div>`}
-function game(){let fns={count:countGame,match:matchGame,short:shortGame,fun:funGame,wolf:wolfGame,'531':game531,stable:stableGame,vegas:vegasGame,bbb:bbbGame,skins:skinsGame,nassau:nassauGame,scramble:scrambleGame,fourball:fourballGame,chapman:()=>teamSingleGame('chapman'),foursome:()=>teamSingleGame('foursome'),greensome:()=>teamSingleGame('greensome'),string:stringGame,bridesmaid:bridesmaidGame};let body=fns[S.mode]();return `<div class="app">${header()}<div class="modeInfo"><span class="badge">${modeLabel()}</span>${isTeam()?'<span class="teamLabel">TEAM A · 1+2</span><span class="teamLabel">TEAM B · 3+4</span>':''}${sixesActiveForMode()?'<span class="teamLabel">SIXES</span>':''}</div>${body}<div class="footerSpace"></div></div>`}
+function progressBar(){let cur=currentHoleIndex()+1;let done=S.holeDone.filter(Boolean).length;let pct=Math.round((done/18)*100);return `<div class="progressWrap"><div style="display:flex;justify-content:space-between;align-items:center"><span class="hint" style="overflow:visible;white-space:normal">Loch ${cur} von 18</span><span class="hint" style="overflow:visible;white-space:normal">${done}/18 erledigt</span></div><div class="progressTrack"><div class="progressFill" style="width:${pct}%"></div></div></div>`}
+function game(){let fns={count:countGame,match:matchGame,short:shortGame,fun:funGame,wolf:wolfGame,'531':game531,stable:stableGame,vegas:vegasGame,bbb:bbbGame,skins:skinsGame,nassau:nassauGame,scramble:scrambleGame,fourball:fourballGame,chapman:()=>teamSingleGame('chapman'),foursome:()=>teamSingleGame('foursome'),greensome:()=>teamSingleGame('greensome'),string:stringGame,bridesmaid:bridesmaidGame};let body=fns[S.mode]();return `<div class="app">${header()}${progressBar()}<div class="modeInfo"><span class="badge">${modeLabel()}</span>${isTeam()?'<span class="teamLabel">TEAM A · 1+2</span><span class="teamLabel">TEAM B · 3+4</span>':''}${sixesActiveForMode()?'<span class="teamLabel">SIXES</span>':''}</div>${body}<div class="footerSpace"></div></div>`}
 function toggleHole(h){S.holeDone[h]=!S.holeDone[h];save();render();scrollToCurrentHole()}
 function doneButtons(){return `<div class="section"><div class="label">Löcher</div><div class="miniGrid">${Array.from({length:18},(_,h)=>`<button class="smallBtn ${S.holeDone[h]?'active':''}" onclick="S.holeDone[${h}]=!S.holeDone[${h}];save();render()">${S.holeDone[h]?'✓ ':''}Loch ${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button></button>`).join('')}</div></div>`}
 
@@ -914,8 +966,8 @@ function teamSingleGame(mode){
 function sixesTeamSingleGame(mode){
   let rows=Array.from({length:18},(_,h)=>{
     let teams=sixesTeamsForHole(h);
-    let lbl0=teams?`${esc(playerName(teams[0][0]))}/${esc(playerName(teams[0][1]))}`:'Paar 1';
-    let lbl1=teams?`${esc(playerName(teams[1][0]))}/${esc(playerName(teams[1][1]))}`:'Paar 2';
+    let lbl0=teams?`${playerAvatar(teams[0][0])}${playerAvatar(teams[0][1])}`:'Paar 1';
+    let lbl1=teams?`${playerAvatar(teams[1][0])}${playerAvatar(teams[1][1])}`:'Paar 2';
     let drawHint=teams?'':(S.sixes.rotation==='hole'?`<button class="smallBtn" onclick="sixesDrawHole(${h});render()">🎲 Partner</button>`:`<span class="sub">Block oben auslosen</span>`);
     return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${holeCell(h)}</td>
     <td><div class="sub">${lbl0}</div>${teams?`<input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData([mode,h,0],'')}" oninput="setData(['${mode}',${h},0],this.value);liveRefresh(this)">`:drawHint}</td>
@@ -1175,4 +1227,5 @@ render();
   }catch(e){}
 })();
 </script></body></html>
+
 
