@@ -997,6 +997,195 @@ function stringGame(){
   <div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${rows}<tr><td class="sum">Σ</td>${totals.map(t=>`<td class="sum">${t||0}</td>`).join('')}</tr></tbody></table></div>`;
 }
 
+/* ---------- Erweiterte Scorekarte / Score Differential ---------- */
+const SCORECARD_MODES=['count','stable','string','nassau','skins','scramble','chapman','foursome','greensome','fourball','bridesmaid'];
+function modeHasScorecard(){return !sixesActiveForMode()&&SCORECARD_MODES.includes(S.mode);}
+function courseParTotal(){return S.settings.reduce((a,r)=>a+r[1],0);}
+function courseParFront(){return S.settings.slice(0,9).reduce((a,r)=>a+r[1],0);}
+function courseParBack(){return S.settings.slice(9,18).reduce((a,r)=>a+r[1],0);}
+function courseSlopeRating(gender){
+  let isW=gender==='w';
+  let par=courseParTotal();
+  return {slope:Number(isW?S.courseSlopeW:S.courseSlopeM)||113, rating:(()=>{let r=isW?S.courseRatingW:S.courseRatingM;return (r===undefined||r===null||r==='')?par:Number(r);})()};
+}
+/* Näherung: 9-Loch-Rating wird anteilig aus dem 18-Loch Course Rating anhand des Bahn-PARs der jeweiligen Neun abgeleitet, da keine offiziellen 9-Loch-Ratings hinterlegt sind. */
+function scoreDifferential(grossTotal,scope,gender){
+  let {slope,rating}=courseSlopeRating(gender);
+  let par=courseParTotal();
+  let ratingPortion=rating;
+  if(scope==='front')ratingPortion=rating*(courseParFront()/par);
+  else if(scope==='back')ratingPortion=rating*(courseParBack()/par);
+  let diff=(113/slope)*(grossTotal-ratingPortion);
+  return Math.round(diff*10)/10;
+}
+function diffLabel(d){return (d===undefined||d===null||isNaN(d))?'–':(d>=0?'+':'')+d.toFixed(1);}
+function scorecardUnits(){
+  if(isTeam()&&S.mode==='count'){
+    return [{key:'A',label:'Team A',isTeam:true,members:[0,1]},{key:'B',label:'Team B',isTeam:true,members:[2,3]}];
+  }
+  if(['count','stable','string','nassau','skins'].includes(S.mode)){
+    return Array.from({length:S.count},(_,p)=>({key:p,label:playerName(p),isTeam:false}));
+  }
+  return [{key:0,label:'Team A',isTeam:true,members:[0,1]},{key:1,label:'Team B',isTeam:true,members:[2,3]}];
+}
+function scorecardHoleGross(unit,h){
+  const m=S.mode;
+  if(unit.members&&m==='count'){
+    let sum=0,any=false;
+    unit.members.forEach(p=>{let g=Number(getData(['count',h,p],''))||0;if(g){sum+=g;any=true;}});
+    return any?sum:0;
+  }
+  if(['count','stable','nassau','skins'].includes(m))return Number(getData([m,h,unit.key],''))||0;
+  if(m==='string')return Number(getData(['string',h,unit.key],''))||0;
+  if(['scramble','chapman','foursome','greensome'].includes(m))return Number(getData([m,h,unit.key],''))||0;
+  if(m==='fourball'||m==='bridesmaid'){
+    let f=loadTeamHcp();
+    let factor=m==='fourball'?f.fb:f.bm;
+    let base=unit.members;
+    let hcp=base.map(p=>S.teamFormatHcp?Math.round((Number(S.stableHcp[p])||0)*factor):0);
+    let alloc=base.map((p,i)=>Math.floor(hcp[i]/18)+(S.settings[h][2]<=hcp[i]%18?1:0));
+    let vals=base.map(p=>Number(getData([m,h,p],''))||0);
+    let nets=vals.map((v,i)=>v?v-alloc[i]:null);
+    if(nets[0]==null&&nets[1]==null)return 0;
+    let pickIdx;
+    if(m==='fourball')pickIdx=(nets[0]!=null&&nets[1]!=null)?(nets[0]<=nets[1]?0:1):(nets[0]!=null?0:1);
+    else pickIdx=(nets[0]!=null&&nets[1]!=null)?(nets[0]>=nets[1]?0:1):(nets[0]!=null?0:1);
+    return vals[pickIdx];
+  }
+  return 0;
+}
+function scorecardHoleAlloc(unit,h){
+  const m=S.mode;
+  if(unit.members&&m==='count'){
+    let hh=holeHandicap();
+    return unit.members.reduce((a,p)=>a+(hh[p]?hh[p][h]:0),0);
+  }
+  if(m==='count'||m==='stable')return holeHandicap()[unit.key][h];
+  if(m==='string'||m==='nassau'||m==='skins')return 0;
+  if(m==='scramble'){
+    if(!S.teamFormatHcp)return 0;
+    let hcpTotal=unit.key===0?scrambleTeamHcp(Number(S.stableHcp[0])||0,Number(S.stableHcp[1])||0):scrambleTeamHcp(Number(S.stableHcp[2])||0,Number(S.stableHcp[3])||0);
+    return Math.floor(hcpTotal/18)+(S.settings[h][2]<=hcpTotal%18?1:0);
+  }
+  if(['chapman','foursome','greensome'].includes(m)){
+    if(!S.teamFormatHcp)return 0;
+    let hcpFn=teamHcpFn(m);
+    let hcpTotal=unit.key===0?hcpFn(Number(S.stableHcp[0])||0,Number(S.stableHcp[1])||0):hcpFn(Number(S.stableHcp[2])||0,Number(S.stableHcp[3])||0);
+    return Math.floor(hcpTotal/18)+(S.settings[h][2]<=hcpTotal%18?1:0);
+  }
+  if(m==='fourball'||m==='bridesmaid'){
+    let f=loadTeamHcp();let factor=m==='fourball'?f.fb:f.bm;
+    let base=unit.members;
+    let hcp=base.map(p=>S.teamFormatHcp?Math.round((Number(S.stableHcp[p])||0)*factor):0);
+    let alloc=base.map((p,i)=>Math.floor(hcp[i]/18)+(S.settings[h][2]<=hcp[i]%18?1:0));
+    let vals=base.map(p=>Number(getData([m,h,p],''))||0);
+    let nets=vals.map((v,i)=>v?v-alloc[i]:null);
+    if(nets[0]==null&&nets[1]==null)return 0;
+    let pickIdx;
+    if(m==='fourball')pickIdx=(nets[0]!=null&&nets[1]!=null)?(nets[0]<=nets[1]?0:1):(nets[0]!=null?0:1);
+    else pickIdx=(nets[0]!=null&&nets[1]!=null)?(nets[0]>=nets[1]?0:1):(nets[0]!=null?0:1);
+    return alloc[pickIdx];
+  }
+  return 0;
+}
+function scorecardTotals(unit){
+  const m=S.mode;
+  let grossTotal=0,frontGross=0,backGross=0,frontPlayed=0,backPlayed=0,holesPlayed=0;
+  let netTotal=0,grossPtsStable=0;
+  for(let h=0;h<18;h++){
+    let g=scorecardHoleGross(unit,h);
+    if(g>0){
+      grossTotal+=g;holesPlayed++;
+      if(h<9){frontGross+=g;frontPlayed++;}else{backGross+=g;backPlayed++;}
+      if(m==='stable'){
+        let par=S.settings[h][1];
+        let alloc=scorecardHoleAlloc(unit,h);
+        netTotal+=Math.max(0,2+(par+alloc-g));
+        grossPtsStable+=Math.max(0,2+(par-g));
+      } else if(m==='string'){
+        let cm=Number(getData(['stringCm',h,unit.key],0))||0;
+        netTotal+=g-(cm>0?1:0);
+      } else {
+        netTotal+=g-scorecardHoleAlloc(unit,h);
+      }
+    }
+  }
+  let gender=unit.isTeam?'m':(S.playerGender[unit.key]||'m');
+  return {grossTotal,netTotal,grossPtsStable,holesPlayed,frontGross,backGross,frontPlayed,backPlayed,gender};
+}
+function scorecardDifferentials(unit,totals){
+  let gender=totals.gender||'m';
+  let out={};
+  if(totals.frontPlayed===9)out.front=scoreDifferential(totals.frontGross,'front',gender);
+  if(totals.backPlayed===9)out.back=scoreDifferential(totals.backGross,'back',gender);
+  if(totals.holesPlayed===18)out.all=scoreDifferential(totals.grossTotal,'all',gender);
+  return out;
+}
+function strokeScorecardHtml(){
+  let units=scorecardUnits();
+  let rows=units.map(u=>{
+    let t=scorecardTotals(u);
+    let d=scorecardDifferentials(u,t);
+    let lines=[];
+    lines.push(`<div class="sub">Gesamtschläge (Brutto): <b>${t.grossTotal}</b>${t.holesPlayed<18?` (${t.holesPlayed}/18 Löcher)`:''}</div>`);
+    if(S.mode==='stable'){
+      lines.push(`<div class="sub">Stableford Netto-Punkte: <b>${t.netTotal}</b></div>`);
+      lines.push(`<div class="sub">Stableford Brutto-Punkte: <b>${t.grossPtsStable}</b></div>`);
+    } else {
+      lines.push(`<div class="sub">Netto-Schläge: <b>${t.netTotal}</b></div>`);
+    }
+    if(t.frontPlayed===9)lines.push(`<div class="sub">Score Differential Front 9 (≈): <b>${diffLabel(d.front)}</b></div>`);
+    if(t.backPlayed===9)lines.push(`<div class="sub">Score Differential Back 9 (≈): <b>${diffLabel(d.back)}</b></div>`);
+    if(t.holesPlayed===18)lines.push(`<div class="sub">Score Differential (18 Löcher): <b>${diffLabel(d.all)}</b></div>`);
+    return `<div class="settingCard" style="margin:6px 0"><b>${esc(u.label)}</b>${lines.join('')}</div>`;
+  }).join('');
+  return `<div class="section"><div class="label">Erweiterte Scorekarte</div>${rows}<div class="hint">Score Differential wird näherungsweise berechnet: das 9-Loch-Rating wird anteilig aus dem 18-Loch Course Rating anhand des PARs der jeweiligen Neun abgeleitet, da keine offiziellen 9-Loch-Ratings hinterlegt sind.</div></div>`;
+}
+function matchHoleHistory(){
+  let out=[];let diff=0;
+  let useHcp=S.matchHcp&&S.count===2;
+  let allocA=[],allocB=[];
+  if(useHcp){let r=matchHcpAlloc();allocA=r.allocA;allocB=r.allocB;}
+  for(let h=0;h<18;h++){
+    let holeDiff=null;
+    if(useHcp){
+      let gA=Number(getData(['matchhcp',h,0],'')), gB=Number(getData(['matchhcp',h,1],''));
+      if(gA&&gB){let nA=gA-allocA[h],nB=gB-allocB[h];holeDiff=nA<nB?1:(nB<nA?-1:0);}
+    } else {
+      let v=getData(['match',h],null);
+      if(v!==null&&v!==undefined)holeDiff=v;
+    }
+    if(holeDiff===null)continue;
+    diff+=holeDiff;
+    out.push({hole:h+1,diff});
+  }
+  return out;
+}
+function matchNames(){
+  if(S.matchHcp&&S.count===2)return [playerName(0),playerName(1)];
+  return [isTeam()?'Team A':playerName(0), isTeam()?'Team B':playerName(1)];
+}
+function matchFinalLabel(hist){
+  let [aName,bName]=matchNames();
+  if(!hist.length)return 'Noch keine Ergebnisse eingetragen.';
+  let clinched=hist.find(x=>Math.abs(x.diff)>(18-x.hole));
+  if(clinched)return `${esc(clinched.diff>0?aName:bName)} gewinnt ${Math.abs(clinched.diff)}&${18-clinched.hole} (entschieden nach Loch ${clinched.hole})`;
+  let last=hist[hist.length-1];
+  if(last.hole===18){
+    if(last.diff===0)return 'Unentschieden (All Square nach 18 Löchern)';
+    return `${esc(last.diff>0?aName:bName)} gewinnt ${Math.abs(last.diff)} Up`;
+  }
+  if(last.diff===0)return 'Aktuell All Square';
+  return `Aktuell ${esc(last.diff>0?aName:bName)} ${Math.abs(last.diff)} Up (nach Loch ${last.hole})`;
+}
+function matchScorecardHtml(){
+  let hist=matchHoleHistory();
+  let [aName,bName]=matchNames();
+  if(!hist.length)return `<div class="section"><div class="note">Noch keine Ergebnisse eingetragen.</div></div>`;
+  let rows=hist.map(x=>{let st=matchStatus(x.diff,18-x.hole);return `<tr><td class="hole">${x.hole}</td><td class="tiny">${esc(st.a)}</td><td class="tiny">${esc(st.b)}</td></tr>`;}).join('');
+  return `<div class="section"><div class="label">Matchplay-Verlauf</div><div class="note">${matchFinalLabel(hist)}</div><div class="card"><table class="table"><thead><tr><th class="hole">Loch</th><th>${esc(aName)}</th><th>${esc(bName)}</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+}
+
 /* ---------- Scoreboard / Verlauf ---------- */
 function scoreFor(p){
   if(sixesActiveForMode())return sixesPlayerPoints(p);
@@ -1061,10 +1250,55 @@ function computeStandings(){
   let arr=names().map((n,p)=>[n,scoreFor(p)]);
   return asc?arr.sort((a,b)=>a[1]-b[1]):arr.sort((a,b)=>b[1]-a[1]);
 }
-function scoreboard(){let arr=computeStandings();showModal(`<h2>🏆 Scoreboard</h2><p>Aktueller Überblick · ${modeLabel()} · ${esc(S.courseName||'Varus')}</p>${arr.map((x,i)=>`<div class="settingCard" style="display:flex;justify-content:space-between;align-items:center;margin:6px 0"><b>${i+1}. ${esc(x[0])}</b><span class="points">${x[1]}</span></div>`).join('')}<div class="section"><button class="secondary" onclick="shareRound()">📤 Ergebnis teilen</button></div><div class="section"><button class="secondary" onclick="exportScorecardImage()">🖼️ Als Bild exportieren</button></div><div class="section"><button class="secondary" onclick="finishRoundConfirm()">🏁 Runde abschließen &amp; speichern</button></div><div class="modalActions"><button class="close" onclick="closeModal()">Schließen</button></div>`)}
-function buildShareText(){let arr=computeStandings();let lines=[`⛳ Golf Deluxe – ${modeLabel()}`,`Platz: ${S.courseName||'Varus'}`,''];arr.forEach((x,i)=>lines.push(`${i+1}. ${x[0]}: ${x[1]}`));return lines.join('\n')}
+function scoreboard(){
+  let arr=computeStandings();
+  let extra='';
+  if(S.mode==='match')extra=matchScorecardHtml();
+  else if(modeHasScorecard())extra=strokeScorecardHtml();
+  showModal(`<h2>🏆 Scoreboard</h2><p>Aktueller Überblick · ${modeLabel()} · ${esc(S.courseName||'Varus')}</p>${arr.map((x,i)=>`<div class="settingCard" style="display:flex;justify-content:space-between;align-items:center;margin:6px 0"><b>${i+1}. ${esc(x[0])}</b><span class="points">${x[1]}</span></div>`).join('')}${extra}<div class="section"><button class="secondary" onclick="shareRound()">📤 Ergebnis teilen</button></div><div class="section"><button class="secondary" onclick="exportScorecardImage()">🖼️ Als Scorekarte exportieren</button></div><div class="section"><button class="secondary" onclick="finishRoundConfirm()">🏁 Runde abschließen &amp; speichern</button></div><div class="modalActions"><button class="close" onclick="closeModal()">Schließen</button></div>`)}
+function buildShareText(){
+  let arr=computeStandings();
+  let lines=[`⛳ Golf Deluxe – ${modeLabel()}`,`Platz: ${S.courseName||'Varus'}`,''];
+  arr.forEach((x,i)=>lines.push(`${i+1}. ${x[0]}: ${x[1]}`));
+  if(S.mode==='match'){
+    let hist=matchHoleHistory();
+    if(hist.length){
+      let [aName,bName]=matchNames();
+      lines.push('',`Ergebnis: ${matchFinalLabel(hist)}`,'','Verlauf:');
+      hist.forEach(x=>{let st=matchStatus(x.diff,18-x.hole);lines.push(`Loch ${x.hole}: ${aName} ${st.a} · ${bName} ${st.b}`);});
+    }
+  } else if(modeHasScorecard()){
+    lines.push('','Scorekarte:');
+    scorecardUnits().forEach(u=>{
+      let t=scorecardTotals(u);let d=scorecardDifferentials(u,t);
+      let parts=[`Brutto ${t.grossTotal}${t.holesPlayed<18?` (${t.holesPlayed}/18)`:''}`];
+      if(S.mode==='stable')parts.push(`Netto-Pkt ${t.netTotal}`,`Brutto-Pkt ${t.grossPtsStable}`);
+      else parts.push(`Netto ${t.netTotal}`);
+      if(t.holesPlayed===18)parts.push(`Score Differential ${diffLabel(d.all)}`);
+      else if(t.frontPlayed===9)parts.push(`Score Differential Front9 ${diffLabel(d.front)}`);
+      lines.push(`${u.label}: ${parts.join(' · ')}`);
+    });
+  }
+  return lines.join('\n');
+}
 function shareRound(){let text=buildShareText();if(navigator.share){navigator.share({title:'Golf Deluxe Ergebnis',text}).catch(()=>{})}else if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(()=>showModal(`<h2>Kopiert</h2><p>Das Ergebnis wurde in die Zwischenablage kopiert.</p><div class="modalActions"><button class="close" onclick="closeModal()">OK</button></div>`)).catch(()=>showModal(`<h2>Ergebnis</h2><p style="white-space:pre-wrap">${esc(text)}</p><div class="modalActions"><button class="close" onclick="closeModal()">Schließen</button></div>`))}else{showModal(`<h2>Ergebnis</h2><p style="white-space:pre-wrap">${esc(text)}</p><div class="modalActions"><button class="close" onclick="closeModal()">Schließen</button></div>`)}}
+function finalizeCanvasExport(canvas,filename,shareTitle){
+  canvas.toBlob(blob=>{
+    if(!blob)return;
+    let file=new File([blob],filename,{type:'image/png'});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){
+      navigator.share({files:[file],title:shareTitle||'Golf Deluxe'}).catch(()=>{});
+    } else {
+      let url=URL.createObjectURL(blob);let a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);
+    }
+  },'image/png');
+}
 function exportScorecardImage(){
+  if(S.mode==='match'){exportMatchScorecardImage();return;}
+  if(modeHasScorecard()){exportStrokeScorecardImage();return;}
+  exportStandingsImage();
+}
+function exportStandingsImage(){
   let arr=computeStandings();
   let w=640,h=130+arr.length*54;
   let canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
@@ -1078,15 +1312,95 @@ function exportScorecardImage(){
     ctx.fillStyle='#f4f7f4';ctx.textAlign='left';ctx.fillText(`${i+1}. ${x[0]}`,24,y);
     ctx.fillStyle='#68c487';ctx.textAlign='right';ctx.fillText(String(x[1]),w-24,y);
   });
-  canvas.toBlob(blob=>{
-    if(!blob)return;
-    let file=new File([blob],'golf-deluxe-ergebnis.png',{type:'image/png'});
-    if(navigator.canShare&&navigator.canShare({files:[file]})){
-      navigator.share({files:[file],title:'Golf Deluxe Ergebnis'}).catch(()=>{});
+  finalizeCanvasExport(canvas,'golf-deluxe-ergebnis.png','Golf Deluxe Ergebnis');
+}
+function exportStrokeScorecardImage(){
+  let units=scorecardUnits();
+  let labelW=150,colW=42,sumW=62,marginX=16;
+  let w=marginX*2+labelW+18*colW+3*sumW;
+  let headerH=88,rowH=26;
+  let gridRows=3+units.length;
+  let summaryLinesPerUnit=(S.mode==='stable'?5:4);
+  let h=headerH+gridRows*rowH+22+units.length*(20+summaryLinesPerUnit*18)+20;
+  let canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
+  let ctx=canvas.getContext('2d');
+  ctx.fillStyle='#07100b';ctx.fillRect(0,0,w,h);
+  ctx.fillStyle='#f4f7f4';ctx.font='bold 22px sans-serif';ctx.textAlign='left';ctx.fillText('⛳ '+modeLabel()+' – Scorekarte',marginX,32);
+  ctx.font='13px sans-serif';ctx.fillStyle='#9eaa9f';ctx.fillText((S.courseName||'Varus')+' · '+new Date().toLocaleDateString('de-DE'),marginX,52);
+  let widths=[labelW,...Array(18).fill(colW),sumW,sumW,sumW];
+  let y=headerH;
+  function row(cells,opts={}){
+    let x=marginX;ctx.font=opts.font||'12px sans-serif';ctx.fillStyle=opts.color||'#dbe6dc';
+    cells.forEach((c,i)=>{
+      ctx.textAlign=i===0?'left':'center';
+      let cw=widths[i];
+      ctx.fillText(String(c),i===0?x:x+cw/2,y);
+      x+=cw;
+    });
+    y+=rowH;
+  }
+  row(['Loch',...Array.from({length:18},(_,i)=>i+1),'OUT','IN','TOT'],{font:'bold 12px sans-serif',color:'#68c487'});
+  let par=S.settings.map(r=>r[1]);
+  row(['PAR',...par,par.slice(0,9).reduce((a,b)=>a+b,0),par.slice(9).reduce((a,b)=>a+b,0),par.reduce((a,b)=>a+b,0)]);
+  let hcpIdx=S.settings.map(r=>r[2]);
+  row(['HCP',...hcpIdx,'','','']);
+  units.forEach(u=>{
+    let cells=[u.label];let outSum=0,inSum=0,tot=0;
+    for(let hh=0;hh<18;hh++){let g=scorecardHoleGross(u,hh);cells.push(g||'–');if(g){tot+=g;if(hh<9)outSum+=g;else inSum+=g;}}
+    cells.push(outSum||'–',inSum||'–',tot||'–');
+    row(cells,{font:'bold 12px sans-serif',color:'#ffffff'});
+  });
+  y+=16;
+  units.forEach(u=>{
+    let t=scorecardTotals(u);let d=scorecardDifferentials(u,t);
+    ctx.textAlign='left';
+    ctx.font='bold 15px sans-serif';ctx.fillStyle='#68c487';ctx.fillText(u.label,marginX,y);y+=20;
+    ctx.font='13px sans-serif';ctx.fillStyle='#f4f7f4';
+    ctx.fillText(`Gesamtschläge (Brutto): ${t.grossTotal}${t.holesPlayed<18?` (${t.holesPlayed}/18)`:''}`,marginX,y);y+=18;
+    if(S.mode==='stable'){
+      ctx.fillText(`Stableford Netto-Punkte: ${t.netTotal}`,marginX,y);y+=18;
+      ctx.fillText(`Stableford Brutto-Punkte: ${t.grossPtsStable}`,marginX,y);y+=18;
     } else {
-      let url=URL.createObjectURL(blob);let a=document.createElement('a');a.href=url;a.download='golf-deluxe-ergebnis.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);
+      ctx.fillText(`Netto-Schläge: ${t.netTotal}`,marginX,y);y+=18;
     }
-  },'image/png');
+    let diffParts=[];
+    if(t.frontPlayed===9)diffParts.push('Front9 ≈'+diffLabel(d.front));
+    if(t.backPlayed===9)diffParts.push('Back9 ≈'+diffLabel(d.back));
+    if(t.holesPlayed===18)diffParts.push('Gesamt '+diffLabel(d.all));
+    ctx.fillText('Score Differential: '+(diffParts.length?diffParts.join(' · '):'–'),marginX,y);y+=18+20;
+  });
+  finalizeCanvasExport(canvas,'golf-deluxe-scorekarte.png','Golf Deluxe Scorekarte');
+}
+function exportMatchScorecardImage(){
+  let hist=matchHoleHistory();
+  let [aName,bName]=matchNames();
+  let w=560,rowH=25,headerH=88;
+  let h=headerH+(Math.max(hist.length,1)+1)*rowH+70;
+  let canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
+  let ctx=canvas.getContext('2d');
+  ctx.fillStyle='#07100b';ctx.fillRect(0,0,w,h);
+  ctx.fillStyle='#f4f7f4';ctx.font='bold 22px sans-serif';ctx.textAlign='left';ctx.fillText('⛳ Matchplay – Scorekarte',16,32);
+  ctx.font='13px sans-serif';ctx.fillStyle='#9eaa9f';ctx.fillText((S.courseName||'Varus')+' · '+new Date().toLocaleDateString('de-DE'),16,52);
+  let y=headerH;
+  ctx.font='bold 13px sans-serif';ctx.fillStyle='#68c487';
+  ctx.textAlign='left';ctx.fillText('Loch',16,y);
+  ctx.textAlign='center';ctx.fillText(String(aName),230,y);ctx.fillText(String(bName),410,y);
+  y+=rowH;
+  ctx.font='13px sans-serif';
+  if(!hist.length){
+    ctx.fillStyle='#9eaa9f';ctx.textAlign='left';ctx.fillText('Noch keine Ergebnisse eingetragen.',16,y);y+=rowH;
+  } else {
+    hist.forEach(x=>{
+      let st=matchStatus(x.diff,18-x.hole);
+      ctx.fillStyle='#f4f7f4';ctx.textAlign='left';ctx.fillText(String(x.hole),16,y);
+      ctx.textAlign='center';ctx.fillText(st.a,230,y);ctx.fillText(st.b,410,y);
+      y+=rowH;
+    });
+  }
+  y+=14;
+  ctx.font='bold 15px sans-serif';ctx.fillStyle='#68c487';ctx.textAlign='left';
+  ctx.fillText('Ergebnis: '+matchFinalLabel(hist),16,y);
+  finalizeCanvasExport(canvas,'golf-deluxe-matchplay-scorekarte.png','Golf Deluxe Matchplay Scorekarte');
 }
 function getHistory(){try{let h=JSON.parse(localStorage.getItem('gd_history')||'[]');return Array.isArray(h)?h:[]}catch(e){return []}}
 function computeBadges(){
@@ -1227,5 +1541,3 @@ render();
   }catch(e){}
 })();
 </script></body></html>
-
-
