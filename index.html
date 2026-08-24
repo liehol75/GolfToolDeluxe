@@ -1434,8 +1434,39 @@ function computeBadges(){
   }
   return badges;
 }
-function saveRoundToHistory(){let arr=computeStandings();let badges=computeBadges();let entry={date:new Date().toISOString(),mode:S.mode,modeLabel:modeLabel(),course:S.courseName||'Varus',standings:arr,badges};let hist=getHistory();hist.unshift(entry);if(hist.length>50)hist.length=50;localStorage.setItem('gd_history',JSON.stringify(hist));return {arr,badges}}
-function historyView(){let hist=getHistory();if(!hist.length){showModal(`<h2>📜 Rundenverlauf</h2><p>Noch keine abgeschlossenen Runden gespeichert.</p><div class="modalActions"><button class="close" onclick="closeModal()">Schließen</button></div>`);return}showModal(`<h2>📜 Rundenverlauf</h2><div class="bonusList">${hist.map(r=>`<div class="bonusItem" style="display:block"><div style="display:flex;justify-content:space-between;align-items:center"><b>${esc(r.modeLabel)}</b><em>${esc(new Date(r.date).toLocaleDateString('de-DE'))}</em></div><div class="sub" style="margin:4px 0">${esc(r.course)}</div>${r.standings.map((x,i)=>`<div class="sub">${i+1}. ${esc(x[0])}: ${x[1]}</div>`).join('')}${r.badges&&r.badges.length?`<div class="sub" style="margin-top:4px">${r.badges.map(b=>`${b.icon} ${esc(b.title)} – ${esc(b.player)}`).join('<br>')}</div>`:''}</div>`).join('')}</div><div class="section"><button class="secondary" onclick="statsView()">📈 Statistik</button></div><div class="modalActions"><button class="close" onclick="closeModal()">Schließen</button><button class="close danger" onclick="clearHistoryConfirm()">Verlauf löschen</button></div>`)}
+function computeScorecardSummary(){
+  if(S.mode==='match'){
+    let hist=matchHoleHistory();
+    if(!hist.length)return null;
+    let [aName,bName]=matchNames();
+    return {type:'match',aName,bName,finalLabel:matchFinalLabel(hist)};
+  }
+  if(modeHasScorecard()){
+    let units=scorecardUnits().map(u=>{
+      let t=scorecardTotals(u);let d=scorecardDifferentials(u,t);
+      return {label:u.label,grossTotal:t.grossTotal,netTotal:t.netTotal,grossPtsStable:t.grossPtsStable,holesPlayed:t.holesPlayed,diffFront:d.front,diffBack:d.back,diffAll:d.all};
+    });
+    return {type:'stroke',mode:S.mode,units};
+  }
+  return null;
+}
+function renderHistoryScorecard(sc){
+  if(!sc)return '';
+  if(sc.type==='match')return `<div class="sub" style="margin-top:4px">Matchplay-Ergebnis: ${esc(sc.finalLabel)}</div>`;
+  if(sc.type==='stroke'){
+    return `<div style="margin-top:4px">${sc.units.map(u=>{
+      let parts=[`Brutto ${u.grossTotal}${u.holesPlayed<18?` (${u.holesPlayed}/18)`:''}`];
+      if(sc.mode==='stable')parts.push(`Netto-Pkt ${u.netTotal}`,`Brutto-Pkt ${u.grossPtsStable}`);
+      else parts.push(`Netto ${u.netTotal}`);
+      if(u.holesPlayed===18&&u.diffAll!==undefined)parts.push(`Diff ${diffLabel(u.diffAll)}`);
+      else if(u.diffFront!==undefined)parts.push(`Diff(9) ${diffLabel(u.diffFront)}`);
+      return `<div class="sub">${esc(u.label)}: ${parts.join(' · ')}</div>`;
+    }).join('')}</div>`;
+  }
+  return '';
+}
+function saveRoundToHistory(){let arr=computeStandings();let badges=computeBadges();let scorecard=computeScorecardSummary();let entry={date:new Date().toISOString(),mode:S.mode,modeLabel:modeLabel(),course:S.courseName||'Varus',standings:arr,badges,scorecard};let hist=getHistory();hist.unshift(entry);if(hist.length>50)hist.length=50;localStorage.setItem('gd_history',JSON.stringify(hist));return {arr,badges}}
+function historyView(){let hist=getHistory();if(!hist.length){showModal(`<h2>📜 Rundenverlauf</h2><p>Noch keine abgeschlossenen Runden gespeichert.</p><div class="modalActions"><button class="close" onclick="closeModal()">Schließen</button></div>`);return}showModal(`<h2>📜 Rundenverlauf</h2><div class="bonusList">${hist.map(r=>`<div class="bonusItem" style="display:block"><div style="display:flex;justify-content:space-between;align-items:center"><b>${esc(r.modeLabel)}</b><em>${esc(new Date(r.date).toLocaleDateString('de-DE'))}</em></div><div class="sub" style="margin:4px 0">${esc(r.course)}</div>${r.standings.map((x,i)=>`<div class="sub">${i+1}. ${esc(x[0])}: ${x[1]}</div>`).join('')}${renderHistoryScorecard(r.scorecard)}${r.badges&&r.badges.length?`<div class="sub" style="margin-top:4px">${r.badges.map(b=>`${b.icon} ${esc(b.title)} – ${esc(b.player)}`).join('<br>')}</div>`:''}</div>`).join('')}</div><div class="section"><button class="secondary" onclick="statsView()">📈 Statistik</button></div><div class="modalActions"><button class="close" onclick="closeModal()">Schließen</button><button class="close danger" onclick="clearHistoryConfirm()">Verlauf löschen</button></div>`)}
 function clearHistoryConfirm(){showModal(`<h2>Verlauf löschen?</h2><p>Alle gespeicherten Rundenergebnisse werden entfernt.</p><div class="modalActions"><button class="close" onclick="historyView()">Abbrechen</button><button class="close danger" onclick="localStorage.removeItem('gd_history');closeModal()">Löschen</button></div>`)}
 function sparkline(vals){
   if(vals.length<2)return `<div class="sub">Zu wenige Runden für einen Trend.</div>`;
