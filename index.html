@@ -94,6 +94,7 @@ function saveCourses(list){localStorage.setItem('gd_courses',JSON.stringify(list
 function blankState(){let meta=loadCourseMeta();return {screen:'home',mode:null,players:[],count:2,team:false,par:4,stableHcp:[0,0,0,0],playerHcpIndex:[0,0,0,0],playerGender:['m','m','m','m'],matchHcp:false,teamFormatHcp:false,wolfBlind:false,holeDone:Array(18).fill(false),data:{},
  sixes:{enabled:false,rotation:'block',blocks:[null,null,null],holePairing:Array(18).fill(null),vorgabe:false},
  statsEnabled:false,
+ nineHoleTournament:false,
  stats:Array.from({length:18},()=>Array.from({length:4},()=>({fairway:null,gir:null,putts:null}))),
  fun:{holeModes:Array(18).fill(null),unique:false,clubs:Array(18).fill(null),shotClubs:Array.from({length:18},()=>[]),bonus:Array.from({length:18},()=>Array.from({length:4},()=>[]))},
  courseName:JSON.parse(localStorage.getItem('gd_active_course')||'null')||'Varus',
@@ -692,6 +693,9 @@ function hcpInputsBlock(){return `<div class="section"><div class="label">Spielv
       </div>
     </div>
   </div>`).join('')}</div><div class="note">Handicap-Index → Vorgabe wird automatisch berechnet (♂ Slope ${S.courseSlopeM}/CR ${S.courseRatingM} · ♀ Slope ${S.courseSlopeW}/CR ${S.courseRatingW}). Die Vorgabe kannst du danach frei anpassen.</div></div>`}
+function nineHoleToggleBlock(){
+  return `<div class="section"><div class="label">Rundenlänge (für Score Differential)</div><div class="seg two"><button class="${!S.nineHoleTournament?'active':''}" onclick="S.nineHoleTournament=false;save();render()">18-Loch-Runde</button><button class="${S.nineHoleTournament?'active':''}" onclick="S.nineHoleTournament=true;save();render()">9-Loch-Turnier</button></div><div class="hint" style="margin-top:7px">Bei „9-Loch-Turnier" wird im Scoreboard/Scorekarte zusätzlich ein auf 18 Löcher hochgerechnetes Score Differential nach der DGV-Formel (Stand 04/2024) angezeigt, sobald exakt 9 Löcher (Front oder Back) eingetragen sind: SD(18) = SD(9 gespielt) + ((HCPI × 1,04) + 2,4) / 2.</div></div>`;
+}
 function configArea(){
   if(!S.mode)return `<div class="section"><div class="note">Wähle zuerst einen Modus. Über „?" siehst du eine kurze Regelerklärung.</div></div>`;
   let teamAllowed=['count','fun','string'].includes(S.mode)&&S.count===4;
@@ -701,7 +705,7 @@ function configArea(){
   let extra='';
   if(S.mode==='short')extra=`<div class="section"><div class="label">PAR für alle 18 Löcher</div><select class="select" onchange="S.par=Number(this.value);save();render()">${[2,3,4,5].map(v=>`<option value="${v}" ${S.par===v?'selected':''}>${v}</option>`).join('')}</select></div>`;
   if(S.mode==='fun')extra=`<div class="section"><div class="label">Fun-Generator</div><div class="seg two"><button class="${S.fun.unique?'active':''}" onclick="S.fun.unique=true;save();render()">Alle nur 1x</button><button class="${!S.fun.unique?'active':''}" onclick="S.fun.unique=false;save();render()">Wiederholungen erlaubt</button></div><div class="hint" style="margin-top:7px">Modus und Zufallsschläger werden pro Bahn per Button ausgelost, nicht automatisch.</div></div><div class="section"><button class="secondary" onclick="funModeManager()">⚙ Fun-Modi &amp; Bonus verwalten</button></div>`;
-  if(S.mode==='stable')extra=hcpInputsBlock()+sixesBlock();
+  if(S.mode==='stable')extra=hcpInputsBlock()+nineHoleToggleBlock()+sixesBlock();
   if(S.mode==='count')extra=sixesBlock();
   if(S.mode==='string')extra=hcpInputsBlock()+`<div class="note">Deine Vorgabe ergibt zusammen mit dem String-Faktor (⚙ Platzdaten &amp; Einstellungen) die Länge deiner virtuellen Schnur in cm. Aktivierst du oben „Team A / B" (bei 4 Spielern), teilen sich beide Partner ein gemeinsames Budget aus dem Mittelwert ihrer Vorgaben.</div>`;
   if(S.mode==='match'){
@@ -851,9 +855,21 @@ function pts531(vals){
 function game531(){let totals=[0,0,0];return `<div class="card"><table class="table"><thead><tr><th class="hole">Loch</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${Array.from({length:18},(_,h)=>{let vals=Array.from({length:3},(_,p)=>Number(getData(['531',h,p],'')));let pts=pts531(vals);pts.forEach((x,p)=>totals[p]+=x);return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${holeCell(h)}</td>${Array.from({length:3},(_,p)=>`<td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData(['531',h,p],'')}" oninput="setData(['531',${h},${p}],this.value);liveRefresh(this)"><div class="sub rankPts">${pts[p]}</div></td>`).join('')}</tr>`}).join('')}<tr><td class="sum">Σ</td>${totals.map(t=>`<td class="sum">${t}</td>`).join('')}</tr></tbody></table></div>`}
 
 /* ---------- Stableford ---------- */
-function stableGame(){let totals=Array(S.count).fill(0);let hcp=holeHandicap();return `<div class="card"><table class="table"><thead><tr><th class="hole">Loch</th><th>PAR</th><th>HCP</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${Array.from({length:18},(_,h)=>{let par=S.settings[h][1],hcpv=S.settings[h][2];return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${holeCell(h)}</td><td>${par}</td><td>${hcpv}</td>${Array.from({length:S.count},(_,p)=>{let gross=Number(getData(['stable',h,p],''));let alloc=hcp[p][h];let pts=gross?Math.max(0,2+(par+alloc-gross)):0;if(gross)totals[p]+=pts;return `<td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData(['stable',h,p],'')}" oninput="setData(['stable',${h},${p}],this.value);liveRefresh(this)"><span class="hcptxt">${alloc>=0?alloc:0}</span>${gross?`<span class="stablePts">${pts}</span>`:''}</td>`}).join('')}</tr>`}).join('')}<tr><td class="sum">Σ</td><td></td><td></td>${totals.map(t=>`<td class="sum">${t}</td>`).join('')}</tr></tbody></table></div><div class="note" style="margin-top:9px">Vorgaben werden ab HCP 1 lochweise verteilt. Bei mehr als 18 beginnt die Verteilung erneut bei HCP 1.</div>${sixesOverlayBlock()}`}
+function stableGame(){let totals=Array(S.count).fill(0);let hcp=holeHandicap();return `<div class="card"><table class="table"><thead><tr><th class="hole">Loch</th><th>PAR</th><th>HCP</th>${names().map(n=>`<th>${esc(n)}</th>`).join('')}</tr></thead><tbody>${Array.from({length:18},(_,h)=>{let par=S.settings[h][1],hcpv=S.settings[h][2];return `<tr class="${h===currentHoleIndex()?'curHole':''}"><td class="hole">${holeCell(h)}</td><td>${par}</td><td>${hcpv}</td>${Array.from({length:S.count},(_,p)=>{let gross=Number(getData(['stable',h,p],''));let alloc=hcp[p][h];let pts=gross?Math.max(0,2+(par+alloc-gross)):0;if(gross)totals[p]+=pts;return `<td><input class="compact" inputmode="numeric" type="number" min="0" max="99" value="${getData(['stable',h,p],'')}" oninput="setData(['stable',${h},${p}],this.value);liveRefresh(this)"><span class="hcptxt">${alloc>=0?alloc:0}</span>${gross?`<span class="stablePts">${pts}</span>`:''}</td>`}).join('')}</tr>`}).join('')}<tr><td class="sum">Σ</td><td></td><td></td>${totals.map(t=>`<td class="sum">${t}</td>`).join('')}</tr></tbody></table></div><div class="note" style="margin-top:9px">Vorgaben werden ab HCP 1 lochweise verteilt. Bei mehr als 18 beginnt die Verteilung erneut bei HCP 1.</div>${S.nineHoleTournament?nineHoleScorecardInline():''}${sixesOverlayBlock()}`}
 function holeHandicap(){let out=Array.from({length:S.count},()=>Array(18).fill(0));for(let p=0;p<S.count;p++){let strokes=Number(S.stableHcp[p])||0;for(let i=0;i<18;i++)out[p][i]=Math.floor(strokes/18)+(S.settings[i][2]<=strokes%18?1:0)}return out.map(a=>a)}
 function stableTotal(p){let h=holeHandicap()[p],t=0;for(let i=0;i<18;i++){let g=Number(getData(['stable',i,p],''));if(g)t+=Math.max(0,2+(S.settings[i][1]+h[i]-g))}return t}
+function nineHoleScorecardInline(){
+  let rows=names().map((n,p)=>{
+    let t=scorecardTotals({key:p,isTeam:false});
+    if(t.holesPlayed!==9)return '';
+    let scope=t.frontPlayed===9?'front':'back';
+    let sd=nineHoleCombinedDifferential(t,scope,p);
+    if(sd===null)return '';
+    return `<div class="settingCard"><b>${esc(n)}</b><div class="sub">${scope==='front'?'Front 9':'Back 9'} gespielt · Brutto ${scope==='front'?t.frontGross:t.backGross}</div><div class="points">Score Differential (18-Loch-Turnier, hochgerechnet): ${diffLabel(sd)}</div></div>`;
+  }).filter(Boolean).join('');
+  if(!rows)return '';
+  return `<div class="section"><div class="label">9-Loch-Turnier · DGV-Hochrechnung</div>${rows}<div class="hint">Berechnung nach DGV-Regel (Stand 04/2024): SD(18) = SD(9 gespielt) + ((HCPI × 1,04) + 2,4) / 2.</div></div>`;
+}
 
 /* ---------- Las Vegas ---------- */
 function vegasCompute(){let totals=[0,0];let holeData=[];for(let h=0;h<18;h++){let vals=Array.from({length:4},(_,p)=>Number(getData(['vegas',h,p],'')));let a=vals.slice(0,2).every(Boolean)?`${Math.min(vals[0],vals[1])}${Math.max(vals[0],vals[1])}`:'';let b=vals.slice(2,4).every(Boolean)?`${Math.min(vals[2],vals[3])}${Math.max(vals[2],vals[3])}`:'';let birdA=getData(['vegas',h,'birdA'],false),birdB=getData(['vegas',h,'birdB'],false);let shownA=a,shownB=b;if(birdB&&a)shownA=`${a[1]}${a[0]}`;if(birdA&&b)shownB=`${b[1]}${b[0]}`;if(a)totals[0]+=Number(shownA);if(b)totals[1]+=Number(shownB);holeData.push({vals,shownA,shownB,birdA,birdB});}return {totals,holeData}}
@@ -1018,6 +1034,22 @@ function scoreDifferential(grossTotal,scope,gender){
   let diff=(113/slope)*(grossTotal-ratingPortion);
   return Math.round(diff*10)/10;
 }
+/* ---------- 9-Loch-Turnier: offizielle DGV-Hochrechnung auf 18 Löcher (Stand 04/2024) ----------
+   SD(9 gespielt) = (Brutto9 - CR9) x (113/Slope)   [CR9 hier näherungsweise aus dem 18-Loch-CR anteilig anhand des PAR abgeleitet, siehe scoreDifferential]
+   SD(9 berechnet, für die nicht gespielten 9 Löcher) = ((HCPI x 1,04) + 2,4) / 2
+   SD(18) = SD(9 gespielt) + SD(9 berechnet)
+*/
+function nineHoleCalculatedSD(hcpIndex){
+  return ((Number(hcpIndex)||0)*1.04+2.4)/2;
+}
+function nineHoleCombinedDifferential(totals,scope,playerIndex){
+  if(!totals||totals.holesPlayed!==9)return null;
+  let gross9=scope==='front'?totals.frontGross:totals.backGross;
+  let sdPlayed=scoreDifferential(gross9,scope,totals.gender||'m');
+  let hcpIndex=S.playerHcpIndex&&S.playerHcpIndex[playerIndex]!==undefined?S.playerHcpIndex[playerIndex]:0;
+  let sdCalc=nineHoleCalculatedSD(hcpIndex);
+  return Math.round((sdPlayed+sdCalc)*10)/10;
+}
 function diffLabel(d){return (d===undefined||d===null||isNaN(d))?'–':(d>=0?'+':'')+d.toFixed(1);}
 function scorecardUnits(){
   if(isTeam()&&S.mode==='count'){
@@ -1119,6 +1151,10 @@ function scorecardDifferentials(unit,totals){
   if(totals.frontPlayed===9)out.front=scoreDifferential(totals.frontGross,'front',gender);
   if(totals.backPlayed===9)out.back=scoreDifferential(totals.backGross,'back',gender);
   if(totals.holesPlayed===18)out.all=scoreDifferential(totals.grossTotal,'all',gender);
+  if(S.mode==='stable'&&S.nineHoleTournament&&totals.holesPlayed===9&&!unit.isTeam){
+    let scope=totals.frontPlayed===9?'front':'back';
+    out.nineCombined=nineHoleCombinedDifferential(totals,scope,unit.key);
+  }
   return out;
 }
 function strokeScorecardHtml(){
@@ -1137,9 +1173,10 @@ function strokeScorecardHtml(){
     if(t.frontPlayed===9)lines.push(`<div class="sub">Score Differential Front 9 (≈): <b>${diffLabel(d.front)}</b></div>`);
     if(t.backPlayed===9)lines.push(`<div class="sub">Score Differential Back 9 (≈): <b>${diffLabel(d.back)}</b></div>`);
     if(t.holesPlayed===18)lines.push(`<div class="sub">Score Differential (18 Löcher): <b>${diffLabel(d.all)}</b></div>`);
+    if(d.nineCombined!==undefined)lines.push(`<div class="sub">Score Differential (9-Loch-Turnier, DGV-Hochrechnung auf 18): <b>${diffLabel(d.nineCombined)}</b></div>`);
     return `<div class="settingCard" style="margin:6px 0"><b>${esc(u.label)}</b>${lines.join('')}</div>`;
   }).join('');
-  return `<div class="section"><div class="label">Erweiterte Scorekarte</div>${rows}<div class="hint">Score Differential wird näherungsweise berechnet: das 9-Loch-Rating wird anteilig aus dem 18-Loch Course Rating anhand des PARs der jeweiligen Neun abgeleitet, da keine offiziellen 9-Loch-Ratings hinterlegt sind.</div></div>`;
+  return `<div class="section"><div class="label">Erweiterte Scorekarte</div>${rows}<div class="hint">Score Differential wird näherungsweise berechnet: das 9-Loch-Rating wird anteilig aus dem 18-Loch Course Rating anhand des PARs der jeweiligen Neun abgeleitet, da keine offiziellen 9-Loch-Ratings hinterlegt sind. Die 9-Loch-Turnier-Hochrechnung folgt der offiziellen DGV-Formel (Stand 04/2024).</div></div>`;
 }
 function matchHoleHistory(){
   let out=[];let diff=0;
@@ -1276,6 +1313,7 @@ function buildShareText(){
       else parts.push(`Netto ${t.netTotal}`);
       if(t.holesPlayed===18)parts.push(`Score Differential ${diffLabel(d.all)}`);
       else if(t.frontPlayed===9)parts.push(`Score Differential Front9 ${diffLabel(d.front)}`);
+      if(d.nineCombined!==undefined)parts.push(`SD 9-Loch-Turnier (18 hochgerechnet) ${diffLabel(d.nineCombined)}`);
       lines.push(`${u.label}: ${parts.join(' · ')}`);
     });
   }
@@ -1320,7 +1358,7 @@ function exportStrokeScorecardImage(){
   let w=marginX*2+labelW+18*colW+3*sumW;
   let headerH=88,rowH=26;
   let gridRows=3+units.length;
-  let summaryLinesPerUnit=(S.mode==='stable'?5:4);
+  let summaryLinesPerUnit=(S.mode==='stable'?5:4)+(S.mode==='stable'&&S.nineHoleTournament?1:0);
   let h=headerH+gridRows*rowH+22+units.length*(20+summaryLinesPerUnit*18)+20;
   let canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
   let ctx=canvas.getContext('2d');
@@ -1367,7 +1405,11 @@ function exportStrokeScorecardImage(){
     if(t.frontPlayed===9)diffParts.push('Front9 ≈'+diffLabel(d.front));
     if(t.backPlayed===9)diffParts.push('Back9 ≈'+diffLabel(d.back));
     if(t.holesPlayed===18)diffParts.push('Gesamt '+diffLabel(d.all));
-    ctx.fillText('Score Differential: '+(diffParts.length?diffParts.join(' · '):'–'),marginX,y);y+=18+20;
+    ctx.fillText('Score Differential: '+(diffParts.length?diffParts.join(' · '):'–'),marginX,y);y+=18;
+    if(d.nineCombined!==undefined){
+      ctx.fillText('SD 9-Loch-Turnier (auf 18 hochgerechnet, DGV): '+diffLabel(d.nineCombined),marginX,y);y+=18;
+    }
+    y+=20;
   });
   finalizeCanvasExport(canvas,'golf-deluxe-scorekarte.png','Golf Deluxe Scorekarte');
 }
@@ -1444,7 +1486,7 @@ function computeScorecardSummary(){
   if(modeHasScorecard()){
     let units=scorecardUnits().map(u=>{
       let t=scorecardTotals(u);let d=scorecardDifferentials(u,t);
-      return {label:u.label,grossTotal:t.grossTotal,netTotal:t.netTotal,grossPtsStable:t.grossPtsStable,holesPlayed:t.holesPlayed,diffFront:d.front,diffBack:d.back,diffAll:d.all};
+      return {label:u.label,grossTotal:t.grossTotal,netTotal:t.netTotal,grossPtsStable:t.grossPtsStable,holesPlayed:t.holesPlayed,diffFront:d.front,diffBack:d.back,diffAll:d.all,diffNineCombined:d.nineCombined};
     });
     return {type:'stroke',mode:S.mode,units};
   }
@@ -1460,6 +1502,7 @@ function renderHistoryScorecard(sc){
       else parts.push(`Netto ${u.netTotal}`);
       if(u.holesPlayed===18&&u.diffAll!==undefined)parts.push(`Diff ${diffLabel(u.diffAll)}`);
       else if(u.diffFront!==undefined)parts.push(`Diff(9) ${diffLabel(u.diffFront)}`);
+      if(u.diffNineCombined!==undefined)parts.push(`SD 9-Loch-Turnier (18) ${diffLabel(u.diffNineCombined)}`);
       return `<div class="sub">${esc(u.label)}: ${parts.join(' · ')}</div>`;
     }).join('')}</div>`;
   }
@@ -1494,11 +1537,12 @@ function closeModal(){document.getElementById('modalRoot').innerHTML=''}
 function resetConfirm(){showModal(`<h2>Spiel zurücksetzen?</h2><p>Alle Eintragungen dieses Spiels werden gelöscht. Die Platzdaten und Einstellungen bleiben erhalten. Vor dem Löschen wird automatisch eine Sicherung angelegt, die du bei Bedarf wiederherstellen kannst.</p><div class="modalActions"><button class="close" onclick="closeModal()">Abbrechen</button><button class="close danger" onclick="resetGame()">Alles löschen</button></div>`)}
 function resetGame(){
   try{localStorage.setItem('gd_last_backup',JSON.stringify({state:S,ts:Date.now()}))}catch(e){}
-  let keep={settings:S.settings,players:S.players,count:S.count,team:S.team,mode:S.mode,par:S.par,stableHcp:S.stableHcp,playerHcpIndex:S.playerHcpIndex,playerGender:S.playerGender,courseName:S.courseName,courseSlopeM:S.courseSlopeM,courseRatingM:S.courseRatingM,courseSlopeW:S.courseSlopeW,courseRatingW:S.courseRatingW,matchHcp:S.matchHcp,teamFormatHcp:S.teamFormatHcp,wolfBlind:S.wolfBlind,funUnique:S.fun?S.fun.unique:false,statsEnabled:S.statsEnabled,sixesEnabled:S.sixes?S.sixes.enabled:false,sixesRotation:S.sixes?S.sixes.rotation:'block',sixesVorgabe:S.sixes?S.sixes.vorgabe:false};
+  let keep={settings:S.settings,players:S.players,count:S.count,team:S.team,mode:S.mode,par:S.par,stableHcp:S.stableHcp,playerHcpIndex:S.playerHcpIndex,playerGender:S.playerGender,courseName:S.courseName,courseSlopeM:S.courseSlopeM,courseRatingM:S.courseRatingM,courseSlopeW:S.courseSlopeW,courseRatingW:S.courseRatingW,matchHcp:S.matchHcp,teamFormatHcp:S.teamFormatHcp,wolfBlind:S.wolfBlind,funUnique:S.fun?S.fun.unique:false,statsEnabled:S.statsEnabled,sixesEnabled:S.sixes?S.sixes.enabled:false,sixesRotation:S.sixes?S.sixes.rotation:'block',sixesVorgabe:S.sixes?S.sixes.vorgabe:false,nineHoleTournament:S.nineHoleTournament};
   S=blankState();
   S.settings=keep.settings;S.players=keep.players;S.count=keep.count;S.team=keep.team;S.mode=keep.mode;S.par=keep.par;S.stableHcp=keep.stableHcp;S.playerHcpIndex=keep.playerHcpIndex;S.playerGender=keep.playerGender;S.courseName=keep.courseName;S.courseSlopeM=keep.courseSlopeM;S.courseRatingM=keep.courseRatingM;S.courseSlopeW=keep.courseSlopeW;S.courseRatingW=keep.courseRatingW;
   S.matchHcp=keep.matchHcp;S.teamFormatHcp=keep.teamFormatHcp;S.wolfBlind=keep.wolfBlind;S.fun.unique=keep.funUnique;S.statsEnabled=keep.statsEnabled;
   S.sixes.enabled=keep.sixesEnabled;S.sixes.rotation=keep.sixesRotation;S.sixes.vorgabe=keep.sixesVorgabe;
+  S.nineHoleTournament=keep.nineHoleTournament;
   save();closeModal();render();
 }
 function hasResetBackup(){try{return !!localStorage.getItem('gd_last_backup')}catch(e){return false}}
