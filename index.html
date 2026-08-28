@@ -136,13 +136,30 @@ function loadProfiles(){try{let a=JSON.parse(localStorage.getItem('gd_profiles')
   return {name:p.name,hcpIndex:p.hcpIndex||0,vorgabe:p.vorgabe||0,gender:p.gender||'m'};
 })}catch(e){return []}}
 function saveProfiles(a){localStorage.setItem('gd_profiles',JSON.stringify(a))}
+function toNum(v){
+  if(typeof v==='number')return v;
+  if(v===null||v===undefined)return NaN;
+  let s=String(v).trim();
+  if(s==='')return NaN;
+  s=s.replace(',', '.');
+  return parseFloat(s);
+}
+function formatDecimalDE(n){
+  if(n===null||n===undefined||n==='')return '';
+  let num=Number(n);
+  if(!isFinite(num))return '';
+  let rounded=Math.round(num*10)/10;
+  if(Number.isInteger(rounded))return String(rounded);
+  return String(rounded).replace('.', ',');
+}
 function calcVorgabeFromIndex(idx,gender){
   let par=S.settings.reduce((a,r)=>a+r[1],0);
   let isW=gender==='w';
   let slope=Number(isW?S.courseSlopeW:S.courseSlopeM)||113;
   let ratingRaw=isW?S.courseRatingW:S.courseRatingM;
   let rating=(ratingRaw===undefined||ratingRaw===null||ratingRaw==='')?par:Number(ratingRaw);
-  return Math.round((Number(idx)||0)*(slope/113)+(rating-par));
+  let n=toNum(idx);if(!isFinite(n))n=0;
+  return Math.round(n*(slope/113)+(rating-par));
 }
 function genderColors(isW){return isW?{bg:'#ff5d62',fg:'#fff',border:'#ff5d62',dimBg:'#2a1416',dimFg:'#c98f92',dimBorder:'#3a2226'}:{bg:'#f2c94c',fg:'#1a1500',border:'#f2c94c',dimBg:'#2a2510',dimFg:'#c9c2a0',dimBorder:'#3a3420'}}
 function applyGenderButtonStyle(mBtn,wBtn,g){
@@ -173,10 +190,15 @@ function syncProfileFields(i){
   if(idx>=0){profiles[idx].hcpIndex=Number(S.playerHcpIndex[i])||0;profiles[idx].vorgabe=Number(S.stableHcp[i])||0;profiles[idx].gender=S.playerGender[i]||'m';saveProfiles(profiles);}
 }
 function updatePlayerHcpIndex(i,val){
-  S.playerHcpIndex[i]=Math.max(0,Math.min(54,Number(val)||0));
-  S.stableHcp[i]=calcVorgabeFromIndex(S.playerHcpIndex[i],S.playerGender[i]);
+  let n=toNum(val);
+  if(!isFinite(n))n=0;
+  n=Math.max(0,Math.min(54,n));
+  S.playerHcpIndex[i]=n;
+  S.stableHcp[i]=calcVorgabeFromIndex(n,S.playerGender[i]);
   syncProfileFields(i);
   save();
+  let vEl=document.getElementById('hcpVorgabeField_'+i);
+  if(vEl)vEl.value=S.stableHcp[i]||'';
 }
 function selectPlayerProfile(i,name){
   S.players[i]=name;
@@ -190,7 +212,7 @@ function newPlayerModal(i){
   showModal(`<h2>👤 Neuer Spieler</h2>
   <div class="section"><input class="textInput" id="npName" placeholder="Name"></div>
   <div class="section"><div class="label">Geschlecht</div><div class="seg two"><button id="npGenderM" onclick="npSetGender('m')">♂</button><button id="npGenderW" onclick="npSetGender('w')">♀</button></div></div>
-  <div class="section"><div class="playerRow"><input class="numInput" id="npHcp" type="number" min="0" max="54" step="0.1" placeholder="Handicap-Index"><input class="numInput" id="npVorgabe" type="number" min="0" max="54" placeholder="Vorgabe"></div><div class="hint">Vorgabe wird aus dem Handicap-Index berechnet, kann aber frei geändert werden.</div></div>
+  <div class="section"><div class="playerRow"><input class="numInput" id="npHcp" type="text" inputmode="decimal" placeholder="Handicap-Index (z. B. 29,6)"><input class="numInput" id="npVorgabe" type="number" min="0" max="54" placeholder="Vorgabe"></div><div class="hint">Vorgabe wird aus dem Handicap-Index berechnet, kann aber frei geändert werden.</div></div>
   <div class="modalActions"><button class="close" onclick="closeModal()">Abbrechen</button><button class="close danger" onclick="saveNewPlayer(${i})">Speichern &amp; zuweisen</button></div>`);
   window._npGender='m';
   applyGenderButtonStyle(document.getElementById('npGenderM'),document.getElementById('npGenderW'),'m');
@@ -206,7 +228,7 @@ function npSetGender(g){
 function saveNewPlayer(i){
   let nameEl=document.getElementById('npName');
   let name=(nameEl&&nameEl.value||'').trim();if(!name)return;
-  let hcpIndex=Number(document.getElementById('npHcp').value)||0;
+  let hcpIndex=toNum(document.getElementById('npHcp').value);if(!isFinite(hcpIndex))hcpIndex=0;
   let vorgabe=Number(document.getElementById('npVorgabe').value)||0;
   let gender=window._npGender||'m';
   let profiles=loadProfiles();
@@ -218,7 +240,7 @@ function saveNewPlayer(i){
   save();closeModal();render();
 }
 function profileTileHtml(p,idx){
-  return `<button class="mode" onclick="editProfileModal(${idx})">${esc(p.name)}${genderBadge(p.gender)}<span>Vorgabe ${p.vorgabe||0}${p.hcpIndex?` · HCP ${p.hcpIndex}`:''}</span></button>`;
+  return `<button class="mode" onclick="editProfileModal(${idx})">${esc(p.name)}${genderBadge(p.gender)}<span>Vorgabe ${p.vorgabe||0}${p.hcpIndex?` · HCP ${formatDecimalDE(p.hcpIndex)}`:''}</span></button>`;
 }
 function profilesScreen(){
   let profiles=loadProfiles();
@@ -232,7 +254,7 @@ function editProfileModal(idx){
   showModal(`<h2>👤 Profil bearbeiten</h2>
   <div class="section"><input class="textInput" id="epName" value="${esc(p.name)}" placeholder="Name"></div>
   <div class="section"><div class="label">Geschlecht</div><div class="seg two"><button id="epGenderM" onclick="epSetGender('m')">♂</button><button id="epGenderW" onclick="epSetGender('w')">♀</button></div></div>
-  <div class="section"><div class="playerRow"><input class="numInput" id="epHcp" type="number" min="0" max="54" step="0.1" value="${p.hcpIndex||''}" placeholder="Handicap-Index"><input class="numInput" id="epVorgabe" type="number" min="0" max="54" value="${p.vorgabe||''}" placeholder="Vorgabe"></div></div>
+  <div class="section"><div class="playerRow"><input class="numInput" id="epHcp" type="text" inputmode="decimal" value="${formatDecimalDE(p.hcpIndex)}" placeholder="Handicap-Index (z. B. 29,6)"><input class="numInput" id="epVorgabe" type="number" min="0" max="54" value="${p.vorgabe||''}" placeholder="Vorgabe"></div></div>
   <div class="modalActions"><button class="close" onclick="closeModal()">Abbrechen</button><button class="close" onclick="saveEditedProfile(${idx})">Speichern</button></div>
   <button class="close danger" style="width:100%;margin-top:8px" onclick="deleteProfileConfirm(${idx})">Profil löschen</button>`);
   window._epGender=p.gender||'m';
@@ -249,7 +271,7 @@ function epSetGender(g){
 function saveEditedProfile(idx){
   let profiles=loadProfiles();
   let name=(document.getElementById('epName').value||'').trim();if(!name)return;
-  let hcpIndex=Number(document.getElementById('epHcp').value)||0;
+  let hcpIndex=toNum(document.getElementById('epHcp').value);if(!isFinite(hcpIndex))hcpIndex=0;
   let vorgabe=Number(document.getElementById('epVorgabe').value)||0;
   let gender=window._epGender||'m';
   profiles[idx]={name,hcpIndex,vorgabe,gender};
@@ -264,7 +286,7 @@ function newProfileStandalone(){
   showModal(`<h2>👤 Neuer Spieler</h2>
   <div class="section"><input class="textInput" id="npsName" placeholder="Name"></div>
   <div class="section"><div class="label">Geschlecht</div><div class="seg two"><button id="npsGenderM" onclick="npsSetGender('m')">♂</button><button id="npsGenderW" onclick="npsSetGender('w')">♀</button></div></div>
-  <div class="section"><div class="playerRow"><input class="numInput" id="npsHcp" type="number" min="0" max="54" step="0.1" placeholder="Handicap-Index"><input class="numInput" id="npsVorgabe" type="number" min="0" max="54" placeholder="Vorgabe"></div></div>
+  <div class="section"><div class="playerRow"><input class="numInput" id="npsHcp" type="text" inputmode="decimal" placeholder="Handicap-Index (z. B. 29,6)"><input class="numInput" id="npsVorgabe" type="number" min="0" max="54" placeholder="Vorgabe"></div></div>
   <div class="modalActions"><button class="close" onclick="closeModal()">Abbrechen</button><button class="close danger" onclick="saveNewProfileStandalone()">Speichern</button></div>`);
   window._npsGender='m';
   applyGenderButtonStyle(document.getElementById('npsGenderM'),document.getElementById('npsGenderW'),'m');
@@ -279,7 +301,7 @@ function npsSetGender(g){
 }
 function saveNewProfileStandalone(){
   let name=(document.getElementById('npsName').value||'').trim();if(!name)return;
-  let hcpIndex=Number(document.getElementById('npsHcp').value)||0;
+  let hcpIndex=toNum(document.getElementById('npsHcp').value);if(!isFinite(hcpIndex))hcpIndex=0;
   let vorgabe=Number(document.getElementById('npsVorgabe').value)||0;
   let gender=window._npsGender||'m';
   let profiles=loadProfiles();let idx=profiles.findIndex(x=>x.name===name);
@@ -385,9 +407,9 @@ function funGeneratorInfo(){showInfo('fun')}
 function hcpCalculator(){
   showModal(`<h2>🧮 Course-Handicap-Rechner</h2><p>Berechnet dein Course Handicap aus Handicap-Index, Slope und Course Rating (offizielle Formel: Index × Slope/113 + (Rating − PAR)).</p>
   <div class="section"><div class="label">Abschlag</div><div class="seg two"><button id="hcGenderM" onclick="hcSetGender('m')">♂</button><button id="hcGenderW" onclick="hcSetGender('w')">♀</button></div></div>
-  <div class="section"><div class="playerRow"><input class="numInput" id="hcIndex" type="number" step="0.1" placeholder="Handicap-Index"></div></div>
+  <div class="section"><div class="playerRow"><input class="numInput" id="hcIndex" type="text" inputmode="decimal" placeholder="Handicap-Index (z. B. 29,6)"></div></div>
   <div class="section"><div class="playerRow"><input class="numInput" id="hcSlope" type="number" placeholder="Slope (z. B. 125)" value="${S.courseSlopeM||132}"></div></div>
-  <div class="section"><div class="playerRow"><input class="numInput" id="hcRating" type="number" step="0.1" placeholder="Course Rating" value="${S.courseRatingM||71.7}"></div></div>
+  <div class="section"><div class="playerRow"><input class="numInput" id="hcRating" type="text" inputmode="decimal" placeholder="Course Rating" value="${formatDecimalDE(S.courseRatingM||71.7)}"></div></div>
   <div class="section"><div class="playerRow"><input class="numInput" id="hcPar" type="number" placeholder="Platz-PAR" value="${S.settings.reduce((a,r)=>a+r[1],0)}"></div></div>
   <div class="section"><button class="secondary" onclick="calcCourseHcp()">Berechnen</button></div>
   <div id="hcResult" class="note" style="display:none"></div>
@@ -398,12 +420,12 @@ function hcSetGender(g){
   applyGenderButtonStyle(document.getElementById('hcGenderM'),document.getElementById('hcGenderW'),g);
   let slopeEl=document.getElementById('hcSlope'),ratingEl=document.getElementById('hcRating');
   if(slopeEl)slopeEl.value=g==='w'?(S.courseSlopeW||132):(S.courseSlopeM||132);
-  if(ratingEl)ratingEl.value=g==='w'?(S.courseRatingW||73.5):(S.courseRatingM||71.7);
+  if(ratingEl)ratingEl.value=formatDecimalDE(g==='w'?(S.courseRatingW||73.5):(S.courseRatingM||71.7));
 }
 function calcCourseHcp(){
-  let idx=Number(document.getElementById('hcIndex').value)||0;
+  let idx=toNum(document.getElementById('hcIndex').value);if(!isFinite(idx))idx=0;
   let slope=Number(document.getElementById('hcSlope').value)||113;
-  let rating=Number(document.getElementById('hcRating').value)||0;
+  let rating=toNum(document.getElementById('hcRating').value);if(!isFinite(rating))rating=0;
   let par=Number(document.getElementById('hcPar').value)||72;
   let ch=Math.round(idx*(slope/113)+(rating-par));
   let el=document.getElementById('hcResult');
@@ -688,8 +710,8 @@ function hcpInputsBlock(){return `<div class="section"><div class="label">Spielv
     <div style="flex:1">
       ${genderToggle(i,S.playerGender[i])}
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px">
-        <div><input class="numInput" type="number" min="0" max="54" step="0.1" placeholder="HCP-Index" value="${S.playerHcpIndex[i]||''}" oninput="updatePlayerHcpIndex(${i},this.value);liveRefresh(this)"><span class="hcptxt">Handicap-Index</span></div>
-        <div><input class="numInput" type="number" min="0" max="54" placeholder="Vorgabe" value="${S.stableHcp[i]||''}" oninput="S.stableHcp[${i}]=Math.max(0,Math.min(54,Number(this.value)||0));syncProfileFields(${i});save();liveRefresh(this)"><span class="hcptxt">Vorgabe (Schläge)</span></div>
+        <div><input class="numInput" type="text" inputmode="decimal" id="hcpIdxField_${i}" placeholder="HCP-Index" value="${formatDecimalDE(S.playerHcpIndex[i])}" oninput="updatePlayerHcpIndex(${i},this.value)"><span class="hcptxt">Handicap-Index (z. B. 29,6)</span></div>
+        <div><input class="numInput" type="number" min="0" max="54" id="hcpVorgabeField_${i}" placeholder="Vorgabe" value="${S.stableHcp[i]||''}" oninput="S.stableHcp[${i}]=Math.max(0,Math.min(54,Number(this.value)||0));syncProfileFields(${i});save();liveRefresh(this)"><span class="hcptxt">Vorgabe (Schläge)</span></div>
       </div>
     </div>
   </div>`).join('')}</div><div class="note">Handicap-Index → Vorgabe wird automatisch berechnet (♂ Slope ${S.courseSlopeM}/CR ${S.courseRatingM} · ♀ Slope ${S.courseSlopeW}/CR ${S.courseRatingW}). Die Vorgabe kannst du danach frei anpassen.</div></div>`}
@@ -1561,9 +1583,9 @@ function courseSettings(){
   showModal(`<h2>⚙ Platzdaten &amp; Einstellungen</h2><p>Aktueller Platz: <b>${esc(S.courseName||'Varus')}</b>. Wähle einen gespeicherten Platz oder passe PAR/HCP unten an.</p><div class="section"><div class="label">Gespeicherter Platz</div><select class="select" onchange="switchCourse(this.value)">${courses.map(c=>`<option value="${esc(c.name)}" ${c.name===S.courseName?'selected':''}>${esc(c.name)}</option>`).join('')}</select></div>
   <div class="section"><div class="label">Slope &amp; Course Rating (für Vorgabe-Berechnung)</div><div class="settingsGrid">
   <div class="settingCard"><label>Herren · gelb · Slope</label><input class="numInput" type="number" min="55" max="155" value="${S.courseSlopeM||132}" onchange="S.courseSlopeM=Number(this.value)||132;saveCourseMeta({slopeM:S.courseSlopeM,ratingM:S.courseRatingM,slopeW:S.courseSlopeW,ratingW:S.courseRatingW});save()"></div>
-  <div class="settingCard"><label>Herren · gelb · CR</label><input class="numInput" type="number" step="0.1" value="${S.courseRatingM!==undefined?S.courseRatingM:71.7}" onchange="S.courseRatingM=Number(this.value)||0;saveCourseMeta({slopeM:S.courseSlopeM,ratingM:S.courseRatingM,slopeW:S.courseSlopeW,ratingW:S.courseRatingW});save()"></div>
+  <div class="settingCard"><label>Herren · gelb · CR</label><input class="numInput" type="text" inputmode="decimal" value="${formatDecimalDE(S.courseRatingM!==undefined?S.courseRatingM:71.7)}" onchange="S.courseRatingM=toNum(this.value)||0;saveCourseMeta({slopeM:S.courseSlopeM,ratingM:S.courseRatingM,slopeW:S.courseSlopeW,ratingW:S.courseRatingW});save()"></div>
   <div class="settingCard"><label>Damen · rot · Slope</label><input class="numInput" type="number" min="55" max="155" value="${S.courseSlopeW||132}" onchange="S.courseSlopeW=Number(this.value)||132;saveCourseMeta({slopeM:S.courseSlopeM,ratingM:S.courseRatingM,slopeW:S.courseSlopeW,ratingW:S.courseRatingW});save()"></div>
-  <div class="settingCard"><label>Damen · rot · CR</label><input class="numInput" type="number" step="0.1" value="${S.courseRatingW!==undefined?S.courseRatingW:73.5}" onchange="S.courseRatingW=Number(this.value)||0;saveCourseMeta({slopeM:S.courseSlopeM,ratingM:S.courseRatingM,slopeW:S.courseSlopeW,ratingW:S.courseRatingW});save()"></div>
+  <div class="settingCard"><label>Damen · rot · CR</label><input class="numInput" type="text" inputmode="decimal" value="${formatDecimalDE(S.courseRatingW!==undefined?S.courseRatingW:73.5)}" onchange="S.courseRatingW=toNum(this.value)||0;saveCourseMeta({slopeM:S.courseSlopeM,ratingM:S.courseRatingM,slopeW:S.courseSlopeW,ratingW:S.courseRatingW});save()"></div>
   </div></div>
   <div class="settingsGrid">${S.settings.map((r,i)=>`<div class="settingCard"><label>Loch ${i+1}</label><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px"><input class="numInput" type="number" min="1" max="9" value="${r[1]}" onchange="S.settings[${i}][1]=Math.max(1,Math.min(9,Number(this.value)||4));localStorage.setItem('gd_course',JSON.stringify(S.settings));save()"><input class="numInput" type="number" min="1" max="18" value="${r[2]}" onchange="S.settings[${i}][2]=Math.max(1,Math.min(18,Number(this.value)||1));localStorage.setItem('gd_course',JSON.stringify(S.settings));save()"></div></div>`).join('')}</div><div class="section"><div class="label">Aktuelle Werte als neuer Platz speichern</div><div class="playerRow"><input class="textInput" id="newCourseName" placeholder="Name, z. B. Golfclub Nord"><button class="smallBtn" onclick="saveAsNewCourse()">Speichern</button></div></div>
   <div class="section"><div class="label">Team-Vorgabe-Faktoren</div><div class="settingsGrid">
