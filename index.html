@@ -34,6 +34,8 @@ html[data-theme="contrast"] .primary{background:#00ff6a;color:#000}
 .zoomOverlay{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;touch-action:pinch-zoom}
 .zoomOverlay img{max-width:96vw;max-height:96vh;touch-action:pinch-zoom;border-radius:8px}
 .zoomClose{position:fixed;top:calc(14px + env(safe-area-inset-top));right:14px;z-index:81;width:44px;height:44px;border-radius:50%;background:#17241b;border:1px solid var(--line);font-weight:900;font-size:18px}
+@keyframes screenFadeSlide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.screenTransition{animation:screenFadeSlide .22s ease}
 </style></head><body><div id="app"></div><div id="modalRoot"></div><script>
 'use strict';
 const MODES=[
@@ -132,7 +134,15 @@ function currentHoleIndex(){
   return range.end;
 }
 function scrollToCurrentHole(){requestAnimationFrame(()=>{let el=document.querySelector('.curHole');if(el&&el.scrollIntoView)el.scrollIntoView({block:'center'})})}
-function render(){const app=document.getElementById('app'); if(S.screen==='home')app.innerHTML=home();else if(S.screen==='profiles')app.innerHTML=profilesScreen();else app.innerHTML=game(); updateScorebar();}
+let _lastScreen=null;
+function render(){
+  const app=document.getElementById('app');
+  let screenChanged=_lastScreen!==null&&_lastScreen!==S.screen;
+  if(S.screen==='home')app.innerHTML=home();else if(S.screen==='profiles')app.innerHTML=profilesScreen();else app.innerHTML=game();
+  if(screenChanged){let el=app.querySelector('.app');if(el)el.classList.add('screenTransition');}
+  _lastScreen=S.screen;
+  updateScorebar();
+}
 function holeCell(h){return `${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button>${S.statsEnabled?`<button class="holeDone" onclick="event.stopPropagation();openStatsModal(${h})">📊</button>`:''}`}
 
 /* ---------- Aktiver Lochbereich (9/18, Front/Back, Segmente) ---------- */
@@ -364,7 +374,25 @@ function teamMembers(letter){
   return out;
 }
 function teamOf(p){return S.teamAssign[p]||(p<2?'A':'B');}
-function setTeamAssign(p,letter){S.teamAssign[p]=letter;save();render();}
+function setTeamAssign(p,letter){
+  let proposed=S.teamAssign.slice();
+  proposed[p]=letter;
+  let countA=proposed.filter((t,i)=>i<S.count&&t==='A').length;
+  let countB=S.count-countA;
+  if(S.count===4&&(countA!==2||countB!==2)){
+    let candidates=[];
+    for(let q=0;q<S.count;q++){if(q!==p&&teamOf(q)===letter)candidates.push(q);}
+    showModal(`<h2>Nicht möglich: 3 gegen 1</h2><p>Teams müssen zu gleichen Teilen besetzt sein (2 gegen 2). ${esc(playerName(p))} direkt zu Team ${letter} zu verschieben, würde das Gleichgewicht kippen.</p>
+    ${candidates.length?`<p>Tausche stattdessen direkt die Plätze:</p><div class="bonusList">${candidates.map(q=>`<div class="bonusItem"><b>${esc(playerName(q))}</b><button onclick="swapTeamAssign(${p},${q})">Tauschen</button></div>`).join('')}</div>`:''}
+    <div class="modalActions"><button class="close" onclick="closeModal()">Abbrechen</button></div>`);
+    return;
+  }
+  applyMidRoundChange(()=>{S.teamAssign[p]=letter;});
+}
+function swapTeamAssign(p,q){
+  closeModal();
+  applyMidRoundChange(()=>{let tmp=S.teamAssign[p];S.teamAssign[p]=S.teamAssign[q];S.teamAssign[q]=tmp;});
+}
 function teamAssignDropdown(i){
   if(S.count!==4||!TEAM_MODES.includes(S.mode))return '';
   let cur=teamOf(i);
@@ -717,11 +745,44 @@ function sixesPlayerPoints(p){
   }
   return total;
 }
+function sixesBlockBoundaryHoles(){
+  let range=holesModeRange(S.holesMode);
+  let perBlock=sixesHolesPerBlock();
+  let out=[];
+  for(let start=range.start;start<=range.end;start+=perBlock)out.push(start+1);
+  return out;
+}
+function sixesSwitchGate(){
+  let inRound=S.screen==='game'&&S.holeDone.some(Boolean);
+  if(!inRound)return {allowed:true};
+  let boundaries=sixesBlockBoundaryHoles();
+  let switchable=boundaries.filter(h=>h!==(holesModeRange(S.holesMode).start+1));
+  let nextHole=currentHoleIndex()+1;
+  if(switchable.includes(nextHole))return {allowed:true,boundaries:switchable};
+  return {allowed:false,boundaries:switchable};
+}
+function sixesLockedHint(gate){
+  let nextHole=currentHoleIndex()+1;
+  let upcoming=gate.boundaries.find(h=>h>=nextHole)||gate.boundaries[gate.boundaries.length-1];
+  showModal(`<h2>Sixes gesperrt</h2><p>Ein Wechsel bei Sixes (Aktivieren/Deaktivieren oder Rotationsart) ist nur direkt vor Bahn ${gate.boundaries.join(' oder vor Bahn ')} möglich – das sind die Grenzen der Partner-Blöcke. Die nächste Möglichkeit ist vor Bahn ${upcoming}.</p><div class="modalActions"><button class="close" onclick="closeModal()">Verstanden</button></div>`);
+}
+function toggleSixesEnabled(val){
+  let gate=sixesSwitchGate();
+  if(!gate.allowed){sixesLockedHint(gate);return;}
+  applyMidRoundChange(()=>{S.sixes.enabled=val;});
+}
+function setSixesRotation(val){
+  let gate=sixesSwitchGate();
+  if(!gate.allowed){sixesLockedHint(gate);return;}
+  applyMidRoundChange(()=>{S.sixes.rotation=val;sixesResetDraws();});
+}
 function sixesBlock(){
   if(!SIXES_MODES.includes(S.mode)||S.count!==4)return '';
   let showVorgabeInputs=S.sixes.enabled&&S.sixes.vorgabe&&S.mode!=='stable';
-  return `<div class="section"><div class="label">Sixes (wechselnde Partner)</div><div class="seg two"><button class="${!S.sixes.enabled?'active':''}" onclick="S.sixes.enabled=false;save();render()">Feste Teams</button><button class="${S.sixes.enabled?'active':''}" onclick="S.sixes.enabled=true;save();render()">Sixes aktiv</button></div>
-  ${S.sixes.enabled?`<div class="seg two" style="margin-top:7px"><button class="${S.sixes.rotation==='block'?'active':''}" onclick="S.sixes.rotation='block';sixesResetDraws();render()">${S.holesMode==='full18'?'Alle 6 Löcher':'Alle 3 Löcher'}</button><button class="${S.sixes.rotation==='hole'?'active':''}" onclick="S.sixes.rotation='hole';sixesResetDraws();render()">Jede Bahn neu</button></div><div class="seg two" style="margin-top:7px"><button class="${!S.sixes.vorgabe?'active':''}" onclick="S.sixes.vorgabe=false;save();render()">Ohne Vorgabe</button><button class="${S.sixes.vorgabe?'active':''}" onclick="S.sixes.vorgabe=true;save();render()">Mit Vorgabe</button></div><div class="hint" style="margin-top:7px">Partner werden zufällig ausgelost, alle drei möglichen Paarungen kommen über die Runde ausgeglichen vor (bei 18 Löchern je 6, bei 9 Löchern je 3). Wertung je Loch pro Spieler: gewonnen +1 · geteilt 0 · verloren −1.</div>${showVorgabeInputs?hcpInputsBlock():''}`:''}
+  let gate=sixesSwitchGate();
+  let lockNote=!gate.allowed?`<div class="note" style="margin-top:7px">🔒 Sixes kann jetzt nicht gewechselt werden – nur direkt vor Bahn ${gate.boundaries.join(' oder vor Bahn ')} (Blockgrenzen der Partner-Rotation).</div>`:'';
+  return `<div class="section"><div class="label">Sixes (wechselnde Partner)</div><div class="seg two"><button ${gate.allowed?'':'disabled'} class="${!S.sixes.enabled?'active':''}" onclick="toggleSixesEnabled(false)">Feste Teams</button><button ${gate.allowed?'':'disabled'} class="${S.sixes.enabled?'active':''}" onclick="toggleSixesEnabled(true)">Sixes aktiv</button></div>${lockNote}
+  ${S.sixes.enabled?`<div class="seg two" style="margin-top:7px"><button ${gate.allowed?'':'disabled'} class="${S.sixes.rotation==='block'?'active':''}" onclick="setSixesRotation('block')">${S.holesMode==='full18'?'Alle 6 Löcher':'Alle 3 Löcher'}</button><button ${gate.allowed?'':'disabled'} class="${S.sixes.rotation==='hole'?'active':''}" onclick="setSixesRotation('hole')">Jede Bahn neu</button></div><div class="seg two" style="margin-top:7px"><button class="${!S.sixes.vorgabe?'active':''}" onclick="S.sixes.vorgabe=false;save();render()">Ohne Vorgabe</button><button class="${S.sixes.vorgabe?'active':''}" onclick="S.sixes.vorgabe=true;save();render()">Mit Vorgabe</button></div><div class="hint" style="margin-top:7px">Partner werden zufällig ausgelost, alle drei möglichen Paarungen kommen über die Runde ausgeglichen vor (bei 18 Löchern je 6, bei 9 Löchern je 3). Ein Wechsel ist nur vor Bahn ${sixesBlockBoundaryHoles().join(' / ')} möglich. Wertung je Loch pro Spieler: gewonnen +1 · geteilt 0 · verloren −1.</div>${showVorgabeInputs?hcpInputsBlock():''}`:''}
   </div>`;
 }
 function playerAvatar(p){
@@ -756,8 +817,14 @@ function sixesOverlayBlock(){
 }
 
 /* ---------- Home / Konfiguration ---------- */
+function lastPlayedTile(){
+  let hist=getHistory();
+  if(!hist.length)return '';
+  let r=hist[0];
+  return `<div class="section"><button class="secondary" style="text-align:left;display:flex;justify-content:space-between;align-items:center;gap:10px" onclick="historyView()"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">📜 Zuletzt gespielt: <b>${esc(r.modeLabel)}</b></span><span class="hint" style="overflow:visible;white-space:nowrap">${esc(new Date(r.date).toLocaleDateString('de-DE'))}</span></button></div>`;
+}
 function catLegend(){return `<div class="catLegend">${Object.keys(CAT_LABEL).map(k=>`<span><span class="catDot" style="background:${CAT_COLOR[k]}"></span>${CAT_LABEL[k]}</span>`).join('')}</div>`}
-function home(){let allowed=S.mode;return `<div class="app"><div class="top"><div class="brand">Golf Deluxe<small>Dark Golf · 18 holes</small></div><button class="iconBtn" onclick="cycleTheme()" title="Anzeige">${themeIcon()}</button><button class="iconBtn" onclick="hcpCalculator()" title="Course-Handicap-Rechner">🧮</button><button class="iconBtn" onclick="openSyncModal()" title="Sync">🔗</button><button class="iconBtn" onclick="historyView()">📜</button><button class="iconBtn" onclick="courseSettings()">⚙</button></div><div class="hero"><h1>Dein Golfspiel.</h1><p>18 Löcher. Klare Regeln. Ein bisschen Chaos. Alles auf deinem iPhone.</p></div><div class="profileNavWrap"><button class="profileNavBtn" onclick="S.screen='profiles';save();render()">👤 Spielerprofile verwalten</button></div><div class="section"><div class="label">Spielmodus</div>${catLegend()}<div class="modeGrid">${MODES.map(m=>`<button class="mode ${CAT_CLASS[MODE_CATEGORY[m[0]]]||''} ${allowed===m[0]?'active':''}" onclick="selectMode('${m[0]}')">${m[1]}<span>${m[2]}</span><b class="q" onclick="event.stopPropagation();showInfo('${m[0]}')">?</b></button>`).join('')}</div></div>${configArea()}<div class="section"><button class="primary" onclick="startGame()">Spiel starten</button></div><div class="note">Der Spielstand wird automatisch auf diesem Gerät gespeichert. Reset und Rückkehr zur Startseite fragen vorher nach.</div>${hasResetBackup()?`<div class="section"><button class="secondary" onclick="restoreBackupConfirm()">↺ Letzten Reset wiederherstellen</button></div>`:''}<div class="footerSpace"></div></div>`}
+function home(){let allowed=S.mode;return `<div class="app"><div class="top"><div class="brand">Golf Deluxe<small>Dark Golf · 18 holes</small></div><button class="iconBtn" onclick="cycleTheme()" title="Anzeige">${themeIcon()}</button><button class="iconBtn" onclick="hcpCalculator()" title="Course-Handicap-Rechner">🧮</button><button class="iconBtn" onclick="openSyncModal()" title="Sync">🔗</button><button class="iconBtn" onclick="historyView()">📜</button><button class="iconBtn" onclick="courseSettings()">⚙</button></div><div class="hero"><h1>Dein Golfspiel.</h1><p>18 Löcher. Klare Regeln. Ein bisschen Chaos. Alles auf deinem iPhone.</p></div>${lastPlayedTile()}<div class="profileNavWrap"><button class="profileNavBtn" onclick="S.screen='profiles';save();render()">👤 Spielerprofile verwalten</button></div><div class="section"><div class="label">Spielmodus</div>${catLegend()}<div class="modeGrid">${MODES.map(m=>`<button class="mode ${CAT_CLASS[MODE_CATEGORY[m[0]]]||''} ${allowed===m[0]?'active':''}" onclick="selectMode('${m[0]}')">${m[1]}<span>${m[2]}</span><b class="q" onclick="event.stopPropagation();showInfo('${m[0]}')">?</b></button>`).join('')}</div></div>${configArea()}<div class="section"><button class="primary" onclick="startGame()">Spiel starten</button></div><div class="note">Der Spielstand wird automatisch auf diesem Gerät gespeichert. Reset und Rückkehr zur Startseite fragen vorher nach.</div>${hasResetBackup()?`<div class="section"><button class="secondary" onclick="restoreBackupConfirm()">↺ Letzten Reset wiederherstellen</button></div>`:''}<div class="footerSpace"></div></div>`}
 function hasData(mode){let d=S.data[mode];let has=d?Object.keys(d).length>0:false;if(mode==='match'){let d2=S.data['matchhcp'];has=has||(d2?Object.keys(d2).length>0:false)}return has}
 function setCount(n){
   S.count=n;
@@ -913,7 +980,7 @@ function segmentBadge(){
   if(!S.segments||!S.segments.length)return '';
   return `<div class="segBadge">🔀 Ab Loch ${S.segmentStart}: ${esc(modeLabel())}${isTeam()?' · Team A/B siehe Info-Button':''} (${S.segments.length} vorheriger Abschnitt${S.segments.length===1?'':'e'} – siehe Scorekarte)</div>`;
 }
-function game(){let fns={count:countGame,match:matchGame,short:shortGame,fun:funGame,wolf:wolfGame,'531':game531,stable:stableGame,vegas:vegasGame,bbb:bbbGame,skins:skinsGame,nassau:nassauGame,scramble:scrambleGame,fourball:fourballGame,chapman:()=>teamSingleGame('chapman'),foursome:()=>teamSingleGame('foursome'),greensome:()=>teamSingleGame('greensome'),string:stringGame,bridesmaid:bridesmaidGame};let body=fns[S.mode]();return `<div class="app">${header()}${progressBar()}${segmentBadge()}<div class="modeInfo"><span class="badge">${modeLabel()}</span>${isTeam()?'<span class="teamLabel">TEAM A · '+teamMembers('A').map(playerName).join('+')+'</span><span class="teamLabel">TEAM B · '+teamMembers('B').map(playerName).join('+')+'</span>':''}${sixesActiveForMode()?'<span class="teamLabel">SIXES</span>':''}</div>${body}<div class="footerSpace"></div></div>`}
+function game(){let fns={count:countGame,match:matchGame,short:shortGame,fun:funGame,wolf:wolfGame,'531':game531,stable:stableGame,vegas:vegasGame,bbb:bbbGame,skins:skinsGame,nassau:nassauGame,scramble:scrambleGame,fourball:fourballGame,chapman:()=>teamSingleGame('chapman'),foursome:()=>teamSingleGame('foursome'),greensome:()=>teamSingleGame('greensome'),string:stringGame,bridesmaid:bridesmaidGame};let body=fns[S.mode]();return `<div class="app">${header()}${progressBar()}${segmentBadge()}<div class="modeInfo"><span class="badge">${modeLabel()}</span>${isTeam()?`<span class="teamLabel diffChip teamA" style="padding-left:8px">TEAM A · ${teamMembers('A').map(playerName).map(esc).join('+')}</span><span class="teamLabel diffChip teamB" style="padding-left:8px">TEAM B · ${teamMembers('B').map(playerName).map(esc).join('+')}</span>`:''}${sixesActiveForMode()?'<span class="teamLabel">SIXES</span>':''}</div>${body}<div class="footerSpace"></div></div>`}
 function toggleHole(h){S.holeDone[h]=!S.holeDone[h];save();render();scrollToCurrentHole()}
 function doneButtons(){return `<div class="section"><div class="label">Löcher</div><div class="miniGrid">${activeHoleIndices().map(h=>`<button class="smallBtn ${S.holeDone[h]?'active':''}" onclick="S.holeDone[${h}]=!S.holeDone[${h}];save();render()">${S.holeDone[h]?'✓ ':''}Loch ${h+1}<button class="holeDone" onclick="event.stopPropagation();toggleHole(${h})">${S.holeDone[h]?'✓':'○'}</button></button>`).join('')}</div></div>`}
 
